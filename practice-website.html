@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermatology of Boca – Expert Skin Care in Boca Raton, FL</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#fff;color:#1a1a1a}
+
+/* ── Demo back badge ─────────────────────────────────── */
+.demo-back{position:fixed;top:14px;left:14px;z-index:9999;background:rgba(0,0,0,.72);color:white;font-size:11.5px;font-weight:600;padding:6px 14px;border-radius:20px;cursor:pointer;backdrop-filter:blur(8px);text-decoration:none;transition:background .2s;letter-spacing:.3px}
+.demo-back:hover{background:rgba(0,0,0,.9)}
+
+/* ── Header ──────────────────────────────────────────── */
+header{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e5e5e5;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.hdr-in{max-width:1300px;margin:0 auto;padding:0 28px;display:flex;align-items:center;height:74px;gap:0}
+
+.hdr-logo{display:flex;align-items:center;flex-shrink:0;margin-right:32px}
+.hdr-logo img{height:54px;width:auto;object-fit:contain;display:block}
+
+.hdr-nav{display:flex;align-items:center;flex:1;gap:0}
+.hn{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:#2a2a2a;text-decoration:none;padding:8px 11px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:color .2s;user-select:none}
+.hn:hover{color:#468C88}
+
+.hdr-btns{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px}
+.hbtn{font-family:'Montserrat',sans-serif;font-size:11.5px;font-weight:700;padding:9px 20px;border-radius:50px;cursor:pointer;border:none;letter-spacing:.6px;text-transform:uppercase;transition:all .18s;white-space:nowrap;line-height:1}
+.hbtn-teal{background:#5BA8A4;color:#fff}
+.hbtn-teal:hover{background:#468C88}
+.hbtn-dk{background:#2D6661;color:#fff}
+.hbtn-dk:hover{background:#1E4E4A}
+.hbtn-black{background:#1A1A1A;color:#fff}
+.hbtn-black:hover{background:#333}
+.hbtn-reg{background:#468C88;color:#fff;box-shadow:0 0 0 2px #468C88 inset}
+.hbtn-reg:hover{background:#38706D}
+
+/* ── Hero wrapper ─────────────────────────────────────── */
+.hero-wrap{max-width:1300px;margin:0 auto;padding:24px 28px 0}
+
+.hero-box{display:grid;grid-template-columns:1fr 1fr;border-radius:22px;overflow:hidden;min-height:480px;box-shadow:0 6px 32px rgba(0,0,0,.13)}
+
+/* Left — teal gradient side */
+.hero-left{background:linear-gradient(155deg,#1A4845 0%,#286460 35%,#358480 65%,#468C88 100%);padding:56px 52px;display:flex;flex-direction:column;justify-content:center;position:relative}
+
+.hero-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.28);border-radius:50px;padding:5px 16px;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,.88);letter-spacing:.8px;text-transform:uppercase;margin-bottom:22px;width:fit-content}
+.hero-tag svg{flex-shrink:0}
+
+.hero-h1{font-family:'Montserrat',sans-serif;font-size:34px;font-weight:900;color:#fff;line-height:1.18;letter-spacing:-.3px;margin-bottom:14px}
+
+.hero-sub{font-size:14px;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:30px;max-width:390px}
+
+.hero-book-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:2px solid rgba(255,255,255,.75);color:#fff;font-family:'Montserrat',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:12px 26px;border-radius:50px;cursor:pointer;transition:all .2s;margin-bottom:26px;width:fit-content}
+.hero-book-btn:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.95)}
+
+/* Google rating */
+.grating{display:flex;align-items:center;gap:11px}
+.g-logo{width:30px;height:30px;flex-shrink:0}
+.grating-info{}
+.grating-score{font-family:'Montserrat',sans-serif;font-size:13.5px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+.stars{color:#FBBC05;font-size:14px;letter-spacing:.5px}
+.grating-note{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+
+/* Right — beach photo side */
+.hero-right{position:relative;overflow:hidden;background:linear-gradient(180deg,#A8D8D6 0%,#7BBAB7 25%,#5CA4A0 50%,#3E8E8A 75%,#2E7470 100%)}
+.beach-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(40,100,96,.35) 0%,transparent 40%)}
+.beach-scene{position:absolute;inset:0;overflow:hidden}
+.beach-sky{position:absolute;top:0;left:0;right:0;height:55%;background:linear-gradient(180deg,#87CEEB 0%,#B0DDE8 60%,#C8EAF0 100%)}
+.beach-water{position:absolute;top:50%;left:0;right:0;bottom:0;background:linear-gradient(180deg,#5AB4B0 0%,#3A9490 40%,#2A7A76 100%)}
+.beach-sand{position:absolute;bottom:0;left:0;right:0;height:18%;background:linear-gradient(180deg,#D4B896 0%,#C8A878 100%)}
+.beach-palm{position:absolute;bottom:15%;right:18%;font-size:80px;opacity:.55;transform:rotate(-8deg);user-select:none}
+
+/* Watermark circle */
+.watermark{position:absolute;bottom:28px;right:28px;z-index:10;width:114px;height:114px;border-radius:50%;border:2px solid rgba(255,255,255,.75);background:rgba(0,60,56,.35);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center}
+.watermark span{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,.88);letter-spacing:.4px;text-transform:uppercase;line-height:1.45;text-align:center;padding:12px}
+
+/* ── Info bar ─────────────────────────────────────────── */
+.info-bar{background:#F3EBD5;border-top:1px solid #E6D9BB}
+.info-in{max-width:1300px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(3,1fr)}
+.info-col{padding:26px 32px;display:flex;align-items:flex-start;gap:16px;border-right:1px solid rgba(0,0,0,.09)}
+.info-col:last-child{border-right:none}
+.info-ic-wrap{width:46px;height:46px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.09)}
+.info-ic-wrap svg{width:22px;height:22px}
+.info-label{font-family:'Montserrat',sans-serif;font-size:12.5px;font-weight:800;color:#2a2a2a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:9px}
+.info-line{font-size:13px;color:#555;line-height:1.65}
+.info-line a{color:#468C88;text-decoration:none;font-weight:500}
+.info-line a:hover{text-decoration:underline}
+
+/* ── Floating chat ─────────────────────────────────────── */
+.chat-fab{position:fixed;bottom:24px;right:24px;z-index:200;width:54px;height:54px;background:#468C88;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(70,140,136,.45);cursor:pointer;border:none;transition:all .2s}
+.chat-fab:hover{background:#38706D;transform:scale(1.07)}
+</style>
+</head>
+<body>
+
+<a class="demo-back" href="index.html">← Demo Hub</a>
+
+<!-- ═══ HEADER ═══════════════════════════════════════════ -->
+<header>
+  <div class="hdr-in">
+    <div class="hdr-logo">
+      <img src="boca logo.png" alt="Dermatology of Boca">
+    </div>
+
+    <nav class="hdr-nav">
+      <span class="hn">About</span>
+      <span class="hn">Providers &#9660;</span>
+      <span class="hn">Services &#9660;</span>
+      <span class="hn">Forms &#9660;</span>
+      <span class="hn">Reviews</span>
+      <span class="hn">Locations &#9660;</span>
+      <span class="hn">Others &#9660;</span>
+    </nav>
+
+    <div class="hdr-btns">
+      <button class="hbtn hbtn-dk" onclick="window.open('https://online-scheduler-dcdga2gnhgaafggt.eastus2-01.azurewebsites.net/?r=MTIwMDQxODA5NTIzMDk%3D','_blank')">BOOK ONLINE &rarr;</button>
+      <button class="hbtn hbtn-black">PAY LATER &rarr;</button>
+      <button class="hbtn hbtn-reg" onclick="window.open('established-patient.html','_blank')">REGISTER &rarr;</button>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════ -->
+<div class="hero-wrap">
+  <div class="hero-box">
+
+    <!-- Left: teal content side -->
+    <div class="hero-left">
+      <div class="hero-tag">
+        <svg width="11" height="11" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        Board-Certified
+      </div>
+
+      <h1 class="hero-h1">Board-certified<br>Dermatologists in<br>Boca Raton</h1>
+
+      <p class="hero-sub">Dr. Fromowitz and our team of board-certified dermatologists provide compassionate, comprehensive skin care for the whole family.</p>
+
+      <button class="hero-book-btn" onclick="window.open('https://online-scheduler-dcdga2gnhgaafggt.eastus2-01.azurewebsites.net/?r=MTIwMDQxODA5NTIzMDk%3D','_blank')">
+        BOOK ONLINE &rarr;
+      </button>
+
+      <!-- Google rating -->
+      <div class="grating">
+        <svg class="g-logo" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.33 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.96 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.67 14.62 48 24 48z"/>
+        </svg>
+        <div class="grating-info">
+          <div class="grating-score">4.8/5 Rating <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
+          <div class="grating-note">Based on 500+ Google reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: beach photo side -->
+    <div class="hero-right">
+      <div class="beach-scene">
+        <div class="beach-sky"></div>
+        <div class="beach-water"></div>
+        <div class="beach-sand"></div>
+      </div>
+      <div class="beach-overlay"></div>
+      <div class="beach-palm">🌴</div>
+
+      <!-- Circular watermark stamp -->
+      <div class="watermark">
+        <span>Dermatologists<br>located in<br>Boca Raton, FL</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Floating chat button -->
+<button class="chat-fab" title="Chat with us">
+  <svg width="24" height="24" viewBox="0 0 20 20" fill="white">
+    <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+  </svg>
+</button>
+
+</body>
+</html>

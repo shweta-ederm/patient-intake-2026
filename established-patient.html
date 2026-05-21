@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="demo-back" href="index.html">← Demo Hub</a>
+
+<div class="app-wrap active" id="app-intake">
+<div class="shell">
+  <!-- ═══ PROGRESS ═══ -->
+  <div class="prog-wrap" id="prog-wrap" style="display:none">
+    <div class="prog-steps" id="prog-steps"></div>
+    <div class="prog-meta">
+      <span class="prog-count" id="prog-count">Step 1 of 8</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 0 - PATIENT LOOKUP
+  ═══════════════════════════════════ -->
+  <div class="screen active" id="s-lookup">
+    <div style="text-align:center;padding:24px 0 8px">
+      <img src="boca logo.png" alt="Dermatology of Boca" style="max-height:64px;max-width:220px;object-fit:contain">
+    </div>
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">Welcome to Dermatology of Boca</div>
+      <div class="hdr-desc">Enter your email or phone number to locate your appointment and begin registration.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Find My Appointment</div><div class="sc-sub">Enter your information to locate your record</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow">
+            <label>Email or Phone Number</label>
+            <input class="fi" placeholder="Email address or phone number" id="lookup-contact" type="text">
+          </div>
+          <div id="lookup-feedback" style="display:none;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:500;margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="startCheckIn()">Find My Appointment <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    </div>
+  </div>
+
+  <!-- MFA VERIFICATION SCREEN -->
+  <div class="screen" id="s-mfa">
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">Verify your identity</div>
+      <div class="hdr-desc">We sent a 4-digit code to the phone or email you provided. Enter it below to continue.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Authentication Code</div><div class="sc-sub">Sent to your phone and email on file</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="otp-wrap">
+            <input class="otp-inp" maxlength="1" id="mfa1" oninput="otpNext(this,'mfa2')">
+            <input class="otp-inp" maxlength="1" id="mfa2" oninput="otpNext(this,'mfa3')">
+            <input class="otp-inp" maxlength="1" id="mfa3" oninput="otpNext(this,'mfa4')">
+            <input class="otp-inp" maxlength="1" id="mfa4">
+          </div>
+          <div style="text-align:center;font-size:12.5px;color:var(--t3);margin-top:12px">Didn't receive a code? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('New code sent')">Resend</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="verifyMFA()">Verify &amp; Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 1 - APPOINTMENT REMINDER
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s0">
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">You have an upcoming appointment</div>
+      <div class="hdr-desc">Please take 3–5 minutes to complete your registration.</div>
+      <div class="hdr-appt">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="rgba(255,255,255,.6)"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+        <div class="hdr-appt-text"><strong>Friday, March 21</strong> at <strong>10:15 AM</strong><br>Dermatology of Boca</div>
+      </div>
+    </div>
+    <div class="body" style="gap:12px">
+      <div class="sc">
+        <div class="sc-body">
+          <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--borderlt)">
+            <div id="s0-av" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#08979D,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">JD</div>
+            <div><div style="font-size:15px;font-weight:700;color:var(--t1)" id="s0-name">John Doe</div><div style="font-size:12.5px;color:var(--t3);margin-top:2px" id="s0-type-prov">Acne Consult · Dr. Reyes</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;padding-top:14px">
+            <div class="rv" style="padding:8px 0">
+              <div><div class="rvl">Date & Time</div><div class="rvv" id="s0-time">Today at 11:30 AM</div></div>
+            </div>
+            <div class="rv" style="padding:8px 0">
+              <div><div class="rvl">Provider</div><div class="rvv" id="s0-provider">Dr. Reyes</div></div>
+            </div>
+            <div class="rv" style="padding:8px 0">
+              <div><div class="rvl">Location</div><div class="rvv">2200 N Congress Ave, Miami FL</div></div>
+            </div>
+            <div class="rv" style="padding:8px 0;border-bottom:none">
+              <div><div class="rvl">Visit Type</div><div class="rvv" id="s0-type">Acne Consult</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding:0 2px">
+        <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>No app download needed</div>
+        <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Secure & HIPAA compliant</div>
+        <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Takes only 3–5 minutes</div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="next()">Begin Registration <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 3 - DEMOGRAPHICS REVIEW
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s2">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Review your information</div>
+      <div class="hdr-desc">We've pre-filled your details from our records. Please review and update anything that's changed.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Personal Information</div><div class="sc-sub">Tap any field to edit</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow-2">
+            <div class="frow"><label>First Name</label><input class="fi filled" value="John"></div>
+            <div class="frow"><label>Last Name</label><input class="fi filled" value="Doe"></div>
+          </div>
+          <div class="frow"><label>Date of Birth</label><input class="fi filled" type="date" value="2000-11-11"></div>
+          <div class="frow"><label>Sex at Birth</label><div class="opt-group" id="sex-group"><label class="opt-btn"><input type="radio" name="sex" value="male" onchange="selectOption(this,'sex-group')">Male</label><label class="opt-btn selected"><input type="radio" name="sex" value="female" checked onchange="selectOption(this,'sex-group')">Female</label><label class="opt-btn"><input type="radio" name="sex" value="other" onchange="selectOption(this,'sex-group')">Other</label></div></div>
+          <div class="frow"><label>Preferred Pronouns</label><div class="opt-group" id="pronouns-group"><label class="opt-btn"><input type="radio" name="pronouns" value="he-him" onchange="selectOption(this,'pronouns-group')">He / Him</label><label class="opt-btn selected"><input type="radio" name="pronouns" value="she-her" checked onchange="selectOption(this,'pronouns-group')">She / Her</label><label class="opt-btn"><input type="radio" name="pronouns" value="they-them" onchange="selectOption(this,'pronouns-group')">They / Them</label></div></div>
+          <div class="frow"><label>Preferred Language</label><select class="fi filled"><option>English</option><option>Spanish</option><option>Portuguese</option></select></div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg></div>
+          <div><div class="sc-title">Contact Information</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow"><label>Mobile Phone</label><input class="fi filled" value="(561) 555-0199"></div>
+          <div class="frow"><label>Email Address</label><input class="fi filled" value="ssingh@email.com"></div>
+          <div class="frow"><label>Address</label><input class="fi filled" value="123 Brickell Ave"></div>
+          <div class="frow-2">
+            <div class="frow"><label>City</label><input class="fi filled" value="Miami"></div>
+            <div class="frow"><label>State / ZIP</label><input class="fi filled" value="FL 33101"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div>
+          <div><div class="sc-title">Emergency Contact</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow"><label>Name</label><input class="fi filled" value="Jenny Doe"></div>
+          <div class="frow-2">
+            <div class="frow"><label>Relationship</label><select class="fi filled"><option>Spouse</option><option selected>Parent</option><option>Child</option><option>Friend</option></select></div>
+            <div class="frow"><label>Phone</label><input class="fi filled" value="(561) 555-0188"></div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:10px 12px;background:var(--surface);border-radius:8px;font-size:12px;color:var(--t3);text-align:center;border:1px solid var(--borderlt)">
+        🔄 Changes will automatically sync to your patient record
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="next()">Information Looks Good →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 4 - INSURANCE
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s3">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Insurance & Benefits</div>
+      <div class="hdr-desc">We've verified your coverage. Please confirm the details below are up to date.</div>
+    </div>
+    <div class="body">
+      <div class="ins-card">
+        <div class="ins-card-payer">BlueCross BlueShield Florida</div>
+        <div class="ins-card-name">John Doe</div>
+        <div class="ins-card-row">
+          <div class="ins-card-field"><div class="ins-card-lbl">Member ID</div><div class="ins-card-val">BCB-8812-4403</div></div>
+          <div class="ins-card-field"><div class="ins-card-lbl">Group</div><div class="ins-card-val">GRP-00221</div></div>
+          <div class="ins-card-field"><div class="ins-card-lbl">Plan</div><div class="ins-card-val">PPO Derm</div></div>
+        </div>
+      </div>
+      <div class="ins-verified">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#10B981"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <div><div class="ins-verified-text">Coverage Verified - Active</div><div class="ins-verified-sub">Checked via Availity · Today 8:02 AM</div></div>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r);border:1px solid var(--borderlt);overflow:hidden">
+        <div style="padding:14px 16px 12px;border-bottom:1px solid var(--borderlt);display:flex;align-items:center;justify-content:space-between">
+          <div style="font-size:13px;font-weight:700;color:var(--t1)">Benefits Summary</div>
+          <span style="background:var(--orange-lt);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px">✦ AI Verified</span>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
+          <div style="background:var(--orange-lt);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div style="font-size:10.5px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Estimated due today</div>
+              <div style="font-size:30px;font-weight:700;color:var(--t1);line-height:1">$360</div>
+              <div style="font-size:11.5px;color:var(--t2);margin-top:4px">$40 co-pay + $320 deductible</div>
+            </div>
+            <div style="width:48px;height:48px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="22" height="22" viewBox="0 0 20 20" fill="white"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/></svg>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px">
+              <div style="font-size:12.5px;font-weight:600;color:var(--t2)">Annual Deductible</div>
+              <div style="font-size:11.5px;color:var(--t3)">$1,180 of $1,500 met</div>
+            </div>
+            <div style="height:8px;background:var(--borderlt);border-radius:4px;overflow:hidden">
+              <div style="width:78.7%;height:100%;background:linear-gradient(90deg,var(--green),#34D399);border-radius:4px"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:5px">
+              <div style="font-size:11px;color:var(--green);font-weight:600">78.7% met</div>
+              <div style="font-size:11px;color:var(--t3)">$320 remaining</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:8px;border:1px solid var(--borderlt)">
+            <div style="font-size:12.5px;color:var(--t2)">Specialist co-pay</div>
+            <div style="font-size:14px;font-weight:700;color:var(--t1)">$40</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 1h6v4H7V6zm8 8v2h1v-2h-1zM7 15h6v-4H7v4z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Insurance Card</div><div class="sc-sub">Optional - update front & back</div></div>
+        </div>
+        <div class="sc-body" style="display:flex;gap:10px">
+          <div class="ins-upload" style="flex:1" id="front-upload" onclick="simulateUpload('front-upload','Front')">
+            <div class="ins-upload-ic">📷</div>
+            <div class="ins-upload-title">Front</div>
+            <div class="ins-upload-sub">Tap to upload</div>
+          </div>
+          <div class="ins-upload" style="flex:1" id="back-upload" onclick="simulateUpload('back-upload','Back')">
+            <div class="ins-upload-ic">📷</div>
+            <div class="ins-upload-title">Back</div>
+            <div class="ins-upload-sub">Tap to upload</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/></svg></div>
+          <div><div class="sc-title">Secondary Insurance</div><div class="sc-sub">If applicable</div></div>
+        </div>
+        <div class="sc-body">
+          <div style="text-align:center;padding:8px 0">
+            <button class="btn-s" style="padding:10px 24px;width:auto;display:inline-block" onclick="showToast('Secondary insurance form opened')">+ Add Secondary Insurance</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="next()">Insurance Confirmed →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 5 - CLINICAL HISTORY
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s4">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Health History</div>
+      <div class="hdr-desc">Your provider needs this to give you the best care. Tap to update anything that's changed.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic r" style="background:var(--red-bg)"><svg width="16" height="16" viewBox="0 0 20 20" fill="#EF4444"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Allergies</div><div class="sc-sub">Medications & environmental</div></div>
+        </div>
+        <div class="sc-body">
+          <div style="padding:10px 12px;background:var(--red-bg);border-radius:8px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:13px;font-weight:600;color:var(--red)">⚠ Penicillin - Severe reaction</span>
+            <span style="font-size:11.5px;color:var(--t3);cursor:pointer">Edit</span>
+          </div>
+          <button class="btn-s" style="padding:9px;font-size:13px" onclick="showToast('Allergy entry form opened')">+ Add Another Allergy</button>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm9.707 5.707a1 1 0 00-1.414-1.414L9 12.586l-1.293-1.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Current Medications</div></div>
+        </div>
+        <div class="sc-body">
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Tretinoin 0.05% topical</span><span style="font-size:11.5px;color:var(--t3);cursor:pointer">Edit</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Doxycycline 100mg oral</span><span style="font-size:11.5px;color:var(--t3);cursor:pointer">Edit</span></div>
+          </div>
+          <button class="btn-s" style="padding:9px;font-size:13px" onclick="showToast('Medication entry form opened')">+ Add Medication</button>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Visit Questions</div><div class="sc-sub">Specific to your appointment today</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="qblock">
+            <div class="qcard" id="q1">
+              <div class="qcard-q">How would you describe your acne since your last visit?</div>
+              <div class="qopts">
+                <div class="qopt" onclick="selOpt(this,'q1')">Much better</div>
+                <div class="qopt" onclick="selOpt(this,'q1')">Somewhat better</div>
+                <div class="qopt" onclick="selOpt(this,'q1')">About the same</div>
+                <div class="qopt" onclick="selOpt(this,'q1')">Worse</div>
+              </div>
+            </div>
+            <div class="qcard" id="q2">
+              <div class="qcard-q">Are you using your prescribed Tretinoin as directed?</div>
+              <div class="qopts">
+                <div class="qopt" onclick="selOpt(this,'q2')">Yes, every night</div>
+                <div class="qopt" onclick="selOpt(this,'q2')">Most nights</div>
+                <div class="qopt" onclick="selOpt(this,'q2')">Occasionally</div>
+                <div class="qopt sel-no" onclick="selOpt(this,'q2')">Stopped using it</div>
+              </div>
+            </div>
+            <div class="qcard" id="q3">
+              <div class="qcard-q">Are you experiencing any of the following? <span style="font-size:11px;color:var(--t3)">(select all that apply)</span></div>
+              <div class="q-tags" id="q3-tags">
+                <div class="qtag sel" onclick="toggleTag(this)">Dryness / flaking</div>
+                <div class="qtag" onclick="toggleTag(this)">Redness / irritation</div>
+                <div class="qtag" onclick="toggleTag(this)">New breakouts</div>
+                <div class="qtag" onclick="toggleTag(this)">Scarring concerns</div>
+                <div class="qtag" onclick="toggleTag(this)">Sun sensitivity</div>
+                <div class="qtag" onclick="toggleTag(this)">None of the above</div>
+              </div>
+            </div>
+            <div class="qcard" id="q4">
+              <div class="qcard-q">Have you used any new skincare products or supplements in the last 3 months?</div>
+              <div class="qopts">
+                <div class="qopt" onclick="selOpt(this,'q4')">Yes</div>
+                <div class="qopt sel-no" onclick="selOpt(this,'q4')">No</div>
+              </div>
+            </div>
+            <div class="qcard" id="q5">
+              <div class="qcard-q">Any other concerns you'd like to address today?</div>
+              <textarea class="fi" rows="3" placeholder="Describe any new symptoms, changes, or questions for Dr. Reyes…" style="resize:none"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="next()">Submit Health History →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 6 - CONSENT
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s5">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Consents & Agreements</div>
+      <div class="hdr-desc">Please review and sign the following documents. Tap each signature field to sign.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">HIPAA Privacy Notice</div><div class="sc-sub" id="hipaa-status">Signature required</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="consent-doc">
+            <strong>Notice of Privacy Practices</strong><br><br>
+            Dermatology of Boca ("Practice") is committed to protecting your health information. This Notice describes how medical information about you may be used and disclosed, and how you can access this information.<br><br>
+            <strong>Uses & Disclosures:</strong> We may use and disclose your protected health information for treatment, payment, and healthcare operations. We may share your information with other health care providers involved in your care, your health plan to obtain payment, and for practice management purposes.<br><br>
+            <strong>Your Rights:</strong> You have the right to request restrictions on certain uses of your information, receive confidential communications, inspect and copy your health record, amend your health record, and receive an accounting of disclosures.<br><br>
+            By signing below, you acknowledge receipt of this Notice of Privacy Practices.
+          </div>
+          <div class="sig-area" id="sig-hipaa" onclick="sign('sig-hipaa','hipaa-status')">
+            <div class="sig-placeholder" id="sig-hipaa-ph">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <div style="margin-top:6px;font-size:13px;color:var(--t3)">Tap here to sign</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div>
+          <div><div class="sc-title">Financial Policy</div><div class="sc-sub" id="fin-status">Signature required</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="consent-doc">
+            <strong>Financial Responsibility Agreement</strong><br><br>
+            You are responsible for payment of all charges for services rendered. Co-payments are due at the time of service. Outstanding balances are due within 30 days of statement date. Accounts unpaid after 90 days may be referred to a collection agency. We accept cash, check, Visa, MasterCard, Discover, and American Express. A $35 fee is charged for returned checks.
+          </div>
+          <div class="sig-area" id="sig-fin" onclick="sign('sig-fin','fin-status')">
+            <div class="sig-placeholder" id="sig-fin-ph">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <div style="margin-top:6px;font-size:13px;color:var(--t3)">Tap here to sign</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic g"><svg width="16" height="16" viewBox="0 0 20 20" fill="#10B981"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg></div>
+          <div><div class="sc-title">Treatment Authorization</div><div class="sc-sub" id="auth-status">Signature required</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="consent-check" onclick="this.querySelector('input').click()">
+            <input type="checkbox" id="auth-check" onchange="checkAuth()">
+            <div class="consent-check-text">I authorize Dermatology of Boca to perform medical services and treatments as deemed necessary by my provider during today's visit. I understand the nature of the procedures and consent to treatment. <strong>I also authorize release of medical information for insurance billing purposes.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" id="consent-btn" onclick="next()">Sign & Continue →</button>
+      <div class="step-hint">Your signed documents are stored securely and timestamped</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 7 - PAYMENT METHOD SELECTION
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s6">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Payment</div>
+      <div class="hdr-desc">Paying before your visit reduces wait time and helps our staff serve you faster.</div>
+    </div>
+    <div class="body">
+      <div class="pay-total">
+        <div class="pay-total-label">Amount Due Today</div>
+        <div class="pay-total-amt">$380<span style="font-size:20px">.00</span></div>
+        <div class="pay-total-sub">Specialist co-pay + outstanding balance</div>
+      </div>
+      <div class="sc">
+        <div class="sc-body">
+          <div class="pay-breakdown">
+            <div class="pbr"><span class="pbr-l">Specialist Co-pay (BCBS)</span><span class="pbr-v">$40.00</span></div>
+            <div class="pbr"><span class="pbr-l">Outstanding Balance</span><span class="pbr-v" style="color:var(--red)">$340.00</span></div>
+            <div class="pbr"><span class="pbr-l" style="font-weight:700">Total Due</span><span class="pbr-v" style="color:var(--orange)">$380.00</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="window.open('https://shweta-ederm.github.io/paymydoc2026/patient-app-v1.html','_blank')">Pay Now →</button>
+      <button class="btn-s" onclick="next()">Pay at Front Desk</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 7A - PAYMENT PLAN SETUP (Duration)
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s6a" style="display:none;">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Set Up Payment Plan</div>
+      <div class="hdr-desc">Spread your outstanding balance across monthly payments with no interest.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-body">
+          <div style="margin-bottom:20px">
+            <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Amount to Finance</div>
+            <div style="font-size:24px;font-weight:900;color:var(--t1);margin-bottom:4px">$340.00</div>
+            <div style="font-size:13px;color:var(--t3)">Outstanding balance (co-pay due today)</div>
+          </div>
+          <div style="padding:12px 14px;background:var(--orange-lt);border-radius:8px;border:1px solid rgba(232,101,45,.2);margin-bottom:20px">
+            <div style="font-size:12px;font-weight:600;color:var(--orange)">⚡ All plans include 0% interest</div>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Choose Plan Duration</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="plan-opt" onclick="selectPayPlanDuration(this, 3, 113.33)">
+              <div style="display:flex;align-items:center;gap:12px;flex:1">
+                <div style="width:20px;height:20px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center">
+                  <div style="width:10px;height:10px;border-radius:50%;background:var(--brand);opacity:0" class="plan-opt-radio"></div>
+                </div>
+                <div>
+                  <div style="font-weight:700;color:var(--t1)">3 months</div>
+                  <div style="font-size:13px;color:var(--t2);margin-top:2px">$113.33 per month</div>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:12px;color:var(--t3)">Total payments</div>
+                <div style="font-weight:700;color:var(--t1)">$340.00</div>
+              </div>
+            </div>
+            <div class="plan-opt" onclick="selectPayPlanDuration(this, 6, 56.67)">
+              <div style="display:flex;align-items:center;gap:12px;flex:1">
+                <div style="width:20px;height:20px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center">
+                  <div style="width:10px;height:10px;border-radius:50%;background:var(--brand);opacity:0" class="plan-opt-radio"></div>
+                </div>
+                <div>
+                  <div style="font-weight:700;color:var(--t1)">6 months</div>
+                  <div style="font-size:13px;color:var(--t2);margin-top:2px">$56.67 per month</div>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:12px;color:var(--t3)">Total payments</div>
+                <div style="font-weight:700;color:var(--t1)">$340.00</div>
+              </div>
+            </div>
+            <div class="plan-opt" onclick="selectPayPlanDuration(this, 12, 28.33)">
+              <div style="display:flex;align-items:center;gap:12px;flex:1">
+                <div style="width:20px;height:20px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center">
+                  <div style="width:10px;height:10px;border-radius:50%;background:var(--brand);opacity:0" class="plan-opt-radio"></div>
+                </div>
+                <div>
+                  <div style="font-weight:700;color:var(--t1)">12 months</div>
+                  <div style="font-size:13px;color:var(--t2);margin-top:2px">$28.33 per month</div>
+                </div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:12px;color:var(--t3)">Total payments</div>
+                <div style="font-weight:700;color:var(--t1)">$340.00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" id="plan-next-btn" onclick="goToPayPlanReview()" disabled>Review Plan →</button>
+      <button class="btn-s" onclick="goBackPayment()">Back</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 7B - PAYMENT PLAN REVIEW
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s6b" style="display:none;">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Review Your Payment Plan</div>
+      <div class="hdr-desc">Confirm your payment plan details before proceeding.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2h10a1 1 0 100-2 2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 1a1 1 0 000 2h6a1 1 0 000-2H7z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Plan Details</div><div class="sc-sub">Your payment schedule</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="rv" style="padding:12px 0;border-bottom:1px solid var(--borderlt)">
+            <div><div class="rvl">Amount to Finance</div><div class="rvv">$340.00</div></div>
+          </div>
+          <div class="rv" style="padding:12px 0;border-bottom:1px solid var(--borderlt)">
+            <div><div class="rvl">Plan Duration</div><div class="rvv" id="plan-duration-display">6 months</div></div>
+          </div>
+          <div class="rv" style="padding:12px 0;border-bottom:1px solid var(--borderlt)">
+            <div><div class="rvl">Monthly Payment</div><div class="rvv" id="plan-monthly-display">$56.67</div></div>
+          </div>
+          <div class="rv" style="padding:12px 0;border-bottom:none">
+            <div><div class="rvl" style="font-weight:700">Interest Rate</div><div class="rvv" style="color:var(--green);font-weight:700">0% APR</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic g"><svg width="16" height="16" viewBox="0 0 20 20" fill="#10B981"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Payment Schedule</div><div class="sc-sub">First payment due one week after visit</div></div>
+        </div>
+        <div class="sc-body">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="padding:10px 12px;background:var(--surface);border-radius:8px;display:flex;justify-content:space-between;font-size:13px">
+              <span style="color:var(--t2)"><strong>Payment 1</strong> of <span id="plan-count-display">6</span></span>
+              <span style="color:var(--t1);font-weight:700" id="plan-payment-display">$56.67</span>
+            </div>
+            <div style="text-align:center;color:var(--t3);font-size:12px;padding:4px 0">Due April 2, 2026</div>
+            <div style="font-size:11px;color:var(--t3);text-align:center;padding-top:4px">Additional payments due monthly on the 2nd</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:12px 14px;background:var(--green-bg);border-radius:8px;border:1px solid rgba(16,185,129,.2)">
+        <div style="font-size:13px;font-weight:600;color:var(--green)">✓ No interest · No hidden fees · Cancel anytime</div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="goToPaymentMethod()">Continue with Plan →</button>
+      <button class="btn-s" onclick="goBackPayment()">Back</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN 8 - CONFIRMATION
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s7">
+    <div class="success-hero">
+      <div class="success-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <div class="success-sub">Your registration is complete and has been sent to Dermatology of Boca. See you soon!</div>
+    </div>
+    <div class="next-steps">
+      <div class="ns-item">
+        <div class="ns-ic">1</div>
+        <div><div class="ns-title">Registration Complete</div><div class="ns-sub">Demographics, insurance & consents submitted</div></div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-ic">2</div>
+        <div><div class="ns-title" id="pay-confirm-title">Payment Collected</div><div class="ns-sub" id="pay-confirm-sub">$380.00 co-pay + balance · Receipt emailed</div></div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-ic">3</div>
+        <div><div class="ns-title">Appointment Confirmed</div><div class="ns-sub">Today at 10:15 AM · Dr. Isabel Reyes · Room 3B</div></div>
+      </div>
+    </div>
+    <div style="padding:0 20px 24px;text-align:center;font-size:12px;color:var(--t3)">Questions? Call Dermatology of Boca: <strong style="color:var(--t1)">(561) 555-0100</strong></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+</div><!-- /app-intake -->
+
+<!-- SHARED TOAST -->
+<div class="g-toast" id="g-toast"></div>
+
+<script src="script.js"></script>
+<script>
+switchApp('intake');
+var _navLbl = document.getElementById('global-nav-app-name');
+if (_navLbl) _navLbl.textContent = 'Established Patient Self Registration';
+
+function checkConsentBtn() {}
+
+function startCheckIn() {
+  document.getElementById('s-lookup').classList.remove('active');
+  var n = document.getElementById('s-mfa');
+  if (n) { n.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+
+function verifyMFA() {
+  document.getElementById('s-mfa').classList.remove('active');
+  cur = 0;
+  var n = document.getElementById('s0');
+  if (n) { n.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+
+// 5-step flow: s0 is appointment overview (no step shown), steps start from s2
+// Physical cur values: 0, 2, 3, 4, 5, 6, 7 (s1 skipped)
+// Steps: s2=1, s3=2, s4=3, s5=4, s6=5
+var _EP_STEPS = ['', '', '', '', ''];
+function _epLogical(c) { return c - 2; }
+
+function buildProgress() {
+  var wrap = document.getElementById('prog-steps');
+  if (!wrap) return;
+  var logical = _epLogical(cur);
+  if (logical < 0) {
+    var pw = document.getElementById('prog-wrap');
+    if (pw) pw.style.display = 'none';
+    return;
+  }
+  wrap.innerHTML = '';
+  for (var i = 0; i < _EP_STEPS.length; i++) {
+    var d = document.createElement('div');
+    d.className = 'ps' + (i < logical ? ' done' : i === logical ? ' active' : '');
+    wrap.appendChild(d);
+  }
+  var cnt = document.getElementById('prog-count');
+  if (cnt) cnt.textContent = 'Step ' + (logical + 1) + ' of ' + _EP_STEPS.length;
+  if (logical >= _EP_STEPS.length) {
+    var pw = document.getElementById('prog-wrap');
+    if (pw) pw.style.display = 'none';
+  }
+}
+
+function next() {
+  if (typeof cur === 'undefined') return;
+  var _cur = cur;
+  var old = document.getElementById('s' + _cur);
+  if (old) old.style.animation = 'so .2s ease forwards';
+  setTimeout(function() {
+    if (old) old.classList.remove('active');
+    cur = (_cur === 0) ? 2 : _cur + 1;
+    if (_cur === 0) {
+      var pw = document.getElementById('prog-wrap');
+      if (pw) pw.style.display = 'block';
+    }
+    buildProgress();
+    var nxt = document.getElementById('s' + cur);
+    if (nxt) {
+      nxt.style.animation = '';
+      nxt.classList.add('active');
+      nxt.offsetHeight;
+      nxt.style.animation = 'si .3s ease';
+      if (cur === 6) { initPaymentScreen(); }
+    }
+    window.scrollTo(0, 0);
+  }, 180);
+}
+// Hide progress bar until forms start (script.js shows it on load)
+document.getElementById('prog-wrap').style.display = 'none';
+
+// If arriving from the online scheduler, skip lookup/MFA and land on s0
+if (window.location.search.indexOf('direct=1') !== -1) {
+  document.getElementById('s-lookup').classList.remove('active');
+  cur = 0;
+  var s0 = document.getElementById('s0');
+  if (s0) s0.classList.add('active');
+}
+</script>
+</body>
+</html>

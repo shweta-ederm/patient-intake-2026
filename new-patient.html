@@ -1,0 +1,417 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Patient Self-Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="demo-back" href="index.html">← Demo Hub</a>
+
+<div class="app-wrap active" id="app-register">
+<div class="shell">
+  <div class="prog-wrap" id="reg-prog-wrap" style="display:none">
+    <div class="prog-steps" id="reg-prog-steps"></div>
+    <div class="prog-meta">
+      <span class="prog-count" id="reg-prog-count">Step 1 of 6</span>
+    </div>
+  </div>
+
+  <!-- REG LOOKUP SCREEN -->
+  <div class="screen active" id="rs-lookup">
+    <div style="text-align:center;padding:24px 0 8px">
+      <img src="boca logo.png" alt="Dermatology of Boca" style="max-height:64px;max-width:220px;object-fit:contain">
+    </div>
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">Welcome to Dermatology of Boca</div>
+      <div class="hdr-desc" style="font-size:15px;font-weight:600;color:var(--t1);margin-top:4px">New Patient Registration</div>
+
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Patient Lookup</div><div class="sc-sub">Helps us keep your records accurate</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow">
+            <label>Email or Phone Number</label>
+            <input class="fi" placeholder="Email address or phone number" id="reg-lookup-contact" type="text">
+          </div>
+          <div id="reg-lookup-feedback" style="display:none;padding:10px 14px;border-radius:8px;font-size:13px;font-weight:500;margin-top:4px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="startRegistration()">Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    </div>
+  </div>
+
+  <!-- REG MFA SCREEN -->
+  <div class="screen" id="rs-mfa">
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">Verify your identity</div>
+      <div class="hdr-desc">We sent a 4-digit code to the phone or email you provided. Enter it below to continue.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Authentication Code</div><div class="sc-sub">Sent to your phone or email</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="otp-wrap">
+            <input class="otp-inp" maxlength="1" id="rmfa1" oninput="otpNext(this,'rmfa2')">
+            <input class="otp-inp" maxlength="1" id="rmfa2" oninput="otpNext(this,'rmfa3')">
+            <input class="otp-inp" maxlength="1" id="rmfa3" oninput="otpNext(this,'rmfa4')">
+            <input class="otp-inp" maxlength="1" id="rmfa4">
+          </div>
+          <div style="text-align:center;font-size:12.5px;color:var(--t3);margin-top:12px">Didn't receive a code? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('New code sent')">Resend</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="verifyRegMFA()">Verify &amp; Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+      <div style="text-align:center;margin-top:14px;font-size:12.5px;color:var(--t3)">Multiple accounts with this contact? <span style="color:var(--brand);cursor:pointer;font-weight:500;text-decoration:underline;text-underline-offset:2px" onclick="showMultiMatch()">Verify with date of birth instead</span></div>
+    </div>
+  </div>
+
+  <!-- REG MULTI-MATCH SCREEN - DOB DISAMBIGUATION -->
+  <div class="screen" id="rs-multi">
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">Confirm your identity</div>
+      <div class="hdr-desc">We found multiple accounts matching that contact information. Please enter your date of birth to identify your record.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Date of Birth</div><div class="sc-sub">Used to match your unique record</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow">
+            <label>Date of Birth</label>
+            <input class="fi" type="date" id="reg-dob-confirm">
+            <div class="fi-note">Enter your date of birth to disambiguate your record</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="confirmDOB()">Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    </div>
+  </div>
+
+  <!-- REG FOUND SCREEN - PATIENT ALREADY EXISTS -->
+  <div class="screen" id="rs-found">
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title" id="rs-found-title">Welcome back!</div>
+      <div class="hdr-desc" style="font-weight:600;color:var(--t2)">Dermatology of Boca</div>
+      <div class="hdr-desc" style="margin-top:4px">Your information is already in our system.</div>
+      <div class="hdr-desc" style="margin-top:2px;color:var(--t3)">Choose an option below to continue.</div>
+    </div>
+    <div class="body" style="gap:12px">
+      <div class="sc" onclick="window.location.href='established-patient.html'" style="cursor:pointer;border:1.5px solid var(--brand)">
+        <div class="sc-body">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:34px;height:34px;border-radius:9px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="var(--brand)"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+            </div>
+            <div style="font-size:13.5px;font-weight:700;color:var(--brand)">Today's Appointment</div>
+            <svg style="margin-left:auto;color:var(--brand)" width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;justify-content:space-between">
+              <span style="font-size:12px;color:var(--t3)">Visit Type</span>
+              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-type">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <span style="font-size:12px;color:var(--t3)">Provider</span>
+              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-provider">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between">
+              <span style="font-size:12px;color:var(--t3)">Time</span>
+              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-time">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc" onclick="showToast('Redirecting to online booking...')" style="cursor:pointer">
+        <div class="sc-body">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px">
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="var(--brand)"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/></svg>
+            <div style="font-size:14px;font-weight:700;color:var(--t1)">Book a New Appointment</div>
+            <svg style="margin-left:auto;color:var(--t3)" width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div style="font-size:12.5px;color:var(--t3);padding-left:22px">Schedule a new visit with one of our providers</div>
+        </div>
+      </div>
+      <div class="sc" onclick="window.open('recall-patient-portal.html','_blank')" style="cursor:pointer">
+        <div class="sc-body">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px">
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="var(--t2)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+            <div style="font-size:14px;font-weight:700;color:var(--t1)">Go to Patient Portal</div>
+            <svg style="margin-left:auto;color:var(--t3)" width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div style="font-size:12.5px;color:var(--t3);padding-left:22px">View your health records, messages &amp; billing</div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:12.5px;color:var(--t3)">Not you? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('Please see the front desk for assistance')">Contact us</span></div>
+    </div>
+  </div>
+
+  <!-- REG SCREEN 0 - WELCOME -->
+  <div class="screen" id="rs0">
+    <div class="hdr" style="padding-bottom:24px">
+      <div class="hdr-title">Welcome to Dermatology of Boca</div>
+      <div class="hdr-desc">Register as a new patient in just a few minutes. No app download required — everything happens right here in your browser.</div>
+    </div>
+    <div class="body" style="gap:12px">
+      <div class="sc">
+        <div class="sc-body" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>HIPAA compliant &amp; fully encrypted</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Takes about 5–8 minutes</div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Your info syncs instantly to our records</div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="regNext()">Get Started →</button>
+    </div>
+  </div>
+
+  <!-- REG SCREEN 1 - ACCOUNT CREATION -->
+  <div class="screen" id="rs1">
+    <div class="hdr" style="padding-bottom:20px">
+      <div class="hdr-title">Create your account</div>
+      <div class="hdr-desc">This will be your login to the patient portal.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head"><div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div><div><div class="sc-title">Personal Details</div></div></div>
+        <div class="sc-body">
+          <div class="frow-2">
+            <div class="frow"><label>First Name *</label><input class="fi" placeholder="First name" id="reg-first"></div>
+            <div class="frow"><label>Last Name *</label><input class="fi" placeholder="Last name" id="reg-last"></div>
+          </div>
+          <div class="frow"><label>Date of Birth *</label><input class="fi" type="date" id="reg-dob"></div>
+          <div class="frow"><label>Sex at Birth</label><div class="opt-group" id="reg-sex-group"><label class="opt-btn"><input type="radio" name="reg-sex" value="male" onchange="selectOption(this,'reg-sex-group')">Male</label><label class="opt-btn"><input type="radio" name="reg-sex" value="female" onchange="selectOption(this,'reg-sex-group')">Female</label><label class="opt-btn"><input type="radio" name="reg-sex" value="other" onchange="selectOption(this,'reg-sex-group')">Other / Prefer not to say</label></div></div>
+          <div class="frow"><label>Preferred Pronouns</label><div class="opt-group" id="reg-pronouns-group"><label class="opt-btn"><input type="radio" name="reg-pronouns" value="he-him" onchange="selectOption(this,'reg-pronouns-group')">He / Him</label><label class="opt-btn"><input type="radio" name="reg-pronouns" value="she-her" onchange="selectOption(this,'reg-pronouns-group')">She / Her</label><label class="opt-btn"><input type="radio" name="reg-pronouns" value="they-them" onchange="selectOption(this,'reg-pronouns-group')">They / Them</label></div></div>
+          <div class="frow"><label>Preferred Language</label><select class="fi"><option>English</option><option>Spanish</option><option>Portuguese</option><option>Haitian Creole</option><option>Other</option></select></div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head"><div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg></div><div><div class="sc-title">Login Credentials</div><div class="sc-sub">Used to access your patient portal</div></div></div>
+        <div class="sc-body">
+          <div class="frow"><label>Email Address *</label><input class="fi" type="email" placeholder="your@email.com" id="reg-email"></div>
+          <div class="frow"><label>Mobile Phone *</label><input class="fi" type="tel" placeholder="(561) 555-0000" id="reg-phone"><div class="fi-note">We'll send a verification code to this number</div></div>
+          <div class="frow"><label>Password *</label><input class="fi" type="password" placeholder="Min. 8 characters"></div>
+          <div class="frow"><label>Confirm Password *</label><input class="fi" type="password" placeholder="Repeat password"></div>
+          <div style="padding:10px 12px;background:var(--surface);border-radius:8px;font-size:12px;color:var(--t3)">🔒 Your password is encrypted and never stored in plain text.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="regNext()">Continue →</button>
+      <div class="step-hint">By continuing you agree to our <span style="color:var(--orange);cursor:pointer">Terms of Service</span> and <span style="color:var(--orange);cursor:pointer">Privacy Policy</span></div>
+    </div>
+  </div>
+
+  <!-- REG SCREEN 3 - CONTACT & ADDRESS -->
+  <div class="screen" id="rs3">
+    <div class="hdr" style="padding-bottom:20px">
+      <div class="hdr-title">Contact &amp; Address</div>
+      <div class="hdr-desc">So we can reach you and confirm your location for billing.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head"><div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg></div><div><div class="sc-title">Home Address</div></div></div>
+        <div class="sc-body">
+          <div class="frow"><label>Street Address</label><input class="fi" placeholder="123 Main St"></div>
+          <div class="frow"><label>Apt / Suite (optional)</label><input class="fi" placeholder="Apt 4B"></div>
+          <div class="frow-2">
+            <div class="frow"><label>City</label><input class="fi" placeholder="Miami"></div>
+            <div class="frow"><label>State</label><select class="fi"><option>FL</option><option>GA</option><option>NY</option><option>TX</option><option>CA</option></select></div>
+          </div>
+          <div class="frow"><label>ZIP Code</label><input class="fi" placeholder="33432"></div>
+        </div>
+      </div>
+      <div class="sc">
+        <div class="sc-head"><div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div><div><div class="sc-title">Emergency Contact</div></div></div>
+        <div class="sc-body">
+          <div class="frow"><label>Full Name</label><input class="fi" placeholder="Contact name"></div>
+          <div class="frow-2">
+            <div class="frow"><label>Relationship</label><select class="fi"><option>Spouse / Partner</option><option>Parent</option><option>Child</option><option>Sibling</option><option>Friend</option><option>Other</option></select></div>
+            <div class="frow"><label>Phone</label><input class="fi" type="tel" placeholder="(561) 555-0000"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot"><button class="btn-p" onclick="regNext()">Continue →</button></div>
+  </div>
+
+  <!-- REG SCREEN 4 - INSURANCE -->
+  <div class="screen" id="rs4">
+    <div class="hdr" style="padding-bottom:20px">
+      <div class="hdr-title">Insurance Information</div>
+      <div class="hdr-desc">We'll verify your coverage before your first visit so there are no surprises.</div>
+    </div>
+    <div class="body">
+      <label style="display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--surface);border-radius:10px;border:1.5px solid var(--border);cursor:pointer;margin-bottom:4px">
+        <input type="checkbox" id="reg-selfpay-chk" onchange="toggleRegSelfPay(this)" style="width:17px;height:17px;accent-color:var(--brand);cursor:pointer;flex-shrink:0">
+        <div>
+          <div style="font-size:13.5px;font-weight:600;color:var(--t1)">I'm paying out of pocket (Self-Pay)</div>
+          <div style="font-size:12px;color:var(--t3);margin-top:1px">Check this to skip insurance entry</div>
+        </div>
+      </label>
+      <div id="reg-ins-sections">
+        <div class="sc" id="reg-ins-form">
+          <div class="sc-head"><div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div><div class="sc-title">Private Insurance</div><div class="sc-sub">Enter details from your insurance card</div></div></div>
+          <div class="sc-body">
+            <div class="frow"><label>Insurance Provider</label><select class="fi"><option>-- Select carrier --</option><option>BlueCross BlueShield</option><option>UnitedHealthcare</option><option>Aetna</option><option>Cigna</option><option>Humana</option><option>Other</option></select></div>
+            <div class="frow-2">
+              <div class="frow"><label>Member ID</label><input class="fi" placeholder="e.g. BCB-0001-1234"></div>
+              <div class="frow"><label>Group Number</label><input class="fi" placeholder="e.g. GRP-00221"></div>
+            </div>
+            <div class="frow"><label>Policyholder Name</label><input class="fi" placeholder="If different from patient"></div>
+            <div class="frow"><label>Policyholder DOB</label><input class="fi" type="date"></div>
+          </div>
+        </div>
+      <div class="sc">
+        <div class="sc-head"><div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"/></svg></div><div><div class="sc-title">Upload Insurance Card</div><div class="sc-sub">Optional - speeds up verification</div></div></div>
+        <div class="sc-body" style="display:flex;gap:10px">
+          <div class="ins-upload" style="flex:1" id="reg-front" onclick="regUpload('reg-front','Front')"><div class="ins-upload-ic">📷</div><div class="ins-upload-title">Front</div><div class="ins-upload-sub">Tap to upload</div></div>
+          <div class="ins-upload" style="flex:1" id="reg-back" onclick="regUpload('reg-back','Back')"><div class="ins-upload-ic">📷</div><div class="ins-upload-title">Back</div><div class="ins-upload-sub">Tap to upload</div></div>
+        </div>
+      </div>
+      </div><!-- /reg-ins-sections -->
+    </div>
+    <div class="bot"><button class="btn-p" onclick="regNext()">Continue →</button></div>
+  </div>
+
+  <!-- rs5 removed (Book Appointment step) - regNext() skips from rs4 to rs6 -->
+  <div style="display:none" id="rs5"></div>
+
+  <!-- REG SCREEN 6 - CONFIRMATION -->
+  <div class="screen" id="rs6">
+    <div class="success-hero">
+      <div class="success-ring"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <div class="success-title">You're registered!</div>
+      <div class="success-sub">Your account has been created. Welcome to Dermatology of Boca!</div>
+    </div>
+    <div class="next-steps" style="max-width:400px;margin:32px auto 0">
+      <div class="ns-item">
+        <div class="ns-ic">1</div>
+        <div><div class="ns-title">Account Created</div><div class="ns-sub">Login credentials sent to your email</div></div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-ic">2</div>
+        <div><div class="ns-title">Reminders Scheduled</div><div class="ns-sub">You'll receive appointment reminders by SMS &amp; email</div></div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-ic">3</div>
+        <div><div class="ns-title">Next: Book Your First Visit</div><div class="ns-sub">Schedule an appointment with one of our providers</div></div>
+      </div>
+    </div>
+    <div style="padding:20px 20px 8px">
+      <button class="btn-p" onclick="window.open('https://online-scheduler-dcdga2gnhgaafggt.eastus2-01.azurewebsites.net/?r=MTIwMDQxODA5NTIzMDk%3D','_blank')">Book Appointment →</button>
+    </div>
+    <div style="padding:0 20px 24px;text-align:center;font-size:12px;color:var(--t3)">Questions? Call us: <strong style="color:var(--t1)">(561) 555-0100</strong></div>
+  </div>
+</div>
+</div><!-- /app-register -->
+
+<!-- SHARED TOAST -->
+<div class="g-toast" id="g-toast"></div>
+
+<script src="script.js"></script>
+<script>
+switchApp('register');
+var _navLbl = document.getElementById('global-nav-app-name');
+if (_navLbl) _navLbl.textContent = 'New Patient Registration';
+
+// 3-step flow: rs0 is welcome (no step), rs2/rs5 removed
+// Steps start from rs1 (Create your account)
+var _NP_STEPS = ['', '', ''];
+var _NP_LOG = {1:0, 3:1, 4:2};
+
+function regBuildProgress() {
+  var wrap = document.getElementById('reg-prog-steps');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  var logical = _NP_LOG[regCur] !== undefined ? _NP_LOG[regCur] : _NP_STEPS.length;
+  for (var i = 0; i < _NP_STEPS.length; i++) {
+    var d = document.createElement('div');
+    d.className = 'ps' + (i < logical ? ' done' : i === logical ? ' active' : '');
+    wrap.appendChild(d);
+  }
+  var cnt = document.getElementById('reg-prog-count');
+  if (cnt) cnt.textContent = 'Step ' + (logical + 1) + ' of ' + _NP_STEPS.length;
+  if (logical >= _NP_STEPS.length) {
+    var pw = document.getElementById('reg-prog-wrap');
+    if (pw) pw.style.display = 'none';
+  }
+}
+
+function regNext() {
+  if (typeof regCur === 'undefined') return;
+  var _rc = regCur;
+  var old = document.getElementById('rs' + _rc);
+  if (old) old.style.animation = 'so .2s ease forwards';
+  setTimeout(function() {
+    if (old) old.classList.remove('active');
+    if (_rc === 1) { regCur = 3; }
+    else if (_rc === 4) { regCur = 6; }
+    else { regCur = _rc + 1; }
+    if (_rc === 0) {
+      var pw = document.getElementById('reg-prog-wrap');
+      if (pw) pw.style.display = 'block';
+    }
+    regBuildProgress();
+    var nxt = document.getElementById('rs' + regCur);
+    if (nxt) {
+      nxt.style.animation = '';
+      nxt.classList.add('active');
+      nxt.offsetHeight;
+      nxt.style.animation = 'si .3s ease';
+    }
+    window.scrollTo(0, 0);
+  }, 180);
+}
+
+function startRegistration() {
+  document.getElementById('rs-lookup').classList.remove('active');
+  var n = document.getElementById('rs-mfa');
+  if (n) { n.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+
+function verifyRegMFA() {
+  document.getElementById('rs-mfa').classList.remove('active');
+  regCur = 0;
+  var n = document.getElementById('rs0');
+  if (n) { n.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+
+function showMultiMatch() {
+  document.getElementById('rs-mfa').classList.remove('active');
+  var n = document.getElementById('rs-multi');
+  if (n) { n.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+
+function confirmDOB() {
+  document.getElementById('rs-multi').classList.remove('active');
+  regCur = 0;
+  var n = document.getElementById('rs0');
+  if (n) { n.classList.add('active'); }
+  window.scrollTo(0, 0);
+}
+// Hide progress bar until forms start (script.js shows it on load)
+document.getElementById('reg-prog-wrap').style.display = 'none';
+</script>
+</body>
+</html>
