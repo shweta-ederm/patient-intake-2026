@@ -65,8 +65,13 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 .w-main .success-hero{border-radius:var(--r)}
 .w-main .next-steps{padding:24px 20px;max-width:none}
 
-/* Focused centered form column */
-.w-main-inner{max-width:680px}
+/* Wide multi-column form */
+.w-wiz-inner,.w-main-inner{max-width:1180px}
+.w-main .body .sc-body{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:start}
+.w-main .body .frow-2,.w-main .body .frow-3{display:contents}
+.w-main .body .sc-body>.frow{grid-column:span 2}
+.w-main .body .sc-body>.ins-upload{grid-column:span 2}
+.w-main .body .sc-body>label,.w-main .body .sc-body>div:not(.frow):not(.frow-2):not(.frow-3):not(.ins-upload){grid-column:1 / -1}
 </style>
 </head>
 <body>
@@ -133,7 +138,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
       <div class="sc">
         <div class="sc-head">
           <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg></div>
-          <div><div class="sc-title">Authentication Code</div><div class="sc-sub">Sent to your phone or email</div></div>
+          <div><div class="sc-title">Authentication Code</div></div>
         </div>
         <div class="sc-body">
           <div class="otp-wrap">
