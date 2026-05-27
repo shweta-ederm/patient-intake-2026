@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Patient Registration - Dermatology of Boca</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Reset mobile shell */
+body{overflow-y:auto!important;height:auto!important;min-height:100vh}
+.app-wrap{position:static!important;overflow:visible!important;height:auto!important}
+.app-wrap.active{display:block!important}
+.global-nav,.demo-back{display:none!important}
+
+/* Top Nav */
+.w-nav{position:sticky;top:0;z-index:500;background:#fff;border-bottom:1px solid var(--borderlt);height:62px;display:flex;align-items:center;padding:0 28px;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.w-nav-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;padding:7px 14px;border:1px solid var(--border);border-radius:8px;transition:all .15s;white-space:nowrap}
+.w-nav-back:hover{border-color:var(--brand-border);color:var(--brand);background:var(--brand-lt)}
+.w-nav-logo{max-height:36px;max-width:150px;object-fit:contain}
+.w-nav-sp{flex:1}
+.w-nav-secure{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green)}
+
+/* Horizontal step wizard */
+.w-wizard{position:sticky;top:62px;z-index:400;background:#fff;border-bottom:1px solid var(--borderlt);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.w-wiz-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;padding:0 32px;height:64px}
+.w-step-item{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.w-step-conn{flex:1;height:2px;background:var(--borderlt);min-width:20px;transition:background .3s}
+.w-step-conn.done{background:var(--green)}
+.w-snum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;border:1.5px solid var(--borderlt);background:var(--surface);color:var(--t3);transition:all .3s}
+.w-slbl{font-size:12.5px;font-weight:500;color:var(--t3);white-space:nowrap;transition:color .3s}
+.w-step-item.active .w-snum{background:var(--orange-lt);border-color:var(--orange);color:var(--orange)}
+.w-step-item.active .w-slbl{color:var(--t1);font-weight:600}
+.w-step-item.done .w-snum{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.w-step-item.done .w-slbl{color:var(--t2)}
+
+/* Main content */
+.w-main{background:var(--bg)}
+.w-main-inner{max-width:960px;margin:0 auto;padding:16px 32px 64px}
+.w-main .screen{animation:none!important;display:none}
+.w-main .screen.active{display:flex;flex-direction:column;gap:20px}
+
+/* Centered card (lookup, mfa) */
+.w-ctr{min-height:calc(100vh - 62px);display:flex;align-items:center;justify-content:center}
+.w-ccard{background:#fff;border-radius:20px;border:1px solid var(--borderlt);padding:40px;width:100%;max-width:460px;box-shadow:var(--sh2)}
+.w-ccard-logo{text-align:center;margin-bottom:24px}
+.w-ccard-logo img{max-height:48px;max-width:180px;object-fit:contain}
+.w-ccard h2{font-size:22px;font-weight:700;color:var(--t1);margin-bottom:6px}
+.w-ccard p{font-size:14px;color:var(--t2);margin-bottom:22px;line-height:1.5}
+
+/* Form screen overrides */
+.w-main .hdr{position:static!important;border:1px solid var(--borderlt);border-radius:var(--r);background:#fff}
+.w-main .hdr::before,.w-main .hdr::after{display:none}
+.w-main .hdr-title{font-size:22px}
+.w-main .body{padding:0;background:transparent;gap:20px}
+.w-main .bot{position:static;border-top:none;padding:0;background:transparent;margin-top:4px}
+.w-main .btn-p{max-width:none}
+.w-main .btn-s{max-width:none}
+.w-main .step-hint{text-align:left}
+.w-main .opt-group{flex-direction:row;flex-wrap:wrap;gap:8px;margin-top:6px}
+.w-main .opt-group .opt-btn{flex:1;min-width:100px}
+.frow-3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.w-main .otp-wrap{justify-content:flex-start;margin:16px 0}
+.w-main .otp-inp{width:58px;height:66px;font-size:26px}
+.w-main .success-hero{border-radius:var(--r)}
+.w-main .next-steps{padding:24px 20px;max-width:none}
+
+/* Focused centered form column */
+.w-main-inner{max-width:680px}
+</style>
+</head>
+<body>
+
+<div class="app-wrap active" id="app-np-desktop">
+
+<!-- NAV -->
+<div class="w-nav">
+  <a class="w-nav-back" href="index.html">
+    <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+    Demo Hub
+  </a>
+  <img class="w-nav-logo" src="boca logo.png" alt="Dermatology of Boca">
+  <div class="w-nav-sp"></div>
+  <div class="w-nav-secure">
+    <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+    Secure &amp; HIPAA Compliant
+  </div>
+</div>
+
+<!-- WIZARD BAR -->
+<div class="w-wizard" id="w-wizard-bar" style="display:none">
+  <div class="w-wiz-inner">
+    <div class="w-step-item" id="ws1"><div class="w-snum">1</div><span class="w-slbl">Create Account</span></div>
+    <div class="w-step-conn" id="wc1"></div>
+    <div class="w-step-item" id="ws2"><div class="w-snum">2</div><span class="w-slbl">Contact &amp; Address</span></div>
+    <div class="w-step-conn" id="wc2"></div>
+    <div class="w-step-item" id="ws3"><div class="w-snum">3</div><span class="w-slbl">Insurance</span></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="w-main">
+<div class="w-main-inner">
+
+<!-- LOOKUP -->
+<div class="screen active" id="rs-lookup">
+  <div class="w-ctr">
+    <div class="w-ccard">
+      <div class="w-ccard-logo"><img src="boca logo.png" alt="Dermatology of Boca"></div>
+      <h2>Welcome to Dermatology of Boca</h2>
+      <p>New Patient Registration - let's check if you're already in our system.</p>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Patient Lookup</div><div class="sc-sub">Helps us keep your records accurate</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow"><label>Email or Phone Number</label><input class="fi" placeholder="Email address or phone number" id="reg-lookup-contact" type="text"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="startRegistration()">Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
+    </div>
+  </div>
+</div>
+
+<!-- MFA -->
+<div class="screen" id="rs-mfa">
+  <div class="w-ctr">
+    <div class="w-ccard">
+      <div class="w-ccard-logo"><img src="boca logo.png" alt="Dermatology of Boca"></div>
+      <h2>Verify your identity</h2>
+      <p>We sent a 4-digit code to the phone or email you provided.</p>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Authentication Code</div><div class="sc-sub">Sent to your phone or email</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="otp-wrap">
+            <input class="otp-inp" maxlength="1" id="rmfa1" oninput="otpNext(this,'rmfa2')">
+            <input class="otp-inp" maxlength="1" id="rmfa2" oninput="otpNext(this,'rmfa3')">
+            <input class="otp-inp" maxlength="1" id="rmfa3" oninput="otpNext(this,'rmfa4')">
+            <input class="otp-inp" maxlength="1" id="rmfa4">
+          </div>
+          <div style="font-size:13px;color:var(--t3)">Didn't receive a code? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('New code sent')">Resend</span></div>
+        </div>
+      </div>
+      <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="verifyRegMFA()">Verify &amp; Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
+      <div style="text-align:center;margin-top:14px;font-size:12.5px;color:var(--t3)">Multiple accounts? <span style="color:var(--brand);cursor:pointer;font-weight:500;text-decoration:underline;text-underline-offset:2px" onclick="showMultiMatch()">Verify with date of birth</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MULTI-MATCH -->
+<div class="screen" id="rs-multi">
+  <div class="w-ctr">
+    <div class="w-ccard">
+      <div class="w-ccard-logo"><img src="boca logo.png" alt="Dermatology of Boca"></div>
+      <h2>Confirm your identity</h2>
+      <p>We found multiple accounts matching that contact. Please enter your date of birth to identify your record.</p>
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Date of Birth</div><div class="sc-sub">Used to match your unique record</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="frow"><label>Date of Birth</label><input class="fi" type="date" id="reg-dob-confirm"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="confirmDOB()">Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOUND (existing patient) -->
+<div class="screen" id="rs-found">
+  <div class="w-ctr" style="align-items:flex-start;padding-top:40px">
+    <div class="w-ccard" style="max-width:520px">
+      <div class="w-ccard-logo"><img src="boca logo.png" alt="Dermatology of Boca"></div>
+      <h2 id="rs-found-title">Welcome back!</h2>
+      <p>Your information is already in our system. Choose an option below.</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="sc" onclick="window.location.href='established-patient-desktop.html'" style="cursor:pointer;border:1.5px solid var(--brand)">
+          <div class="sc-body">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+              <div style="width:34px;height:34px;border-radius:9px;background:var(--brand-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--brand)"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg></div>
+              <div style="font-size:13.5px;font-weight:700;color:var(--brand)">Today's Appointment Registration</div>
+              <svg style="margin-left:auto;color:var(--brand)" width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+            <div style="font-size:12.5px;color:var(--t3)">Complete pre-visit forms for your upcoming appointment</div>
+          </div>
+        </div>
+        <div class="sc" onclick="showToast('Redirecting to online booking...')" style="cursor:pointer">
+          <div class="sc-body">
+            <div style="display:flex;align-items:center;gap:10px">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="var(--brand)"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/></svg>
+              <div style="font-size:14px;font-weight:700;color:var(--t1)">Book a New Appointment</div>
+              <svg style="margin-left:auto;color:var(--t3)" width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:16px;font-size:12.5px;color:var(--t3)">Not you? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('Please see the front desk for assistance')">Contact us</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- RS1: Account Creation (welcome folded in) -->
+<div class="screen" id="rs1">
+  <div class="hdr" style="padding-bottom:18px">
+    <div class="hdr-title">Create your account</div>
+    <div class="hdr-desc">Welcome to Dermatology of Boca. Registration takes about 5-8 minutes.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px">
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3)"><span style="width:16px;height:16px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green);font-weight:700">&#10003;</span>HIPAA compliant &amp; encrypted</span>
+      <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3)"><span style="width:16px;height:16px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--green);font-weight:700">&#10003;</span>Syncs instantly to our records</span>
+    </div>
+  </div>
+  <div class="body">
+    <div class="sc">
+      <div class="sc-head"><div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div><div><div class="sc-title">Personal Details</div></div></div>
+      <div class="sc-body">
+        <div class="frow-2">
+          <div class="frow"><label>First Name *</label><input class="fi" placeholder="First name" id="reg-first"></div>
+          <div class="frow"><label>Last Name *</label><input class="fi" placeholder="Last name" id="reg-last"></div>
+        </div>
+        <div class="frow-2">
+          <div class="frow"><label>Date of Birth *</label><input class="fi" type="date" id="reg-dob"></div>
+          <div class="frow"><label>Sex at Birth</label><select class="fi"><option>-- Select --</option><option>Female</option><option>Male</option><option>Other / Prefer not to say</option></select></div>
+        </div>
+        <div class="frow-2">
+          <div class="frow"><label>Preferred Language</label><select class="fi"><option>English</option><option>Spanish</option><option>Portuguese</option><option>Haitian Creole</option></select></div>
+          <div class="frow"><label>Preferred Pronouns</label><select class="fi" id="reg-pronouns"><option>-- Select --</option><option>He / Him</option><option>She / Her</option><option>They / Them</option></select></div>
+        </div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head"><div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg></div><div><div class="sc-title">Login Credentials</div><div class="sc-sub">Used to access your patient portal</div></div></div>
+      <div class="sc-body">
+        <div class="frow-2">
+          <div class="frow"><label>Email Address *</label><input class="fi" type="email" placeholder="your@email.com" id="reg-email"></div>
+          <div class="frow"><label>Mobile Phone *</label><input class="fi" type="tel" placeholder="(561) 555-0000" id="reg-phone"><div class="fi-note">We'll send appointment reminders to this number</div></div>
+        </div>
+        <div class="frow-2">
+          <div class="frow"><label>Password *</label><input class="fi" type="password" placeholder="Min. 8 characters"></div>
+          <div class="frow"><label>Confirm Password *</label><input class="fi" type="password" placeholder="Repeat password"></div>
+        </div>
+        <div style="padding:10px 12px;background:var(--surface);border-radius:8px;font-size:12px;color:var(--t3)">Your password is encrypted and never stored in plain text.</div>
+      </div>
+    </div>
+  </div>
+  <div class="bot">
+    <button class="btn-p" onclick="regNext()">Continue <svg width="14" height="14" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+    <div class="step-hint">By continuing you agree to our <span style="color:var(--orange);cursor:pointer">Terms of Service</span> and <span style="color:var(--orange);cursor:pointer">Privacy Policy</span></div>
+  </div>
+</div>
+
+<!-- RS3: Contact & Address -->
+<div class="screen" id="rs3">
+  <div class="hdr" style="padding-bottom:20px">
+    <div class="hdr-title">Contact &amp; Address</div>
+    <div class="hdr-desc">So we can reach you and confirm your location for billing.</div>
+  </div>
+  <div class="body">
+    <div class="sc">
+      <div class="sc-head"><div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg></div><div><div class="sc-title">Home Address</div></div></div>
+      <div class="sc-body">
+        <div class="frow-2">
+          <div class="frow"><label>Street Address</label><input class="fi" placeholder="123 Main St"></div>
+          <div class="frow"><label>Apt / Suite (optional)</label><input class="fi" placeholder="Apt 4B"></div>
+        </div>
+        <div class="frow-3">
+          <div class="frow"><label>City</label><input class="fi" placeholder="Miami"></div>
+          <div class="frow"><label>State</label><select class="fi"><option>FL</option><option>GA</option><option>NY</option><option>TX</option><option>CA</option></select></div>
+          <div class="frow"><label>ZIP Code</label><input class="fi" placeholder="33432"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="sc-head"><div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div><div><div class="sc-title">Emergency Contact</div></div></div>
+      <div class="sc-body">
+        <div class="frow-3">
+          <div class="frow"><label>Full Name</label><input class="fi" placeholder="Contact name"></div>
+          <div class="frow"><label>Relationship</label><select class="fi"><option>Spouse / Partner</option><option>Parent</option><option>Child</option><option>Sibling</option><option>Friend</option></select></div>
+          <div class="frow"><label>Phone</label><input class="fi" type="tel" placeholder="(561) 555-0000"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bot"><button class="btn-p" onclick="regNext()">Continue <svg width="14" height="14" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
+</div>
+
+<!-- RS4: Insurance -->
+<div class="screen" id="rs4">
+  <div class="hdr" style="padding-bottom:20px">
+    <div class="hdr-title">Insurance Information</div>
+    <div class="hdr-desc">We'll verify your coverage before your first visit so there are no surprises.</div>
+  </div>
+  <div class="body">
+    <label style="display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--surface);border-radius:10px;border:1.5px solid var(--border);cursor:pointer">
+      <input type="checkbox" id="reg-selfpay-chk" onchange="toggleRegSelfPay(this)" style="width:17px;height:17px;accent-color:var(--brand);cursor:pointer;flex-shrink:0">
+      <div><div style="font-size:13.5px;font-weight:600;color:var(--t1)">I'm paying out of pocket (Self-Pay)</div><div style="font-size:12px;color:var(--t3);margin-top:1px">Check this to skip insurance entry</div></div>
+    </label>
+    <div id="reg-ins-sections">
+      <div class="sc" id="reg-ins-form">
+        <div class="sc-head"><div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div><div><div class="sc-title">Private Insurance</div><div class="sc-sub">Enter details from your insurance card</div></div></div>
+        <div class="sc-body">
+          <div class="frow"><label>Insurance Provider</label><select class="fi"><option>-- Select carrier --</option><option>BlueCross BlueShield</option><option>UnitedHealthcare</option><option>Aetna</option><option>Cigna</option><option>Humana</option><option>Other</option></select></div>
+          <div class="frow-3">
+            <div class="frow"><label>Member ID</label><input class="fi" placeholder="e.g. BCB-0001-1234"></div>
+            <div class="frow"><label>Group Number</label><input class="fi" placeholder="e.g. GRP-00221"></div>
+            <div class="frow"><label>Policyholder DOB</label><input class="fi" type="date"></div>
+          </div>
+          <div class="frow"><label>Policyholder Name</label><input class="fi" placeholder="If different from patient"></div>
+        </div>
+      </div>
+      <div class="sc" style="margin-top:16px">
+        <div class="sc-head"><div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M4 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"/></svg></div><div><div class="sc-title">Upload Insurance Card</div><div class="sc-sub">Optional - speeds up verification</div></div></div>
+        <div class="sc-body" style="flex-direction:row;gap:16px">
+          <div class="ins-upload" style="flex:1" id="reg-front" onclick="simulateUpload('reg-front','Front')"><div class="ins-upload-ic">&#128247;</div><div class="ins-upload-title">Front</div><div class="ins-upload-sub">Click to upload</div></div>
+          <div class="ins-upload" style="flex:1" id="reg-back" onclick="simulateUpload('reg-back','Back')"><div class="ins-upload-ic">&#128247;</div><div class="ins-upload-title">Back</div><div class="ins-upload-sub">Click to upload</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bot"><button class="btn-p" onclick="regNext()">Complete Registration <svg width="14" height="14" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
+</div>
+
+<!-- RS6: Confirmation -->
+<div class="screen" id="rs6">
+  <div class="success-hero">
+    <div class="success-ring"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <div class="success-title">You're registered!</div>
+    <div class="success-sub">Your account has been created. Welcome to Dermatology of Boca!</div>
+  </div>
+  <div class="next-steps" style="max-width:600px;margin:0 auto">
+    <div class="ns-item"><div class="ns-ic">1</div><div><div class="ns-title">Account Created</div><div class="ns-sub">Login credentials sent to your email</div></div></div>
+    <div class="ns-item"><div class="ns-ic">2</div><div><div class="ns-title">Reminders Scheduled</div><div class="ns-sub">You'll receive appointment reminders by SMS &amp; email</div></div></div>
+    <div class="ns-item"><div class="ns-ic">3</div><div><div class="ns-title">Next: Book Your First Visit</div><div class="ns-sub">Schedule an appointment with one of our providers</div></div></div>
+  </div>
+  <div style="padding:20px 0 8px">
+    <button class="btn-p" onclick="window.open('https://online-scheduler-dcdga2gnhgaafggt.eastus2-01.azurewebsites.net/?r=MTIwMDQxODA5NTIzMDk%3D','_blank')">Book Appointment <svg width="14" height="14" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button>
+  </div>
+  <div style="padding:0 0 24px;font-size:13px;color:var(--t3)">Questions? Call us: <strong style="color:var(--t1)">(561) 555-0100</strong></div>
+</div>
+
+</div><!-- /w-main-inner -->
+</div><!-- /w-main -->
+</div><!-- /app-wrap -->
+
+<div class="g-toast" id="g-toast"></div>
+
+<script>
+function showToast(msg) { var t = document.getElementById('g-toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); }, 2800); }
+function otpNext(el, nextId) { if (el.value) { el.classList.add('filled'); var n = document.getElementById(nextId); if (n) n.focus(); } }
+function selectOption(radio, groupId) { var g = document.getElementById(groupId); g.querySelectorAll('.opt-btn').forEach(function(b){ b.classList.remove('selected'); }); radio.closest('.opt-btn').classList.add('selected'); }
+function simulateUpload(id, side) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '<div class="ins-upload-ic" style="font-size:20px">&#10003;</div><div class="ins-upload-title" style="color:var(--green)">' + side + ' uploaded</div><div class="ins-upload-sub">Tap to replace</div>';
+  el.style.borderColor = 'var(--green)';
+  el.style.background = 'var(--green-bg)';
+}
+function toggleRegSelfPay(chk) {
+  var sec = document.getElementById('reg-ins-sections');
+  if (sec) sec.style.display = chk.checked ? 'none' : '';
+}
+
+var regCur = -1;
+var _npMap = {1:0, 3:1, 4:2};
+var _npIds = ['ws1','ws2','ws3'];
+var _ncIds = ['wc1','wc2'];
+
+function _npShow(id) { var el = document.getElementById(id); if (el) { el.classList.add('active'); window.scrollTo(0,0); } }
+function _npHide(id) { var el = document.getElementById(id); if (el) el.classList.remove('active'); }
+function _npSteps(c) {
+  var lg = _npMap[c];
+  _npIds.forEach(function(id,i) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('active','done');
+    if (lg === undefined) return;
+    if (i < lg) el.classList.add('done');
+    else if (i === lg) el.classList.add('active');
+  });
+  _ncIds.forEach(function(id,i) {
+    var el = document.getElementById(id);
+    if (el) el.classList.toggle('done', lg !== undefined && i < lg);
+  });
+}
+
+function startRegistration() { _npHide('rs-lookup'); _npShow('rs-mfa'); }
+function verifyRegMFA() { _npHide('rs-mfa'); _startForm(); }
+function showMultiMatch() { _npHide('rs-mfa'); _npShow('rs-multi'); }
+function confirmDOB() { _npHide('rs-multi'); _startForm(); }
+
+function _startForm() {
+  document.getElementById('w-wizard-bar').style.display = '';
+  regCur = 1;
+  _npSteps(1);
+  _npShow('rs1');
+}
+
+function regNext() {
+  if (regCur < 0) return;
+  _npHide('rs' + regCur);
+  if (regCur === 1) { regCur = 3; }
+  else if (regCur === 3) { regCur = 4; }
+  else if (regCur === 4) { regCur = 6; }
+  else { regCur++; }
+  _npSteps(regCur);
+  _npShow('rs' + regCur);
+}
+</script>
+</body>
+</html>

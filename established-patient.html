@@ -146,7 +146,7 @@
           </div>
           <div class="frow"><label>Date of Birth</label><input class="fi filled" type="date" value="2000-11-11"></div>
           <div class="frow"><label>Sex at Birth</label><div class="opt-group" id="sex-group"><label class="opt-btn"><input type="radio" name="sex" value="male" onchange="selectOption(this,'sex-group')">Male</label><label class="opt-btn selected"><input type="radio" name="sex" value="female" checked onchange="selectOption(this,'sex-group')">Female</label><label class="opt-btn"><input type="radio" name="sex" value="other" onchange="selectOption(this,'sex-group')">Other</label></div></div>
-          <div class="frow"><label>Preferred Pronouns</label><div class="opt-group" id="pronouns-group"><label class="opt-btn"><input type="radio" name="pronouns" value="he-him" onchange="selectOption(this,'pronouns-group')">He / Him</label><label class="opt-btn selected"><input type="radio" name="pronouns" value="she-her" checked onchange="selectOption(this,'pronouns-group')">She / Her</label><label class="opt-btn"><input type="radio" name="pronouns" value="they-them" onchange="selectOption(this,'pronouns-group')">They / Them</label></div></div>
+          <div class="frow"><label>Preferred Pronouns</label><select class="fi filled" id="pronouns"><option>He / Him</option><option selected>She / Her</option><option>They / Them</option></select></div>
           <div class="frow"><label>Preferred Language</label><select class="fi filled"><option>English</option><option>Spanish</option><option>Portuguese</option></select></div>
         </div>
       </div>
@@ -212,7 +212,6 @@
       <div style="background:var(--white);border-radius:var(--r);border:1px solid var(--borderlt);overflow:hidden">
         <div style="padding:14px 16px 12px;border-bottom:1px solid var(--borderlt);display:flex;align-items:center;justify-content:space-between">
           <div style="font-size:13px;font-weight:700;color:var(--t1)">Benefits Summary</div>
-          <span style="background:var(--orange-lt);color:var(--orange);font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px">✦ AI Verified</span>
         </div>
         <div style="padding:16px;display:flex;flex-direction:column;gap:12px">
           <div style="background:var(--orange-lt);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
@@ -655,7 +654,7 @@ function startCheckIn() {
 
 function verifyMFA() {
   document.getElementById('s-mfa').classList.remove('active');
-  cur = 0;
+  _epCur = 0;
   var n = document.getElementById('s0');
   if (n) { n.classList.add('active'); }
   window.scrollTo(0, 0);
@@ -665,12 +664,13 @@ function verifyMFA() {
 // Physical cur values: 0, 2, 3, 4, 5, 6, 7 (s1 skipped)
 // Steps: s2=1, s3=2, s4=3, s5=4, s6=5
 var _EP_STEPS = ['', '', '', '', ''];
+var _epCur = 0;
 function _epLogical(c) { return c - 2; }
 
-function buildProgress() {
+function _epBuildProgress() {
   var wrap = document.getElementById('prog-steps');
   if (!wrap) return;
-  var logical = _epLogical(cur);
+  var logical = _epLogical(_epCur);
   if (logical < 0) {
     var pw = document.getElementById('prog-wrap');
     if (pw) pw.style.display = 'none';
@@ -691,25 +691,24 @@ function buildProgress() {
 }
 
 function next() {
-  if (typeof cur === 'undefined') return;
-  var _cur = cur;
+  var _cur = _epCur;
   var old = document.getElementById('s' + _cur);
   if (old) old.style.animation = 'so .2s ease forwards';
   setTimeout(function() {
     if (old) old.classList.remove('active');
-    cur = (_cur === 0) ? 2 : _cur + 1;
+    _epCur = (_cur === 0) ? 2 : _cur + 1;
     if (_cur === 0) {
       var pw = document.getElementById('prog-wrap');
       if (pw) pw.style.display = 'block';
     }
-    buildProgress();
-    var nxt = document.getElementById('s' + cur);
+    _epBuildProgress();
+    var nxt = document.getElementById('s' + _epCur);
     if (nxt) {
       nxt.style.animation = '';
       nxt.classList.add('active');
       nxt.offsetHeight;
       nxt.style.animation = 'si .3s ease';
-      if (cur === 6) { initPaymentScreen(); }
+      if (_epCur === 6) { initPaymentScreen(); }
     }
     window.scrollTo(0, 0);
   }, 180);
@@ -720,7 +719,7 @@ document.getElementById('prog-wrap').style.display = 'none';
 // If arriving from the online scheduler, skip lookup/MFA and land on s0
 if (window.location.search.indexOf('direct=1') !== -1) {
   document.getElementById('s-lookup').classList.remove('active');
-  cur = 0;
+  _epCur = 0;
   var s0 = document.getElementById('s0');
   if (s0) s0.classList.add('active');
 }

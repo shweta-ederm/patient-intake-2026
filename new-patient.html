@@ -125,15 +125,15 @@
           <div style="display:flex;flex-direction:column;gap:6px">
             <div style="display:flex;justify-content:space-between">
               <span style="font-size:12px;color:var(--t3)">Visit Type</span>
-              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-type">—</span>
+              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-type">-</span>
             </div>
             <div style="display:flex;justify-content:space-between">
               <span style="font-size:12px;color:var(--t3)">Provider</span>
-              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-provider">—</span>
+              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-provider">-</span>
             </div>
             <div style="display:flex;justify-content:space-between">
               <span style="font-size:12px;color:var(--t3)">Time</span>
-              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-time">—</span>
+              <span style="font-size:13px;font-weight:600;color:var(--t1)" id="rs-found-time">-</span>
             </div>
           </div>
         </div>
@@ -162,31 +162,15 @@
     </div>
   </div>
 
-  <!-- REG SCREEN 0 - WELCOME -->
-  <div class="screen" id="rs0">
-    <div class="hdr" style="padding-bottom:24px">
-      <div class="hdr-title">Welcome to Dermatology of Boca</div>
-      <div class="hdr-desc">Register as a new patient in just a few minutes. No app download required — everything happens right here in your browser.</div>
-    </div>
-    <div class="body" style="gap:12px">
-      <div class="sc">
-        <div class="sc-body" style="display:flex;flex-direction:column;gap:10px">
-          <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>HIPAA compliant &amp; fully encrypted</div>
-          <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Takes about 5–8 minutes</div>
-          <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--t2)"><span style="width:20px;height:20px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Your info syncs instantly to our records</div>
-        </div>
-      </div>
-    </div>
-    <div class="bot">
-      <button class="btn-p" onclick="regNext()">Get Started →</button>
-    </div>
-  </div>
-
-  <!-- REG SCREEN 1 - ACCOUNT CREATION -->
+  <!-- REG SCREEN 1 - ACCOUNT CREATION (welcome folded in) -->
   <div class="screen" id="rs1">
-    <div class="hdr" style="padding-bottom:20px">
+    <div class="hdr" style="padding-bottom:16px">
       <div class="hdr-title">Create your account</div>
-      <div class="hdr-desc">This will be your login to the patient portal.</div>
+      <div class="hdr-desc">Welcome to Dermatology of Boca. Registration takes about 5-8 minutes.</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--t3)"><span style="width:15px;height:15px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>HIPAA compliant &amp; encrypted</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--t3)"><span style="width:15px;height:15px;background:var(--green-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--green);font-weight:700;flex-shrink:0">✓</span>Syncs instantly to our records</div>
+      </div>
     </div>
     <div class="body">
       <div class="sc">
@@ -198,7 +182,7 @@
           </div>
           <div class="frow"><label>Date of Birth *</label><input class="fi" type="date" id="reg-dob"></div>
           <div class="frow"><label>Sex at Birth</label><div class="opt-group" id="reg-sex-group"><label class="opt-btn"><input type="radio" name="reg-sex" value="male" onchange="selectOption(this,'reg-sex-group')">Male</label><label class="opt-btn"><input type="radio" name="reg-sex" value="female" onchange="selectOption(this,'reg-sex-group')">Female</label><label class="opt-btn"><input type="radio" name="reg-sex" value="other" onchange="selectOption(this,'reg-sex-group')">Other / Prefer not to say</label></div></div>
-          <div class="frow"><label>Preferred Pronouns</label><div class="opt-group" id="reg-pronouns-group"><label class="opt-btn"><input type="radio" name="reg-pronouns" value="he-him" onchange="selectOption(this,'reg-pronouns-group')">He / Him</label><label class="opt-btn"><input type="radio" name="reg-pronouns" value="she-her" onchange="selectOption(this,'reg-pronouns-group')">She / Her</label><label class="opt-btn"><input type="radio" name="reg-pronouns" value="they-them" onchange="selectOption(this,'reg-pronouns-group')">They / Them</label></div></div>
+          <div class="frow"><label>Preferred Pronouns</label><select class="fi" id="reg-pronouns"><option>-- Select --</option><option>He / Him</option><option>She / Her</option><option>They / Them</option></select></div>
           <div class="frow"><label>Preferred Language</label><select class="fi"><option>English</option><option>Spanish</option><option>Portuguese</option><option>Haitian Creole</option><option>Other</option></select></div>
         </div>
       </div>
@@ -336,12 +320,13 @@ if (_navLbl) _navLbl.textContent = 'New Patient Registration';
 // Steps start from rs1 (Create your account)
 var _NP_STEPS = ['', '', ''];
 var _NP_LOG = {1:0, 3:1, 4:2};
+var _regCur = 0;
 
-function regBuildProgress() {
+function _npBuildProgress() {
   var wrap = document.getElementById('reg-prog-steps');
   if (!wrap) return;
   wrap.innerHTML = '';
-  var logical = _NP_LOG[regCur] !== undefined ? _NP_LOG[regCur] : _NP_STEPS.length;
+  var logical = _NP_LOG[_regCur] !== undefined ? _NP_LOG[_regCur] : _NP_STEPS.length;
   for (var i = 0; i < _NP_STEPS.length; i++) {
     var d = document.createElement('div');
     d.className = 'ps' + (i < logical ? ' done' : i === logical ? ' active' : '');
@@ -356,21 +341,20 @@ function regBuildProgress() {
 }
 
 function regNext() {
-  if (typeof regCur === 'undefined') return;
-  var _rc = regCur;
+  var _rc = _regCur;
   var old = document.getElementById('rs' + _rc);
   if (old) old.style.animation = 'so .2s ease forwards';
   setTimeout(function() {
     if (old) old.classList.remove('active');
-    if (_rc === 1) { regCur = 3; }
-    else if (_rc === 4) { regCur = 6; }
-    else { regCur = _rc + 1; }
+    if (_rc === 1) { _regCur = 3; }
+    else if (_rc === 4) { _regCur = 6; }
+    else { _regCur = _rc + 1; }
     if (_rc === 0) {
       var pw = document.getElementById('reg-prog-wrap');
       if (pw) pw.style.display = 'block';
     }
-    regBuildProgress();
-    var nxt = document.getElementById('rs' + regCur);
+    _npBuildProgress();
+    var nxt = document.getElementById('rs' + _regCur);
     if (nxt) {
       nxt.style.animation = '';
       nxt.classList.add('active');
@@ -390,9 +374,16 @@ function startRegistration() {
 
 function verifyRegMFA() {
   document.getElementById('rs-mfa').classList.remove('active');
-  regCur = 0;
-  var n = document.getElementById('rs0');
-  if (n) { n.classList.add('active'); }
+  _startRegForm();
+}
+
+function _startRegForm() {
+  _regCur = 1;
+  var pw = document.getElementById('reg-prog-wrap');
+  if (pw) pw.style.display = 'block';
+  _npBuildProgress();
+  var n = document.getElementById('rs1');
+  if (n) n.classList.add('active');
   window.scrollTo(0, 0);
 }
 
@@ -405,10 +396,7 @@ function showMultiMatch() {
 
 function confirmDOB() {
   document.getElementById('rs-multi').classList.remove('active');
-  regCur = 0;
-  var n = document.getElementById('rs0');
-  if (n) { n.classList.add('active'); }
-  window.scrollTo(0, 0);
+  _startRegForm();
 }
 // Hide progress bar until forms start (script.js shows it on load)
 document.getElementById('reg-prog-wrap').style.display = 'none';

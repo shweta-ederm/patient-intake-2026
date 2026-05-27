@@ -25,22 +25,24 @@ function switchApp(id) {
   var nav = document.getElementById('global-nav');
   var nameEl = document.getElementById('global-nav-app-name');
   var appNames = {staff:'Staff Dashboard',intake:'Self Registration',portal:'Patient Portal',register:'Self-Registration',followup:'Post-Visit Follow-Up',kiosk:'Kiosk Registration'};
-  nav.classList.add('visible');
-  var backBtn = nav.querySelector('.global-nav-back');
-  var dividers = nav.querySelectorAll('.global-nav-divider');
-  var labelEl = nav.querySelector('.global-nav-label');
-  if(id === 'landing'){
-    if(backBtn) backBtn.style.display = 'none';
-    if(dividers[0]) dividers[0].style.display = 'none';
-    if(labelEl) labelEl.style.display = 'none';
-    if(dividers[1]) dividers[1].style.display = 'none';
-    if(nameEl) nameEl.style.display = 'none';
-  } else {
-    if(backBtn) backBtn.style.display = '';
-    if(dividers[0]) dividers[0].style.display = '';
-    if(labelEl) labelEl.style.display = '';
-    if(dividers[1]) dividers[1].style.display = '';
-    if(nameEl){ nameEl.style.display = ''; nameEl.textContent = appNames[id] || id; }
+  if (nav) {
+    nav.classList.add('visible');
+    var backBtn = nav.querySelector('.global-nav-back');
+    var dividers = nav.querySelectorAll('.global-nav-divider');
+    var labelEl = nav.querySelector('.global-nav-label');
+    if(id === 'landing'){
+      if(backBtn) backBtn.style.display = 'none';
+      if(dividers[0]) dividers[0].style.display = 'none';
+      if(labelEl) labelEl.style.display = 'none';
+      if(dividers[1]) dividers[1].style.display = 'none';
+      if(nameEl) nameEl.style.display = 'none';
+    } else {
+      if(backBtn) backBtn.style.display = '';
+      if(dividers[0]) dividers[0].style.display = '';
+      if(labelEl) labelEl.style.display = '';
+      if(dividers[1]) dividers[1].style.display = '';
+      if(nameEl){ nameEl.style.display = ''; nameEl.textContent = appNames[id] || id; }
+    }
   }
 }
 
@@ -259,7 +261,7 @@ function renderTable(filter='all', search='') {
       approved: '<span class="spill s-done"><span class="sdot"></span>Approved</span>',
       pending:  '<span class="spill s-pend"><span class="sdot"></span>Pending</span>',
       denied:   '<span class="spill s-fail"><span class="sdot"></span>Denied</span>',
-      none:     '<span style="font-size:12px;color:var(--t3)">—</span>'
+      none:     '<span style="font-size:12px;color:var(--t3)">-</span>'
     };
     const hasPriorAuth = paStatus !== 'none';
 
@@ -390,7 +392,7 @@ function openPanel(id) {
         </div>
       `;
     } else {
-      return '<div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--t3);text-align:center">—</div>';
+      return '<div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--t3);text-align:center">-</div>';
     }
   };
   paContent.innerHTML = renderPAContent();

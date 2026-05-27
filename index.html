@@ -6,6 +6,66 @@
 <title>Recall Health - Full Prototype</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+/* ===== Landing page redesign ===== */
+#app-landing{display:block!important;overflow-y:auto!important;background:radial-gradient(1100px 420px at 50% -140px,var(--brand-lt) 0%,rgba(226,239,238,0) 72%),var(--bg)}
+#app-landing.active{top:0}
+.lp-bar{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto;padding:22px 32px 0}
+.lp-bar-brand{display:flex;align-items:center;gap:11px}
+.lp-bar-brand img{height:34px;width:auto;object-fit:contain}
+.lp-bar-tag{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--brand);background:var(--white);border:1px solid var(--brand-border);padding:7px 14px;border-radius:30px;box-shadow:0 1px 2px rgba(15,62,66,.04)}
+.lp-hero{max-width:900px;margin:0 auto;padding:30px 32px 8px;text-align:center}
+.lp-eyebrow{font-size:12px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
+.lp-title{font-size:32px;line-height:1.12;font-weight:800;letter-spacing:-1px;color:var(--t1);margin:0 0 14px}
+.lp-sub{font-size:16px;line-height:1.6;color:var(--t2);margin:0 auto;max-width:none;white-space:nowrap}
+.lp-wrap{max-width:1180px;margin:0 auto;padding:26px 32px 72px}
+.lp-sec{margin-top:34px}
+.lp-sec:first-child{margin-top:10px}
+.lp-sec-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.lp-sec-title{font-size:14px;font-weight:700;color:var(--t1);letter-spacing:.2px;white-space:nowrap}
+.lp-sec-line{flex:1;height:1px;background:var(--borderlt)}
+.lp-sec-count{font-size:12px;font-weight:600;color:var(--t3);white-space:nowrap}
+/* Card modernization (overrides inline styles) */
+#app-landing .lcard{border-radius:18px!important;border:1px solid var(--borderlt)!important;background:var(--white)!important;box-shadow:0 1px 3px rgba(15,62,66,.05)!important;overflow:hidden!important;transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s ease,border-color .2s ease!important}
+#app-landing .lcard:hover{transform:translateY(-5px)!important;box-shadow:0 18px 36px rgba(15,62,66,.13)!important;border-color:var(--brand-border)!important}
+#app-landing .lcard>div:first-child{display:none!important}
+#app-landing .lcard>div:last-child{padding:24px!important}
+.tp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tp-card{display:flex;flex-direction:column;background:var(--white);border:1px solid var(--borderlt);border-radius:22px;padding:26px;box-shadow:0 1px 3px rgba(15,62,66,.05);cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s ease,border-color .2s ease}
+.tp-card:hover{transform:translateY(-5px);box-shadow:0 18px 36px rgba(15,62,66,.12);border-color:var(--brand-border)}
+.tp-ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;background:var(--brand-lt);color:var(--brand)}
+.tp-title{font-size:17px;font-weight:700;color:var(--t1);margin-bottom:7px;letter-spacing:-.3px}
+.tp-desc{font-size:13px;line-height:1.55;color:var(--t2);flex:1}
+.tp-cta{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-size:13px;font-weight:700;color:var(--brand)}
+/* ===== App panels: 2 apps x 2 device versions ===== */
+.lp-apps{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.app-panel{background:var(--white);border:1px solid var(--borderlt);border-radius:22px;padding:26px;box-shadow:0 1px 3px rgba(15,62,66,.05);transition:box-shadow .2s ease,border-color .2s ease}
+.app-panel:hover{box-shadow:0 14px 32px rgba(15,62,66,.09)}
+.app-panel--new{--ap:#468C88;--apbg:#E2EFEE}
+.app-panel--est{--ap:#8474A1;--apbg:#E8E1F0}
+.ap-head{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.ap-icon{width:48px;height:48px;border-radius:14px;background:var(--apbg);color:var(--ap);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ap-name{font-size:18px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+.ap-tag{font-size:11px;font-weight:700;color:var(--ap);text-transform:uppercase;letter-spacing:.7px;margin-top:3px}
+.ap-desc{font-size:13.5px;line-height:1.55;color:var(--t2);margin-bottom:20px;min-height:42px}
+.ap-devices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dev-tile{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 14px 15px;border:1.5px solid var(--borderlt);border-radius:16px;background:var(--surface);cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease;font-family:inherit}
+.dev-tile:hover{border-color:var(--ap);background:var(--white);transform:translateY(-3px);box-shadow:0 12px 24px rgba(15,62,66,.10)}
+.dev-art{height:74px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:10px}
+.dev-label{font-size:14px;font-weight:700;color:var(--t1)}
+.dev-sub{font-size:11.5px;color:var(--t3);margin-top:1px}
+.dev-go{margin-top:10px;font-size:12px;font-weight:700;color:var(--ap);display:inline-flex;align-items:center;gap:5px;opacity:.9}
+.dev-tile:hover .dev-go{opacity:1}
+.phone{width:40px;height:70px;border:2.5px solid var(--ap);border-radius:11px;background:var(--white);padding:9px 0 0;display:flex;flex-direction:column;align-items:center;gap:5px}
+.ph-notch{width:12px;height:3px;border-radius:2px;background:var(--ap);opacity:.5;margin-bottom:2px}
+.ph-line{width:22px;height:3px;border-radius:2px;background:var(--ap);opacity:.22}
+.ph-line.short{width:13px}
+.monitor{display:flex;flex-direction:column;align-items:center}
+.mon-screen{width:84px;height:54px;border:2.5px solid var(--ap);border-radius:8px;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.mon-line{width:46px;height:3px;border-radius:2px;background:var(--ap);opacity:.22}
+.mon-line.short{width:28px}
+.mon-stand{width:24px;height:6px;border-radius:0 0 4px 4px;background:var(--ap);opacity:.5;margin-top:3px}
+</style>
 </head>
 <body>
 <!-- GLOBAL BACK NAV -->
@@ -31,120 +91,110 @@
      LANDING PAGE
 ═══════════════════════════════════════ -->
 <div class="app-wrap active" id="app-landing">
-  <!-- CARDS GRID -->
-  <div style="max-width:1040px;margin:0 auto;padding:36px 32px 60px">
+  <!-- HERO -->
+  <div class="lp-hero">
+    <h1 class="lp-title">Patient Registration Touchpoints and Workflows</h1>
+    <p class="lp-sub">Explore every patient registration touchpoint across web and mobile.</p>
+  </div>
 
-    <!-- HEADER -->
-    <div style="text-align:center;margin-bottom:36px">
-      <div style="font-size:26px;font-weight:800;color:var(--t1);letter-spacing:-.5px;margin-bottom:8px">Patient Registration Touchpoints</div>
-      <div style="font-size:14px;color:var(--t3)">Click any card to explore a patient registration flow</div>
-    </div>
+  <div class="lp-wrap">
+
+    <!-- SECTION: TOUCHPOINTS -->
+    <div class="lp-sec">
+      <div class="lp-sec-head">
+        <span class="lp-sec-title">Patient Touchpoints</span>
+        <span class="lp-sec-line"></span>
+        <span class="lp-sec-count">3 entry points</span>
+      </div>
 
     <!-- ROW 1: 3 touchpoint cards -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px">
+    <div class="tp-grid">
 
-      <!-- Card 1: Practice Website -->
-      <div class="lcard" onclick="window.open('practice-website.html','_blank')" style="background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--borderlt);box-shadow:var(--sh1);cursor:pointer;transition:all .2s">
-        <div style="height:6px;background:linear-gradient(90deg,#7C3AED,#A78BFA)"></div>
-        <div style="padding:22px">
-          <div style="width:46px;height:46px;background:#F5F3FF;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
-            <svg width="24" height="24" viewBox="0 0 20 20" fill="#7C3AED"><path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.559-.499-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.559.499.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"/></svg>
-          </div>
-          <div style="font-size:17px;font-weight:700;color:var(--t1);margin-bottom:6px">Practice Website</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">Registration CTA on practice's website</div>
-          <div style="display:flex;align-items:center;justify-content:flex-end">
-            <div style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#7C3AED">Open <svg width="14" height="14" viewBox="0 0 20 20" fill="#7C3AED"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-          </div>
-        </div>
+      <div class="tp-card" onclick="window.open('practice-website.html','_blank')">
+        <div class="tp-ic"><svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.559-.499-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.559.499.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd"/></svg></div>
+        <div class="tp-title">Practice Website</div>
+        <div class="tp-desc">Registration CTA on the practice's website.</div>
+        <div class="tp-cta">Open <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
       </div>
 
-      <!-- Card 2: Online Scheduler -->
-      <div class="lcard" onclick="window.open('online-scheduler.html','_blank')" style="background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--borderlt);box-shadow:var(--sh1);cursor:pointer;transition:all .2s">
-        <div style="height:6px;background:linear-gradient(90deg,#0EA5E9,#38BDF8)"></div>
-        <div style="padding:22px">
-          <div style="width:46px;height:46px;background:#E0F2FE;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
-            <svg width="24" height="24" viewBox="0 0 20 20" fill="#0EA5E9"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-          </div>
-          <div style="font-size:17px;font-weight:700;color:var(--t1);margin-bottom:6px">Online Scheduler</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">Patients self-schedule appointments 24/7 — provider selection, visit type, and real-time availability.</div>
-          <div style="display:flex;align-items:center;justify-content:flex-end">
-            <div style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#0EA5E9">Open <svg width="14" height="14" viewBox="0 0 20 20" fill="#0EA5E9"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-          </div>
-        </div>
+      <div class="tp-card" onclick="window.open('online-scheduler.html','_blank')">
+        <div class="tp-ic"><svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg></div>
+        <div class="tp-title">Online Scheduler</div>
+        <div class="tp-desc">Patients self-schedule 24/7 with provider selection and real-time availability.</div>
+        <div class="tp-cta">Open <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
       </div>
 
-      <!-- Card 3: SMS / Email Prompts -->
-      <div class="lcard" onclick="document.getElementById('prompts-modal').style.display='flex'" style="background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--borderlt);box-shadow:var(--sh1);cursor:pointer;transition:all .2s">
-        <div style="height:6px;background:linear-gradient(90deg,#06B6D4,#67E8F9)"></div>
-        <div style="padding:22px">
-          <div style="width:46px;height:46px;background:#ECFEFF;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
-            <svg width="24" height="24" viewBox="0 0 20 20" fill="#06B6D4"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-          </div>
-          <div style="font-size:17px;font-weight:700;color:var(--t1);margin-bottom:6px">SMS &amp; Email Prompts</div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">Patient outreach examples showing how registration links are delivered via SMS and email.</div>
-          <div style="display:flex;align-items:center;justify-content:flex-end">
-            <div style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#06B6D4">View Examples <svg width="14" height="14" viewBox="0 0 20 20" fill="#06B6D4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-          </div>
-        </div>
+      <div class="tp-card" onclick="document.getElementById('prompts-modal').style.display='flex'">
+        <div class="tp-ic"><svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg></div>
+        <div class="tp-title">SMS &amp; Email Prompts</div>
+        <div class="tp-desc">Outreach examples showing how registration links reach patients.</div>
+        <div class="tp-cta">View Examples <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
       </div>
 
     </div>
 
-    <!-- WORKFLOW PROTOTYPES SECTION DIVIDER -->
-    <div style="display:flex;align-items:center;gap:14px;margin:28px 0 18px">
-      <div style="flex:1;height:1px;background:var(--borderlt)"></div>
-      <div style="display:flex;align-items:center;gap:7px;padding:5px 14px;background:var(--surface);border:1px solid var(--borderlt);border-radius:20px">
-        <svg width="12" height="12" viewBox="0 0 20 20" fill="var(--t3)"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
-        <span style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px">Workflow Prototypes</span>
+    </div><!-- /lp-sec touchpoints -->
+
+    <!-- SECTION: WORKFLOWS -->
+    <div class="lp-sec">
+      <div class="lp-sec-head">
+        <span class="lp-sec-title">Registration Workflows</span>
+        <span class="lp-sec-line"></span>
+        <span class="lp-sec-count">2 apps · mobile &amp; desktop</span>
       </div>
-      <div style="flex:1;height:1px;background:var(--borderlt)"></div>
-    </div>
 
-    <!-- ROW 2: 2 workflow prototype cards -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <!-- ROW 2: 4 workflow prototype cards (mobile + web) -->
+    <div class="lp-apps">
 
-      <!-- Card: Established Patient -->
-      <div class="lcard" onclick="window.open('established-patient.html','_blank')" style="background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--borderlt);box-shadow:var(--sh1);cursor:pointer;transition:all .2s">
-        <div style="height:6px;background:linear-gradient(90deg,var(--orange),#F97C3C)"></div>
-        <div style="padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-            <div style="width:46px;height:46px;background:var(--orange-lt);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <svg width="24" height="24" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-            </div>
-            <div>
-              <div style="font-size:17px;font-weight:700;color:var(--t1)">Established Patient</div>
-              <span style="font-size:11px;font-weight:600;color:var(--t3);background:var(--surface);border:1px solid var(--borderlt);padding:2px 8px;border-radius:6px">Prototype</span>
-            </div>
-          </div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">Returning patient pre-visit flow — lookup, OTP verify, demographics, insurance, consents, and payment.</div>
-          <div style="display:flex;align-items:center;justify-content:flex-end">
-            <div style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--orange)">Launch <svg width="14" height="14" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-          </div>
+      <!-- APP: New Patient -->
+      <div class="app-panel app-panel--new">
+        <div class="ap-head">
+          <div class="ap-icon"><svg width="25" height="25" viewBox="0 0 20 20" fill="currentColor"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg></div>
+          <div><div class="ap-name">New Patient</div><div class="ap-tag">First-time registration</div></div>
+        </div>
+        <div class="ap-desc">Account creation, insurance, and appointment booking for first-time patients.</div>
+        <div class="ap-devices">
+          <button class="dev-tile" onclick="window.open('new-patient.html','_blank')">
+            <div class="dev-art"><div class="phone"><span class="ph-notch"></span><span class="ph-line"></span><span class="ph-line short"></span></div></div>
+            <div class="dev-label">Mobile</div>
+            <div class="dev-sub">Phone &amp; tablet</div>
+            <div class="dev-go">Launch <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
+          </button>
+          <button class="dev-tile" onclick="window.open('new-patient-desktop.html','_blank')">
+            <div class="dev-art"><div class="monitor"><div class="mon-screen"><span class="mon-line"></span><span class="mon-line short"></span></div><div class="mon-stand"></div></div></div>
+            <div class="dev-label">Desktop</div>
+            <div class="dev-sub">Full web app</div>
+            <div class="dev-go">Launch <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
+          </button>
         </div>
       </div>
 
-      <!-- Card: New Patient -->
-      <div class="lcard" onclick="window.open('new-patient.html','_blank')" style="background:var(--white);border-radius:16px;overflow:hidden;border:1px solid var(--borderlt);box-shadow:var(--sh1);cursor:pointer;transition:all .2s">
-        <div style="height:6px;background:linear-gradient(90deg,#10B981,#34D399)"></div>
-        <div style="padding:22px">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-            <div style="width:46px;height:46px;background:var(--green-bg);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-              <svg width="24" height="24" viewBox="0 0 20 20" fill="#10B981"><path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"/></svg>
-            </div>
-            <div>
-              <div style="font-size:17px;font-weight:700;color:var(--t1)">New Patient</div>
-              <span style="font-size:11px;font-weight:600;color:var(--t3);background:var(--surface);border:1px solid var(--borderlt);padding:2px 8px;border-radius:6px">Prototype</span>
-            </div>
-          </div>
-          <div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:16px">First-time registration flow — account creation, phone verify, address, insurance, and appointment booking.</div>
-          <div style="display:flex;align-items:center;justify-content:flex-end">
-            <div style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:#10B981">Launch <svg width="14" height="14" viewBox="0 0 20 20" fill="#10B981"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-          </div>
+      <!-- APP: Established Patient -->
+      <div class="app-panel app-panel--est">
+        <div class="ap-head">
+          <div class="ap-icon"><svg width="25" height="25" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>
+          <div><div class="ap-name">Established Patient</div><div class="ap-tag">Returning pre-visit</div></div>
+        </div>
+        <div class="ap-desc">Demographics, insurance, consents, and payment for returning patients.</div>
+        <div class="ap-devices">
+          <button class="dev-tile" onclick="window.open('established-patient.html','_blank')">
+            <div class="dev-art"><div class="phone"><span class="ph-notch"></span><span class="ph-line"></span><span class="ph-line short"></span></div></div>
+            <div class="dev-label">Mobile</div>
+            <div class="dev-sub">Phone &amp; tablet</div>
+            <div class="dev-go">Launch <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
+          </button>
+          <button class="dev-tile" onclick="window.open('established-patient-desktop.html','_blank')">
+            <div class="dev-art"><div class="monitor"><div class="mon-screen"><span class="mon-line"></span><span class="mon-line short"></span></div><div class="mon-stand"></div></div></div>
+            <div class="dev-label">Desktop</div>
+            <div class="dev-sub">Full web app</div>
+            <div class="dev-go">Launch <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
+          </button>
         </div>
       </div>
 
     </div>
-  </div>
+    </div><!-- /lp-sec workflows -->
+  </div><!-- /lp-wrap -->
 
   <!-- SMS / EMAIL PROMPTS MODAL -->
   <div id="prompts-modal" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:20px">
@@ -176,7 +226,7 @@
                 </div>
                 <div style="display:flex;justify-content:flex-start">
                   <div style="background:#E9E9EB;border-radius:16px 16px 16px 3px;padding:10px 13px;max-width:88%;font-size:12px;color:#1C1C1E;line-height:1.55">
-                    Hi Sarah! 👋<br><br>Your appt with <strong>Dr. Reyes</strong> at Dermatology of Boca is coming up.<br><br>Complete your pre-visit forms — only 3 min, no app needed:<br><br>
+                    Hi Sarah! 👋<br><br>Your appt with <strong>Dr. Reyes</strong> at Dermatology of Boca is coming up.<br><br>Complete your pre-visit forms - only 3 min, no app needed:<br><br>
                     <span style="color:#007AFF;font-weight:600;text-decoration:underline;cursor:pointer" onclick="window.open('established-patient.html','_blank')">dermofboca.com/registration</span>
                   </div>
                 </div>
@@ -204,7 +254,7 @@
             <div style="padding:20px 22px;background:white">
               <p style="margin:0 0 10px;font-size:13.5px;font-weight:700;color:#111">Hi Sarah,</p>
               <p style="margin:0 0 10px;font-size:13px;color:#444;line-height:1.65">Your appointment with <strong>Dr. Isabel Reyes</strong> is coming up on <strong>March 25 at 9:00 AM</strong>.</p>
-              <p style="margin:0 0 18px;font-size:13px;color:#444;line-height:1.65">Please take 3 minutes to complete your pre-visit forms — no app download needed.</p>
+              <p style="margin:0 0 18px;font-size:13px;color:#444;line-height:1.65">Please take 3 minutes to complete your pre-visit forms - no app download needed.</p>
               <div style="text-align:center;margin:0 0 16px">
                 <button onclick="window.open('established-patient.html','_blank')" style="background:#468C88;color:white;border:none;border-radius:8px;padding:12px 26px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif">Complete Registration →</button>
               </div>
@@ -574,7 +624,7 @@
           <div style="display:flex;align-items:center;gap:4px"><span style="background:#ECFDF5;color:#10B981;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600">✓</span>Sent</div>
           <div style="display:flex;align-items:center;gap:4px"><span style="background:#FFFBEB;color:#D97706;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600">⏳</span>Pending</div>
           <div style="display:flex;align-items:center;gap:4px"><span style="background:#FEF2F2;color:#DC2626;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600">✗</span>Failed</div>
-          <div style="display:flex;align-items:center;gap:4px"><span style="background:#F3F4F6;color:var(--t3);padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600">—</span>Not Sent</div>
+          <div style="display:flex;align-items:center;gap:4px"><span style="background:#F3F4F6;color:var(--t3);padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600">-</span>Not Sent</div>
         </div>
       </div>
       <div style="overflow-x:auto;flex:1">
@@ -610,8 +660,8 @@
               <td style="padding:12px 14px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('Sarah Chen','Mar 22','email-t5','✓ Sent')">✓</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('Sarah Chen','Mar 22','sms-t5','✓ Sent')">✓</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#FFFBEB;color:#D97706;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('Sarah Chen','Mar 22','sms-t2','⏳ Pending')">⏳</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#FFFBEB;color:#D97706;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;display:inline-block">Awaiting</span></td>
               <td style="padding:12px 14px;text-align:center"><button onclick="showMessageModal('Sarah Chen','Mar 22','all','')" style="padding:4px 10px;background:var(--border);color:var(--t2);border:1px solid var(--border);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer">Messages</button></td>
             </tr>
@@ -622,7 +672,7 @@
               <td style="padding:12px 14px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('James Rodriguez','Mar 19','sms-t5','✗ Failed')">✗</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('James Rodriguez','Mar 19','sms-t2','✗ Failed')">✗</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('James Rodriguez','Mar 19','call-t1','✗ Failed')">✗</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;display:inline-block">No Response</span></td>
               <td style="padding:12px 14px;text-align:center"><button onclick="showMessageModal('James Rodriguez','Mar 19','all','')" style="padding:4px 10px;background:#FEE2E2;color:#DC2626;border:1px solid #FEE2E2;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer">Messages</button></td>
             </tr>
@@ -630,10 +680,10 @@
               <td style="padding:12px 14px;color:var(--t1);font-weight:600;white-space:nowrap">Emily Wong</td>
               <td style="padding:12px 14px;text-align:center;color:var(--t2)">Mar 25</td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#FFFBEB;color:#D97706;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer" onclick="showMessageModal('Emily Wong','Mar 25','email-t5','⏳ In Transit')">⏳</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
-              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">—</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
+              <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:4px 8px;border-radius:4px;font-size:11px;font-weight:600">-</span></td>
               <td style="padding:12px 14px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:3px 8px;border-radius:4px;font-size:11px;font-weight:600;display:inline-block">Upcoming</span></td>
               <td style="padding:12px 14px;text-align:center"><button onclick="showMessageModal('Emily Wong','Mar 25','all','')" style="padding:4px 10px;background:var(--border);color:var(--t2);border:1px solid var(--border);border-radius:4px;font-size:11px;font-weight:600;cursor:pointer">Messages</button></td>
             </tr>
@@ -949,7 +999,7 @@
     </div>
     <div style="margin-top:14px;padding:12px 14px;background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.15);border-radius:9px;display:flex;align-items:center;gap:10px">
       <div style="font-size:16px;flex-shrink:0;margin-top:2px">✦</div>
-      <div style="font-size:12px;color:var(--t2);line-height:1.5"><strong style="color:var(--t1)">AI-Powered Matching</strong> — Analyzes patient preferences, provider compatibility, appointment type, and schedule flexibility to find optimal matches. Currently showing 4 high-confidence matches (89-98% fit scores).</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.5"><strong style="color:var(--t1)">AI-Powered Matching</strong> - Analyzes patient preferences, provider compatibility, appointment type, and schedule flexibility to find optimal matches. Currently showing 4 high-confidence matches (89-98% fit scores).</div>
     </div>
 
     <!-- Stats -->
@@ -1245,7 +1295,7 @@
       <div class="info-section">
         <div class="sec-t">Prior Authorization</div>
         <div id="sp-pa-content" style="display:flex;flex-direction:column;gap:7px">
-          <div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--t3);text-align:center">—</div>
+          <div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--t3);text-align:center">-</div>
         </div>
       </div>
       <div class="info-section">
@@ -1306,7 +1356,7 @@
       <div class="info-section">
         <div class="sec-t">Prior Authorization Status</div>
         <div id="sp-pa-insurance" style="display:flex;flex-direction:column;gap:7px">
-          <div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--t3);text-align:center">—</div>
+          <div style="padding:12px;background:var(--surface);border-radius:8px;font-size:13px;color:var(--t3);text-align:center">-</div>
         </div>
       </div>
     </div>
@@ -1621,7 +1671,7 @@
               <td style="padding:16px 20px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✓</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✓</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600;display:inline-block">Confirmed</span></td>
-              <td style="padding:16px 20px;text-align:center;color:var(--t3)">—</td>
+              <td style="padding:16px 20px;text-align:center;color:var(--t3)">-</td>
             </tr>
             <tr style="border-bottom:1px solid var(--border)">
               <td style="padding:16px 20px;color:var(--t1);font-weight:600">Sarah Chen</td>
@@ -1629,8 +1679,8 @@
               <td style="padding:16px 20px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✓</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#ECFDF5;color:#10B981;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✓</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#FFFBEB;color:#D97706;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">⏳</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#FFFBEB;color:#D97706;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600;display:inline-block">Awaiting</span></td>
               <td style="padding:16px 20px;text-align:center"><button style="padding:6px 14px;background:var(--orange-lt);color:var(--orange);border:1px solid var(--orange);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Resend</button></td>
             </tr>
@@ -1641,7 +1691,7 @@
               <td style="padding:16px 20px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✗</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✗</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">✗</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#FEF2F2;color:#DC2626;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600;display:inline-block">No Response</span></td>
               <td style="padding:16px 20px;text-align:center"><button style="padding:6px 14px;background:#FEE2E2;color:#DC2626;border:1px solid #FEE2E2;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Call</button></td>
             </tr>
@@ -1649,12 +1699,12 @@
               <td style="padding:16px 20px;color:var(--t1);font-weight:600">Emily Wong</td>
               <td style="padding:16px 20px;text-align:center;color:var(--t2)">Mar 25</td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#FFFBEB;color:#D97706;padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">⏳</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
-              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">—</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
+              <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600">-</span></td>
               <td style="padding:16px 20px;text-align:center"><span style="background:#F3F4F6;color:var(--t3);padding:5px 10px;border-radius:5px;font-size:12px;font-weight:600;display:inline-block">Upcoming</span></td>
-              <td style="padding:16px 20px;text-align:center;color:var(--t3)">—</td>
+              <td style="padding:16px 20px;text-align:center;color:var(--t3)">-</td>
             </tr>
           </tbody>
         </table>
