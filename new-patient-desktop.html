@@ -60,7 +60,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 .w-main .opt-group{flex-direction:row;flex-wrap:wrap;gap:8px;margin-top:6px}
 .w-main .opt-group .opt-btn{flex:1;min-width:100px}
 .frow-3{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.w-main .otp-wrap{justify-content:flex-start;margin:16px 0}
+.w-main .otp-wrap{justify-content:center;margin:16px 0}
 .w-main .otp-inp{width:58px;height:66px;font-size:26px}
 .w-main .success-hero{border-radius:var(--r)}
 .w-main .next-steps{padding:24px 20px;max-width:none}
@@ -147,7 +147,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
             <input class="otp-inp" maxlength="1" id="rmfa3" oninput="otpNext(this,'rmfa4')">
             <input class="otp-inp" maxlength="1" id="rmfa4">
           </div>
-          <div style="font-size:13px;color:var(--t3)">Didn't receive a code? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('New code sent')">Resend</span></div>
+          <div style="text-align:center;font-size:13px;color:var(--t3)">Didn't receive a code? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('New code sent')">Resend</span></div>
         </div>
       </div>
       <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="verifyRegMFA()">Verify &amp; Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
