@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice Management - Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body{overflow-y:auto!important;height:auto!important;min-height:100vh;background:var(--bg)}
+.app-wrap{position:static!important;overflow:visible!important;height:auto!important}
+.global-nav,.demo-back{display:none!important}
+
+/* Top nav */
+.ap-nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid var(--borderlt);height:62px;display:flex;align-items:center;padding:0 28px;gap:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.ap-nav-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;padding:7px 14px;border:1px solid var(--border);border-radius:8px;transition:all .15s;white-space:nowrap}
+.ap-nav-back:hover{border-color:var(--brand-border);color:var(--brand);background:var(--brand-lt)}
+.ap-nav-title{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+.ap-nav-sp{flex:1}
+.ap-nav-badge{font-size:10.5px;font-weight:700;letter-spacing:1.2px;color:var(--brand);background:var(--brand-lt);padding:6px 12px;border-radius:20px;text-transform:uppercase;border:1px solid var(--brand-border)}
+
+/* Main */
+.ap-main{max-width:1180px;margin:0 auto;padding:32px 28px 64px}
+.ap-h1{font-size:26px;font-weight:800;color:var(--t1);letter-spacing:-.8px;margin:0 0 6px}
+.ap-sub{font-size:14px;color:var(--t2);margin:0 0 22px}
+
+/* Practice list */
+.ap-list{background:#fff;border:1px solid var(--borderlt);border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(15,62,66,.05)}
+.ap-list-head,.ap-row{display:grid;grid-template-columns:2fr 1.6fr 1.1fr 1.7fr 60px;gap:14px;align-items:center}
+.ap-list-head{padding:14px 22px;background:var(--surface);border-bottom:1px solid var(--borderlt);font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px}
+.ap-row{padding:18px 22px;border-bottom:1px solid var(--borderlt);cursor:pointer;transition:background .15s}
+.ap-row:hover{background:var(--brand-lt)}
+.ap-row:last-child{border-bottom:none}
+.ap-name{font-size:14.5px;font-weight:700;color:var(--t1)}
+.ap-loc{font-size:13.5px;color:var(--t2)}
+.ap-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:14px}
+.ap-pill.on{color:#10B981;background:#ECFDF5;border:1px solid #A7F3D0}
+.ap-pill.off{color:var(--t3);background:var(--surface);border:1px solid var(--borderlt)}
+.ap-pay{display:flex;gap:6px;flex-wrap:wrap}
+.ap-pay-pill{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:6px;border:1px solid var(--brand-border);color:var(--brand);background:var(--brand-lt)}
+.ap-pay-none{font-size:12.5px;color:var(--t3);font-style:italic}
+.ap-arrow{color:var(--t3);text-align:right;font-size:18px}
+
+/* Detail */
+.ap-back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--brand);background:none;border:none;cursor:pointer;padding:0;margin-bottom:20px;font-family:inherit}
+.ap-back:hover{color:var(--brand-dk)}
+.ap-detail-head{margin-bottom:22px}
+.ap-detail-name{font-size:24px;font-weight:800;color:var(--t1);letter-spacing:-.5px}
+.ap-detail-loc{font-size:14px;color:var(--t2);margin-top:4px}
+
+.ap-card{background:#fff;border:1px solid var(--borderlt);border-radius:16px;padding:22px 24px;box-shadow:0 1px 3px rgba(15,62,66,.05);margin-bottom:16px}
+.ap-card-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.ap-card-ic{width:40px;height:40px;border-radius:11px;background:var(--brand-lt);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ap-card-title{font-size:15.5px;font-weight:700;color:var(--t1)}
+.ap-card-sub{font-size:12.5px;color:var(--t3);margin-top:2px}
+
+.ap-setting{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 0;border-top:1px solid var(--borderlt)}
+.ap-setting:first-of-type{border-top:none;padding-top:4px}
+.ap-setting-lbl{font-size:14px;font-weight:600;color:var(--t1)}
+.ap-setting-sub{font-size:12.5px;color:var(--t3);margin-top:3px;max-width:520px}
+
+/* Switch */
+.switch{position:relative;display:inline-block;width:46px;height:26px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#D1D5DB;transition:.2s;border-radius:26px}
+.slider:before{position:absolute;content:"";height:20px;width:20px;left:3px;bottom:3px;background-color:#fff;transition:.2s;border-radius:50%;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.switch input:checked + .slider{background-color:var(--brand)}
+.switch input:checked + .slider:before{transform:translateX(20px)}
+
+/* Payment options */
+.ap-pay-opts{display:flex;flex-direction:column;gap:10px}
+.ap-pay-opt{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid var(--borderlt);border-radius:11px;cursor:pointer;transition:all .15s;background:var(--surface)}
+.ap-pay-opt:hover{border-color:var(--brand-border)}
+.ap-pay-opt.selected{border-color:var(--brand);background:var(--brand-lt)}
+.ap-pay-opt input{width:18px;height:18px;accent-color:var(--brand);cursor:pointer;flex-shrink:0;margin:0}
+.ap-pay-opt-name{font-size:14px;font-weight:600;color:var(--t1)}
+.ap-pay-opt-sub{font-size:12px;color:var(--t3);margin-top:2px}
+.ap-warn{margin-top:12px;padding:10px 14px;background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;font-size:12.5px;color:#92400E;display:none}
+.ap-warn.show{display:block}
+
+.ap-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.ap-btn{padding:11px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s}
+.ap-btn-p{background:var(--brand);color:#fff}
+.ap-btn-p:hover{background:var(--brand-dk)}
+.ap-btn-s{background:#fff;color:var(--t2);border:1px solid var(--border)}
+.ap-btn-s:hover{background:var(--surface)}
+
+.ap-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1A1F2E;color:#fff;padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.22);opacity:0;transition:all .3s;pointer-events:none;z-index:200}
+.ap-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="ap-nav">
+  <a class="ap-nav-back" href="index.html">
+    <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+    Demo Hub
+  </a>
+  <div class="ap-nav-title">Practice Management</div>
+  <div class="ap-nav-sp"></div>
+  <div class="ap-nav-badge">Admin</div>
+</div>
+
+<div class="ap-main">
+
+  <!-- LIST VIEW -->
+  <div id="view-list">
+    <h1 class="ap-h1">Practices</h1>
+    <p class="ap-sub">Manage settings across your network. Click any practice to edit its configuration.</p>
+    <div class="ap-list">
+      <div class="ap-list-head">
+        <div>Practice</div>
+        <div>Location</div>
+        <div>Clinical Data</div>
+        <div>Payment Options</div>
+        <div></div>
+      </div>
+      <div id="ap-rows"></div>
+    </div>
+  </div>
+
+  <!-- DETAIL VIEW -->
+  <div id="view-detail" style="display:none">
+    <button class="ap-back" onclick="showList()">
+      <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+      Back to practices
+    </button>
+    <div class="ap-detail-head">
+      <div class="ap-detail-name" id="d-name">Practice Name</div>
+      <div class="ap-detail-loc" id="d-loc">Location</div>
+    </div>
+
+    <!-- Clinical Data -->
+    <div class="ap-card">
+      <div class="ap-card-head">
+        <div class="ap-card-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm3 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zm-1 4a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1zm1 3a1 1 0 100 2h4a1 1 0 100-2H8z" clip-rule="evenodd"/></svg></div>
+        <div>
+          <div class="ap-card-title">Clinical Data</div>
+          <div class="ap-card-sub">Health history, allergies, medications, and visit questions</div>
+        </div>
+      </div>
+      <div class="ap-setting">
+        <div>
+          <div class="ap-setting-lbl">Collect clinical data during registration</div>
+          <div class="ap-setting-sub">When off, patients will skip the Health History step in their registration flow.</div>
+        </div>
+        <label class="switch"><input type="checkbox" id="d-clinical"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="ap-card">
+      <div class="ap-card-head">
+        <div class="ap-card-ic"><svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div>
+        <div>
+          <div class="ap-card-title">Payment Options</div>
+          <div class="ap-card-sub">Which payment methods this practice accepts after registration</div>
+        </div>
+      </div>
+      <div class="ap-pay-opts">
+        <label class="ap-pay-opt" id="opt-desk">
+          <input type="checkbox" id="d-pay-desk" onchange="updatePayOpt(this)">
+          <div>
+            <div class="ap-pay-opt-name">Pay at Front Desk</div>
+            <div class="ap-pay-opt-sub">Patient pays in person on arrival at the practice.</div>
+          </div>
+        </label>
+        <label class="ap-pay-opt" id="opt-paymydoc">
+          <input type="checkbox" id="d-pay-paymydoc" onchange="updatePayOpt(this)">
+          <div>
+            <div class="ap-pay-opt-name">Pay at PayMyDoc</div>
+            <div class="ap-pay-opt-sub">Patient pays online before the visit via PayMyDoc.</div>
+          </div>
+        </label>
+      </div>
+      <div class="ap-warn" id="pay-warn">At least one payment option must be enabled.</div>
+    </div>
+
+    <div class="ap-actions">
+      <button class="ap-btn ap-btn-s" onclick="showList()">Cancel</button>
+      <button class="ap-btn ap-btn-p" onclick="save()">Save Changes</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="ap-toast" id="toast"></div>
+
+<script>
+var practices = [
+  {id:1, name:'Dermatology of Boca', loc:'Boca Raton, FL', clinical:true, payDesk:true, payMyDoc:true},
+  {id:2, name:'Coral Springs Dermatology', loc:'Coral Springs, FL', clinical:true, payDesk:true, payMyDoc:false},
+  {id:3, name:'Palm Beach Skin & Laser', loc:'Palm Beach, FL', clinical:false, payDesk:false, payMyDoc:true},
+  {id:4, name:'Aventura Dermatology Center', loc:'Aventura, FL', clinical:true, payDesk:true, payMyDoc:true},
+  {id:5, name:'Hollywood Skin Clinic', loc:'Hollywood, FL', clinical:false, payDesk:true, payMyDoc:false}
+];
+var currentId = null;
+
+function payHtml(p){
+  var arr = [];
+  if(p.payDesk) arr.push('Front Desk');
+  if(p.payMyDoc) arr.push('PayMyDoc');
+  if(!arr.length) return '<span class="ap-pay-none">None</span>';
+  return arr.map(function(t){return '<span class="ap-pay-pill">'+t+'</span>';}).join('');
+}
+
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderList(){
+  document.getElementById('ap-rows').innerHTML = practices.map(function(p){
+    return '<div class="ap-row" onclick="showDetail('+p.id+')">' +
+      '<div class="ap-name">'+escapeHtml(p.name)+'</div>' +
+      '<div class="ap-loc">'+escapeHtml(p.loc)+'</div>' +
+      '<div>' + (p.clinical ? '<span class="ap-pill on">&#9679; On</span>' : '<span class="ap-pill off">&#9679; Off</span>') + '</div>' +
+      '<div class="ap-pay">'+payHtml(p)+'</div>' +
+      '<div class="ap-arrow">&rarr;</div>' +
+    '</div>';
+  }).join('');
+}
+
+function showDetail(id){
+  currentId = id;
+  var p = practices.find(function(x){return x.id===id;});
+  document.getElementById('d-name').textContent = p.name;
+  document.getElementById('d-loc').textContent = p.loc;
+  document.getElementById('d-clinical').checked = p.clinical;
+  document.getElementById('d-pay-desk').checked = p.payDesk;
+  document.getElementById('d-pay-paymydoc').checked = p.payMyDoc;
+  document.getElementById('opt-desk').classList.toggle('selected', p.payDesk);
+  document.getElementById('opt-paymydoc').classList.toggle('selected', p.payMyDoc);
+  document.getElementById('pay-warn').classList.remove('show');
+  document.getElementById('view-list').style.display = 'none';
+  document.getElementById('view-detail').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function showList(){
+  document.getElementById('view-detail').style.display = 'none';
+  document.getElementById('view-list').style.display = 'block';
+  currentId = null;
+}
+
+function updatePayOpt(input){
+  var label = input.closest('.ap-pay-opt');
+  label.classList.toggle('selected', input.checked);
+  // Hide warning once a method is selected
+  var any = document.getElementById('d-pay-desk').checked || document.getElementById('d-pay-paymydoc').checked;
+  if(any) document.getElementById('pay-warn').classList.remove('show');
+}
+
+function save(){
+  if(currentId==null) return;
+  var desk = document.getElementById('d-pay-desk').checked;
+  var pmd = document.getElementById('d-pay-paymydoc').checked;
+  if(!desk && !pmd){
+    document.getElementById('pay-warn').classList.add('show');
+    return;
+  }
+  var p = practices.find(function(x){return x.id===currentId;});
+  p.clinical = document.getElementById('d-clinical').checked;
+  p.payDesk = desk;
+  p.payMyDoc = pmd;
+  renderList();
+  showList();
+  showToast('Settings saved for ' + p.name);
+}
+
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2600);
+}
+
+renderList();
+</script>
+</body>
+</html>
