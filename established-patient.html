@@ -716,12 +716,15 @@ function next() {
 // Hide progress bar until forms start (script.js shows it on load)
 document.getElementById('prog-wrap').style.display = 'none';
 
-// If arriving from the online scheduler, skip lookup/MFA and land on s0
+// If arriving from the online scheduler, skip lookup/MFA AND the s0 overview - land straight on s2
 if (window.location.search.indexOf('direct=1') !== -1) {
   document.getElementById('s-lookup').classList.remove('active');
-  _epCur = 0;
-  var s0 = document.getElementById('s0');
-  if (s0) s0.classList.add('active');
+  _epCur = 2;
+  var _pw = document.getElementById('prog-wrap');
+  if (_pw) _pw.style.display = 'block';
+  if (typeof _epBuildProgress === 'function') _epBuildProgress();
+  var _s2 = document.getElementById('s2');
+  if (_s2) _s2.classList.add('active');
 }
 </script>
 </body>

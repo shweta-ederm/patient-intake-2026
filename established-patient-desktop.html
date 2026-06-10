@@ -571,11 +571,13 @@ function next() {
   _show('s' + cur);
 }
 
-// direct=1 param skips lookup/mfa
+// direct=1 param: skip lookup/mfa AND the s0 overview - land straight on s2
 if (window.location.search.indexOf('direct=1') !== -1) {
-  cur = 0;
+  _hide('s-lookup');
+  cur = 2;
   document.getElementById('w-wizard-bar').style.display = '';
-  _show('s0');
+  _updateSteps(cur);
+  _show('s2');
 }
 </script>
 </body>
