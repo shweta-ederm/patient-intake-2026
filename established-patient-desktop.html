@@ -381,47 +381,20 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 
 <!-- S5: Consents -->
 <div class="screen" id="s5">
-  <div class="hdr" style="padding-bottom:20px">
-    <div class="hdr-title">Consents &amp; Agreements</div>
-    <div class="hdr-desc">Please review and sign the following documents. Click each signature field to sign.</div>
+  <div class="hdr" style="padding-bottom:18px">
+    <div class="hdr-title">Review &amp; Sign Documents</div>
+    <div class="hdr-desc">Click any document below to read and sign. All three are required to continue.</div>
   </div>
   <div class="body">
-    <div class="sc">
-      <div class="sc-head">
-        <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd"/></svg></div>
-        <div><div class="sc-title">HIPAA Privacy Notice</div><div class="sc-sub" id="hipaa-status">Signature required</div></div>
-      </div>
-      <div class="sc-body">
-        <div class="consent-doc"><strong>Notice of Privacy Practices</strong><br><br>Dermatology of Boca ("Practice") is committed to protecting your health information. This Notice describes how medical information about you may be used and disclosed.<br><br><strong>Uses &amp; Disclosures:</strong> We may use and disclose your protected health information for treatment, payment, and healthcare operations.<br><br><strong>Your Rights:</strong> You have the right to request restrictions on certain uses of your information, receive confidential communications, inspect and copy your health record, and amend your health record.<br><br>By signing below, you acknowledge receipt of this Notice of Privacy Practices.</div>
-        <div class="sig-area" id="sig-hipaa" onclick="sign('sig-hipaa','hipaa-status')"><div class="sig-placeholder" id="sig-hipaa-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><div style="margin-top:6px;font-size:13px;color:var(--t3)">Click here to sign</div></div></div>
-      </div>
+    <div class="docs-progress">
+      <div class="docs-progress-bar"><div class="docs-progress-fill" id="docs-progress-fill"></div></div>
+      <div class="docs-progress-text"><strong id="docs-signed-count">0</strong> of <span id="docs-total-count">3</span> signed</div>
     </div>
-    <div class="sc">
-      <div class="sc-head">
-        <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></div>
-        <div><div class="sc-title">Financial Policy</div><div class="sc-sub" id="fin-status">Signature required</div></div>
-      </div>
-      <div class="sc-body">
-        <div class="consent-doc"><strong>Financial Responsibility Agreement</strong><br><br>You are responsible for payment of all charges for services rendered. Co-payments are due at the time of service. Outstanding balances are due within 30 days of statement date. Accounts unpaid after 90 days may be referred to a collection agency.</div>
-        <div class="sig-area" id="sig-fin" onclick="sign('sig-fin','fin-status')"><div class="sig-placeholder" id="sig-fin-ph"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><div style="margin-top:6px;font-size:13px;color:var(--t3)">Click here to sign</div></div></div>
-      </div>
-    </div>
-    <div class="sc">
-      <div class="sc-head">
-        <div class="sc-ic g"><svg width="16" height="16" viewBox="0 0 20 20" fill="#10B981"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg></div>
-        <div><div class="sc-title">Treatment Authorization</div><div class="sc-sub" id="auth-status">Signature required</div></div>
-      </div>
-      <div class="sc-body">
-        <div class="consent-check" onclick="this.querySelector('input').click()">
-          <input type="checkbox" id="auth-check" onchange="checkAuth()">
-          <div class="consent-check-text">I authorize Dermatology of Boca to perform medical services and treatments as deemed necessary by my provider during today's visit. <strong>I also authorize release of medical information for insurance billing purposes.</strong></div>
-        </div>
-      </div>
-    </div>
+    <div class="docs-list" id="docs-list"></div>
   </div>
   <div class="bot">
-    <button class="btn-p" id="consent-btn" onclick="next()" disabled>Sign &amp; Continue →</button>
-    <div class="step-hint">Your signed documents are stored securely and timestamped</div>
+    <button class="btn-p" id="consent-btn" onclick="next()" disabled>Continue →</button>
+    <div class="step-hint">All documents must be signed to continue</div>
   </div>
 </div>
 
@@ -580,5 +553,6 @@ if (window.location.search.indexOf('direct=1') !== -1) {
   _show('s2');
 }
 </script>
+<script src="consent-modal.js"></script>
 </body>
 </html>
