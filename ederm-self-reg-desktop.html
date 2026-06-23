@@ -7,6 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
+/* eDerm primary color override (scoped to this workflow) */
+:root{
+  --brand:#3972B8;--brand-dk:#2D5C96;--brand-lt:#E5EDF7;--brand-border:#B9CFEA;
+  --sh-brand:0 4px 16px rgba(57,114,184,.18);
+  /* Accent (was purple) also mapped to primary blue */
+  --orange:#3972B8;--orange-dk:#2D5C96;--orange-lt:#E5EDF7;--orange-mid:#5B8AC6;
+}
+/* Recolor decorative background circles to primary blue */
+.hdr::before{background:rgba(57,114,184,.07)!important}
+.ins-card::before{background:rgba(57,114,184,.15)!important}
+.success-hero::before{background:rgba(57,114,184,.1)!important}
+/* Confirmation screen: success accents to primary blue */
+.success-ring{background:rgba(57,114,184,.2)!important;border-color:rgba(57,114,184,.4)!important}
+.success-ring svg{stroke:#3972B8!important}
+.ns-ic{background:#3972B8!important}
 /* Reset mobile shell */
 body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 .app-wrap{position:static!important;overflow:visible!important;height:auto!important}
@@ -82,7 +97,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 <div class="app-wrap active" id="app-ep-desktop">
 
 <!-- NAV -->
-<div class="w-nav">
+<div class="w-nav" id="w-nav" style="display:none">
   <a class="w-nav-back" href="index.html">
     <svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
     Demo Hub
@@ -109,6 +124,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
     <div class="w-step-item" id="ws5"><div class="w-snum">5</div><span class="w-slbl">Consents</span></div>
     <div class="w-step-conn" id="wc5"></div>
     <div class="w-step-item" id="ws6"><div class="w-snum">6</div><span class="w-slbl">Payment</span></div>
+    <span class="w-back" onclick="back()" style="margin-left:24px;font-size:13px;font-weight:600;color:var(--brand);cursor:pointer;white-space:nowrap">&larr; Back</span>
   </div>
 </div>
 
@@ -116,56 +132,33 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 <div class="w-main">
 <div class="w-main-inner">
 
-<!-- LOOKUP -->
+<!-- IDENTITY VERIFICATION -->
 <div class="screen active" id="s-lookup">
   <div class="w-ctr">
     <div class="w-ccard">
-      <div class="w-ccard-logo"><img src="boca logo.png" alt="Dermatology of Boca"></div>
-      <h2>Welcome to Dermatology of Boca</h2>
-      <p>Enter your email or phone number to locate your appointment and begin registration.</p>
+      <div class="w-ccard-logo"><img src="logo-top-bar-2048x640.png" alt="eDerm Systems" style="max-height:54px;max-width:200px"></div>
+      <h2>Verify your identity</h2>
+      <p>Enter your last name and date of birth to access your registration.</p>
       <div class="sc">
         <div class="sc-head">
           <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg></div>
-          <div><div class="sc-title">Find My Appointment</div><div class="sc-sub">Enter your contact information</div></div>
+          <div><div class="sc-title">Confirm Your Identity</div><div class="sc-sub">We use this to locate your record</div></div>
         </div>
         <div class="sc-body">
-          <div class="frow"><label>Email or Phone Number</label><input class="fi" placeholder="Email address or phone number" id="lookup-contact" type="text"></div>
+          <div class="frow"><label>Last Name</label><input class="fi" placeholder="Last name" id="auth-lastname" type="text"></div>
+          <div class="frow"><label>Date of Birth</label><input class="fi" id="auth-dob" type="date"></div>
         </div>
       </div>
-      <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="startCheckIn()">Find My Appointment <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
-    </div>
-  </div>
-</div>
-
-<!-- MFA -->
-<div class="screen" id="s-mfa">
-  <div class="w-ctr">
-    <div class="w-ccard">
-      <div class="w-ccard-logo"><img src="boca logo.png" alt="Dermatology of Boca"></div>
-      <h2>Verify your identity</h2>
-      <p>We sent a 4-digit code to your phone and email on file.</p>
-      <div class="sc">
-        <div class="sc-head">
-          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg></div>
-          <div><div class="sc-title">Authentication Code</div></div>
-        </div>
-        <div class="sc-body">
-          <div class="otp-wrap">
-            <input class="otp-inp" maxlength="1" id="mfa1" oninput="otpNext(this,'mfa2')">
-            <input class="otp-inp" maxlength="1" id="mfa2" oninput="otpNext(this,'mfa3')">
-            <input class="otp-inp" maxlength="1" id="mfa3" oninput="otpNext(this,'mfa4')">
-            <input class="otp-inp" maxlength="1" id="mfa4">
-          </div>
-          <div style="text-align:center;font-size:13px;color:var(--t3)">Didn't receive a code? <span style="color:var(--orange);font-weight:600;cursor:pointer" onclick="showToast('New code sent')">Resend</span></div>
-        </div>
-      </div>
-      <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="verifyMFA()">Verify &amp; Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
+      <div style="margin-top:16px"><button class="btn-p" style="max-width:none" onclick="startCheckIn()">Continue <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></button></div>
     </div>
   </div>
 </div>
 
 <!-- S0: Appointment Overview -->
 <div class="screen" id="s0">
+  <div class="post-brand">
+    <div class="post-brand-privacy">We value your privacy. Your information will be used solely for the purposes stated and will not be shared, sold, or disclosed to any external parties without your consent.</div>
+  </div>
   <div class="hdr" style="padding-bottom:24px">
     <div class="hdr-title">You have an upcoming appointment</div>
     <div class="hdr-desc">Please take 3-5 minutes to complete your pre-visit registration.</div>
@@ -178,7 +171,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
     <div class="sc">
       <div class="sc-body">
         <div style="display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--borderlt)">
-          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#08979D,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">JD</div>
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#3972B8,#2D5C96);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">JD</div>
           <div><div style="font-size:16px;font-weight:700;color:var(--t1)">John Doe</div><div style="font-size:13px;color:var(--t3);margin-top:2px">Acne Consult · Dr. Reyes</div></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0">
@@ -288,13 +281,13 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
         <div style="font-size:14px;font-weight:700;color:var(--t1)">Benefits Summary</div>
       </div>
       <div style="padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
-        <div style="background:var(--orange-lt);border-radius:10px;padding:16px;display:flex;align-items:center;justify-content:space-between">
+        <div style="background:var(--brand-lt);border-radius:10px;padding:16px;display:flex;align-items:center;justify-content:space-between">
           <div>
-            <div style="font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Estimated due today</div>
+            <div style="font-size:10px;font-weight:700;color:var(--brand);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Estimated due today</div>
             <div style="font-size:32px;font-weight:700;color:var(--t1);line-height:1">$360</div>
             <div style="font-size:12px;color:var(--t2);margin-top:4px">$40 co-pay + $320 deductible</div>
           </div>
-          <div style="width:48px;height:48px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center">
+          <div style="width:48px;height:48px;background:var(--brand);border-radius:12px;display:flex;align-items:center;justify-content:center">
             <span style="font-size:24px;font-weight:800;color:#fff;line-height:1;font-family:inherit">$</span>
           </div>
         </div>
@@ -464,7 +457,7 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
     </div>
   </div>
   <div class="bot">
-    <button class="btn-p" onclick="window.open('https://shweta-ederm.github.io/paymydoc2026/patient-app-v1.html','_blank')">Pay Now →</button>
+    <button class="btn-p" onclick="next()">Pay Now →</button>
     <button class="btn-s" onclick="next()">Pay at Front Desk</button>
   </div>
 </div>
@@ -572,11 +565,10 @@ function _updateSteps(id) {
   });
 }
 
-function startCheckIn() { _hide('s-lookup'); _show('s-mfa'); }
-
-function verifyMFA() {
-  _hide('s-mfa');
+function startCheckIn() {
+  _hide('s-lookup');
   cur = 's0';
+  document.getElementById('w-nav').style.display = '';
   document.getElementById('w-wizard-bar').style.display = '';
   _show('s0');
 }
@@ -586,6 +578,16 @@ function next() {
   _hide(cur);
   var idx = _EP_FLOW.indexOf(cur);
   cur = _EP_FLOW[idx + 1] || cur;
+  _updateSteps(cur);
+  _show(cur);
+}
+
+function back() {
+  if (!cur) return;
+  var idx = _EP_FLOW.indexOf(cur);
+  if (idx <= 0) return;
+  _hide(cur);
+  cur = _EP_FLOW[idx - 1];
   _updateSteps(cur);
   _show(cur);
 }
@@ -646,10 +648,11 @@ function pharmSelect(name, addr, phone) {
   window.scrollTo(0, 0);
 }
 
-// direct=1 param: skip lookup/mfa AND the s0 overview - land straight on s2
+// direct=1 param: skip lookup AND the s0 overview - land straight on s2
 if (window.location.search.indexOf('direct=1') !== -1) {
   _hide('s-lookup');
   cur = 's2';
+  document.getElementById('w-nav').style.display = '';
   document.getElementById('w-wizard-bar').style.display = '';
   _updateSteps('s2');
   _show('s2');

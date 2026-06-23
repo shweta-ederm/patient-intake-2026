@@ -790,3 +790,22 @@ body.doc-reader-open .demo-back{display:none!important}
   .doc-reader-cancel{padding:12px 14px;font-size:13.5px}
   .doc-reader-confirm{padding:12px 14px;font-size:14px;min-width:0;flex:1}
 }
+
+/* ══ PHARMACY STEP (shared by established-patient + ederm) ══ */
+.pharm-current{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--brand-lt);border:1px solid var(--brand-border);border-radius:12px}
+.pharm-card-ic{width:38px;height:38px;border-radius:10px;background:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.pharm-card-main{flex:1;min-width:0}
+.pharm-name{font-size:14.5px;font-weight:700;color:var(--t1)}
+.pharm-addr{font-size:12.5px;color:var(--t2);margin-top:2px}
+.pharm-phone{font-size:12.5px;color:var(--t3);margin-top:1px}
+.pharm-results{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.pharm-result{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;background:#fff;border:1px solid var(--borderlt);border-radius:10px;cursor:pointer;font-family:inherit;transition:border-color .15s,background .15s,transform .15s}
+.pharm-result:hover{border-color:var(--brand-border);background:var(--brand-lt);transform:translateY(-1px)}
+.pharm-result-main{flex:1;min-width:0}
+.pharm-result-add{flex-shrink:0;font-size:12px;font-weight:700;color:var(--brand);background:var(--brand-lt);border:1px solid var(--brand-border);padding:5px 12px;border-radius:14px;white-space:nowrap}
+.pharm-result:hover .pharm-result-add{background:#fff}
+.pharm-empty{padding:16px;text-align:center;font-size:13px;color:var(--t3)}
+/* Practice logo + privacy disclaimer block (ederm post-login) */
+.post-brand{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:4px 0 18px;margin-bottom:4px;border-bottom:1px solid var(--borderlt)}
+.post-brand img{max-height:42px;max-width:170px;object-fit:contain}
+.post-brand-privacy{font-size:13px;line-height:1.6;color:var(--t3);max-width:560px;padding:0 30px}
