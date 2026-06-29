@@ -104,12 +104,9 @@
         <div class="sc-body">
           <div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--borderlt)">
             <div id="s0-av" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#08979D,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0">JD</div>
-            <div><div style="font-size:15px;font-weight:700;color:var(--t1)" id="s0-name">John Doe</div><div style="font-size:12.5px;color:var(--t3);margin-top:2px" id="s0-type-prov">Acne Consult · Dr. Reyes</div></div>
+            <div><div style="font-size:15px;font-weight:700;color:var(--t1)" id="s0-name">John Doe</div><div style="font-size:12.5px;color:var(--t3);margin-top:2px">Established patient</div></div>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px;padding-top:14px">
-            <div class="rv" style="padding:8px 0">
-              <div><div class="rvl">Date & Time</div><div class="rvv" id="s0-time">Today at 11:30 AM</div></div>
-            </div>
             <div class="rv" style="padding:8px 0">
               <div><div class="rvl">Provider</div><div class="rvv" id="s0-provider">Dr. Reyes</div></div>
             </div>
@@ -374,6 +371,42 @@
     </div>
     <div class="bot">
       <button class="btn-p" onclick="next()">Submit Health History →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN - MEDICAL HISTORY
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s4m">
+    <div class="hdr" style="padding-bottom:22px">
+      <div class="hdr-title">Medical History</div>
+      <div class="hdr-desc">Tap Admits or Denies for each. Everything defaults to Denies.</div>
+    </div>
+    <div class="body">
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-ic r" style="background:var(--red-bg)"><svg width="16" height="16" viewBox="0 0 20 20" fill="#EF4444"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Medical History</div><div class="sc-sub">Tap Admits or Denies for each</div></div>
+        </div>
+        <div class="sc-body">
+          <div class="mh-list">
+            <div class="mh-row"><span class="mh-label">Migraine</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Diabetes</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">High Blood Pressure</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Asthma</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Heart Disease</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Thyroid Disorder</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Seizures</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Cancer</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Tobacco Use</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Alcohol Use</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+            <div class="mh-row"><span class="mh-label">Recreational Drug Use</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bot">
+      <button class="btn-p" onclick="next()">Continue →</button>
     </div>
   </div>
 
@@ -671,8 +704,8 @@ function verifyMFA() {
 // Progress steps are every screen after s0: s2,s3,s4,s4p,s5,s6 (6 steps).
 // s4p = Pharmacy. s7 = confirmation (no progress dot). Payment plan
 // sub-screens (s6a/s6b) are driven separately and stay outside this flow.
-var _EP_FLOW = ['s0', 's2', 's3', 's4', 's4p', 's5', 's6', 's7'];
-var _EP_STEP_COUNT = 6;
+var _EP_FLOW = ['s0', 's2', 's3', 's4', 's4m', 's4p', 's5', 's6', 's7'];
+var _EP_STEP_COUNT = 7;
 var _epCur = 's0';
 function _epLogical(id) { return _EP_FLOW.indexOf(id) - 1; }
 
@@ -718,6 +751,14 @@ function next() {
     }
     window.scrollTo(0, 0);
   }, 180);
+}
+
+// ── Medical history admit/deny toggle ──
+function mhToggle(btn) {
+  var seg = btn.parentNode;
+  var btns = seg.querySelectorAll('button');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
+  btn.classList.add('on');
 }
 
 // ── Pharmacy step ──

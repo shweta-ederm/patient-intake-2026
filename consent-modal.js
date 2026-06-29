@@ -107,6 +107,24 @@
     }
   ];
 
+  // Optional per-page overrides (set on window BEFORE this script loads):
+  //   window.CONSENT_KEYS      = ['hipaa','fin']  -> limit/reorder the document set
+  //   window.CONSENT_OVERRIDES = { fin: { title, eyebrow, subtitle, body } }
+  if (window.CONSENT_OVERRIDES) {
+    for (var _oi = 0; _oi < DOCS.length; _oi++) {
+      var _ov = window.CONSENT_OVERRIDES[DOCS[_oi].key];
+      if (_ov) {
+        if (_ov.title) DOCS[_oi].title = _ov.title;
+        if (_ov.eyebrow) DOCS[_oi].eyebrow = _ov.eyebrow;
+        if (_ov.subtitle) DOCS[_oi].subtitle = _ov.subtitle;
+        if (_ov.body) DOCS[_oi].body = _ov.body;
+      }
+    }
+  }
+  if (window.CONSENT_KEYS) {
+    DOCS = DOCS.filter(function(d){ return window.CONSENT_KEYS.indexOf(d.key) !== -1; });
+  }
+
   var SIGNATURE_NAME = 'John Doe';
   var signedState = { hipaa:false, fin:false, auth:false };
   var current = null;       // doc key currently open in reader

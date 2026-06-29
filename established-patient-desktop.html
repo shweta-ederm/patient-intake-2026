@@ -104,11 +104,13 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
     <div class="w-step-conn" id="wc2"></div>
     <div class="w-step-item" id="ws3"><div class="w-snum">3</div><span class="w-slbl">Health History</span></div>
     <div class="w-step-conn" id="wc3"></div>
-    <div class="w-step-item" id="ws4"><div class="w-snum">4</div><span class="w-slbl">Pharmacy</span></div>
+    <div class="w-step-item" id="ws4"><div class="w-snum">4</div><span class="w-slbl">Medical History</span></div>
     <div class="w-step-conn" id="wc4"></div>
-    <div class="w-step-item" id="ws5"><div class="w-snum">5</div><span class="w-slbl">Consents</span></div>
+    <div class="w-step-item" id="ws5"><div class="w-snum">5</div><span class="w-slbl">Pharmacy</span></div>
     <div class="w-step-conn" id="wc5"></div>
-    <div class="w-step-item" id="ws6"><div class="w-snum">6</div><span class="w-slbl">Payment</span></div>
+    <div class="w-step-item" id="ws6"><div class="w-snum">6</div><span class="w-slbl">Consents</span></div>
+    <div class="w-step-conn" id="wc6"></div>
+    <div class="w-step-item" id="ws7"><div class="w-snum">7</div><span class="w-slbl">Payment</span></div>
   </div>
 </div>
 
@@ -179,13 +181,12 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
       <div class="sc-body">
         <div style="display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--borderlt)">
           <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#08979D,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;flex-shrink:0">JD</div>
-          <div><div style="font-size:16px;font-weight:700;color:var(--t1)">John Doe</div><div style="font-size:13px;color:var(--t3);margin-top:2px">Acne Consult · Dr. Reyes</div></div>
+          <div><div style="font-size:16px;font-weight:700;color:var(--t1)">John Doe</div><div style="font-size:13px;color:var(--t3);margin-top:2px">Established patient</div></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0">
-          <div class="rv" style="padding:12px 0"><div><div class="rvl">Date &amp; Time</div><div class="rvv">Today at 10:15 AM</div></div></div>
-          <div class="rv" style="padding:12px 0"><div><div class="rvl">Provider</div><div class="rvv">Dr. Reyes</div></div></div>
-          <div class="rv" style="padding:12px 0;border-bottom:none"><div><div class="rvl">Location</div><div class="rvv">2200 N Congress Ave, Miami FL</div></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+          <div class="rv" style="padding:12px 0;border-bottom:none"><div><div class="rvl">Provider</div><div class="rvv">Dr. Reyes</div></div></div>
           <div class="rv" style="padding:12px 0;border-bottom:none"><div><div class="rvl">Visit Type</div><div class="rvv">Acne Consult</div></div></div>
+          <div class="rv" style="padding:12px 0;border-bottom:none"><div><div class="rvl">Location</div><div class="rvv">2200 N Congress Ave, Miami FL</div></div></div>
         </div>
       </div>
     </div>
@@ -381,6 +382,38 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
   <div class="bot"><button class="btn-p" onclick="next()">Submit Health History →</button></div>
 </div>
 
+<!-- S4M: Medical History -->
+<div class="screen" id="s4m">
+  <div class="hdr" style="padding-bottom:22px">
+    <div class="hdr-title">Medical History</div>
+    <div class="hdr-desc">Click Admits or Denies for each. Everything defaults to Denies.</div>
+  </div>
+  <div class="body">
+    <div class="sc">
+      <div class="sc-head">
+        <div class="sc-ic r" style="background:var(--red-bg)"><svg width="16" height="16" viewBox="0 0 20 20" fill="#EF4444"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg></div>
+        <div><div class="sc-title">Medical History</div><div class="sc-sub">Click Admits or Denies for each</div></div>
+      </div>
+      <div class="sc-body">
+        <div class="mh-list">
+          <div class="mh-row"><span class="mh-label">Migraine</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Diabetes</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">High Blood Pressure</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Asthma</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Heart Disease</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Thyroid Disorder</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Seizures</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Cancer</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Tobacco Use</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Alcohol Use</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+          <div class="mh-row"><span class="mh-label">Recreational Drug Use</span><div class="mh-seg"><button type="button" class="deny on" onclick="mhToggle(this)">Denies</button><button type="button" class="admit" onclick="mhToggle(this)">Admits</button></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bot"><button class="btn-p" onclick="next()">Continue →</button></div>
+</div>
+
 <!-- S4P: Pharmacy -->
 <div class="screen" id="s4p">
   <div class="hdr" style="padding-bottom:22px">
@@ -542,11 +575,11 @@ function checkConsentBtn() {
 
 // Navigation - explicit screen order. s0 = overview (no wizard step).
 // Wizard steps: s2,s3,s4,s4p,s5,s6 (6). s4p = Pharmacy. s7 = confirmation.
-var _EP_FLOW = ['s0','s2','s3','s4','s4p','s5','s6','s7'];
+var _EP_FLOW = ['s0','s2','s3','s4','s4m','s4p','s5','s6','s7'];
 var cur = '';
-var _wsMap = {s2:0, s3:1, s4:2, s4p:3, s5:4, s6:5};
-var _wsIds = ['ws1','ws2','ws3','ws4','ws5','ws6'];
-var _wcIds = ['wc1','wc2','wc3','wc4','wc5'];
+var _wsMap = {s2:0, s3:1, s4:2, s4m:3, s4p:4, s5:5, s6:6};
+var _wsIds = ['ws1','ws2','ws3','ws4','ws5','ws6','ws7'];
+var _wcIds = ['wc1','wc2','wc3','wc4','wc5','wc6'];
 
 function _show(id) {
   var el = document.getElementById(id);
@@ -588,6 +621,14 @@ function next() {
   cur = _EP_FLOW[idx + 1] || cur;
   _updateSteps(cur);
   _show(cur);
+}
+
+// ── Medical history admit/deny toggle ──
+function mhToggle(btn) {
+  var seg = btn.parentNode;
+  var btns = seg.querySelectorAll('button');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('on');
+  btn.classList.add('on');
 }
 
 // ── Pharmacy step ──
