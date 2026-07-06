@@ -298,28 +298,30 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
         <div class="ins-upload" style="flex:1" id="back-upload" onclick="markUploaded('back-upload','Insurance back')"><div class="ins-upload-ic">📷</div><div class="ins-upload-title">Back</div><div class="ins-upload-sub">Click to upload</div></div>
       </div>
     </div>
-    <div class="sc">
-      <div class="sc-head">
-        <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/></svg></div>
-        <div><div class="sc-title">Driver's License</div><div class="sc-sub">Photo ID</div></div>
-      </div>
-      <div class="sc-body">
-        <div class="ins-upload" id="dl-upload" onclick="markUploaded('dl-upload','Driver&#39;s license')"><div class="ins-upload-ic">🪪</div><div class="ins-upload-title">Driver's License</div><div class="ins-upload-sub">Click to upload</div></div>
-      </div>
-    </div>
-    <div class="sc">
-      <div class="sc-head">
-        <div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg></div>
-        <div><div class="sc-title">Other Documents</div><div class="sc-sub">PDF, PNG, JPG, JPEG</div></div>
-      </div>
-      <div class="sc-body">
-        <div class="ins-upload">
-          <div class="ins-upload-ic">📄</div>
-          <div class="ins-upload-title">Upload Documents</div>
-          <div class="ins-upload-sub">PDF, PNG, JPG or JPEG</div>
-          <input type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" multiple onchange="otherDocsAdd(this)">
+    <div style="display:flex;gap:16px;align-items:stretch">
+      <div class="sc" style="flex:1;display:flex;flex-direction:column">
+        <div class="sc-head">
+          <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/></svg></div>
+          <div><div class="sc-title">Driver's License</div><div class="sc-sub">Photo ID</div></div>
         </div>
-        <div id="other-docs-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px"></div>
+        <div class="sc-body" style="display:flex;flex-direction:column;flex:1;align-items:stretch">
+          <div class="ins-upload" id="dl-upload" style="flex:1" onclick="markUploaded('dl-upload','Driver&#39;s license')"><div class="ins-upload-ic">🪪</div><div class="ins-upload-title">Driver's License</div><div class="ins-upload-sub">Click to upload</div></div>
+        </div>
+      </div>
+      <div class="sc" style="flex:1;display:flex;flex-direction:column">
+        <div class="sc-head">
+          <div class="sc-ic b"><svg width="16" height="16" viewBox="0 0 20 20" fill="#3B82F6"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg></div>
+          <div><div class="sc-title">Other Documents</div><div class="sc-sub">PDF, PNG, JPG, JPEG</div></div>
+        </div>
+        <div class="sc-body" style="display:flex;flex-direction:column;flex:1;align-items:stretch">
+          <div class="ins-upload" style="flex:1">
+            <div class="ins-upload-ic">📄</div>
+            <div class="ins-upload-title">Upload Documents</div>
+            <div class="ins-upload-sub">PDF, PNG, JPG or JPEG</div>
+            <input type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg" multiple onchange="otherDocsAdd(this)">
+          </div>
+          <div id="other-docs-list" style="display:flex;flex-direction:column;gap:8px;margin-top:10px"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -484,22 +486,12 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
   </div>
   <div class="body">
     <div class="pay-total">
-      <div class="pay-total-label">Amount Due Today</div>
+      <div class="pay-total-label">Balance</div>
       <div class="pay-total-amt">$380<span style="font-size:22px">.00</span></div>
-    </div>
-    <div class="sc">
-      <div class="sc-body">
-        <div class="pay-breakdown">
-          <div class="pbr"><span class="pbr-l">Specialist Co-pay (BCBS)</span><span class="pbr-v">$40.00</span></div>
-          <div class="pbr"><span class="pbr-l">Balance</span><span class="pbr-v" style="color:var(--red)">$340.00</span></div>
-          <div class="pbr"><span class="pbr-l" style="font-weight:700">Total Due</span><span class="pbr-v" style="color:var(--orange)">$380.00</span></div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="bot">
     <button class="btn-p" onclick="next()">Pay Now →</button>
-    <button class="btn-s" onclick="next()">Pay at Front Desk</button>
   </div>
 </div>
 
