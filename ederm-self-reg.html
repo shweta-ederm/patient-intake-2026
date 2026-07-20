@@ -22,11 +22,21 @@
 .success-ring{background:rgba(57,114,184,.2)!important;border-color:rgba(57,114,184,.4)!important}
 .success-ring svg{stroke:#3972B8!important}
 .ns-ic{background:#3972B8!important}
+/* Outstanding balance highlighted with a red border + red amount */
+.pay-total{background:#fff!important;border:2px solid #FF5F5F!important;color:var(--t1)!important;padding:48px 20px!important}
+/* Pharmacy card (mobile): drop the actions onto their own full-width row */
+.pharm-current{flex-wrap:wrap}
+.pharm-actions{width:100%;justify-content:space-between;align-items:center;margin-top:4px;padding-top:10px;border-top:1px solid var(--borderlt)}
+.pay-total::before{display:none!important}
+.pay-total-label{color:var(--t2)!important}
+.pay-total-amt{color:#FF5F5F!important}
+.pay-total-sub{color:var(--t3)!important}
 /* On desktop the app renders inside a 404px phone shell; keep the document
    reader aligned to that width instead of the default 720px. Real phones
    (<=600px) still use the fullscreen reader from styles.css. */
 @media(min-width:601px){
   .doc-reader-inner{max-width:404px}
+  .pharm-modal-inner{max-width:404px}
 }
 </style>
 </head>
@@ -297,7 +307,7 @@
           <div id="allergy-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
             <div style="padding:10px 12px;background:var(--red-bg);border-radius:8px;display:flex;align-items:center;justify-content:space-between">
               <span style="font-size:13px;font-weight:600;color:var(--red)">⚠ Penicillin · Allergen</span>
-              <span style="font-size:11.5px;color:var(--t3);cursor:pointer" onclick="allergyRemove(this)">Remove</span>
+              <button type="button" class="pharm-remove-btn" onclick="allergyRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>
             </div>
           </div>
           <button class="btn-s" id="allergy-toggle-btn" style="padding:9px;font-size:13px" onclick="allergyToggle()">+ Add Allergy</button>
@@ -322,8 +332,8 @@
         </div>
         <div class="sc-body">
           <div id="med-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Tretinoin 0.05% topical</span><span style="font-size:11.5px;color:var(--t3);cursor:pointer" onclick="medRemove(this)">Remove</span></div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Doxycycline 100mg oral</span><span style="font-size:11.5px;color:var(--t3);cursor:pointer" onclick="medRemove(this)">Remove</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Tretinoin 0.05% topical</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Doxycycline 100mg oral</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
           </div>
           <button class="btn-s" id="med-toggle-btn" style="padding:9px;font-size:13px" onclick="medToggle()">+ Add Medication</button>
           <div id="med-add" style="display:none;margin-top:10px;padding:12px;background:var(--surface);border:1px solid var(--borderlt);border-radius:10px">
@@ -393,30 +403,35 @@
         </div>
         <div class="sc-body">
           <div id="pharm-list" style="display:flex;flex-direction:column;gap:10px">
-            <div class="pharm-current">
+            <div class="pharm-current is-primary">
               <div class="pharm-card-ic"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3v6a1 1 0 11-2 0v-6H5a1 1 0 01-1-1V6a1 1 0 011-1h3V3a1 1 0 011-1z" clip-rule="evenodd"/></svg></div>
               <div class="pharm-card-main">
                 <div class="pharm-name">CVS Pharmacy #2841</div>
                 <div class="pharm-addr">123 Brickell Ave, Miami, FL 33101</div>
                 <div class="pharm-phone">(305) 555-0142</div>
               </div>
-              <span onclick="pharmRemove(this)" style="font-size:11.5px;color:var(--t3);cursor:pointer;flex-shrink:0">Remove</span>
+              <div class="pharm-actions">
+                <div class="pharm-mark-row"><span class="pharm-badge">✓ My Pharmacy</span><button type="button" class="pharm-mark-btn" onclick="pharmMark(this)">Mark as my pharmacy</button></div>
+                <button type="button" class="pharm-remove-btn" onclick="pharmRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>
+              </div>
             </div>
           </div>
-          <button class="btn-s" style="margin-top:12px" id="pharm-toggle-btn" onclick="pharmToggleSearch()">+ Add Pharmacy</button>
+          <button class="btn-s" style="margin-top:12px" onclick="pharmOpenModal()">+ Add Pharmacy</button>
         </div>
       </div>
 
-      <div class="sc" id="pharm-search-panel" style="display:none">
-        <div class="sc-head">
-          <div class="sc-ic o"><svg width="16" height="16" viewBox="0 0 20 20" fill="var(--orange)"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg></div>
-          <div><div class="sc-title">Find a Pharmacy</div><div class="sc-sub">Search by name and location</div></div>
-        </div>
-        <div class="sc-body">
-          <div class="frow"><label>Pharmacy Name</label><input class="fi" id="pharm-q-name" placeholder="e.g. CVS, Walgreens, Publix"></div>
-          <div class="frow"><label>Address, City, or ZIP</label><input class="fi" id="pharm-q-addr" placeholder="e.g. Miami, FL or 33101"></div>
-          <button class="btn-p" onclick="pharmSearch()">Search Pharmacies</button>
-          <div class="pharm-results" id="pharm-results"></div>
+      <div class="pharm-modal" id="pharm-modal" onclick="if(event.target===this)pharmCloseModal()">
+        <div class="pharm-modal-inner">
+          <div class="pharm-modal-head">
+            <div><div class="pharm-modal-title">Find a Pharmacy</div><div class="pharm-modal-sub">Search by name and location</div></div>
+            <button class="pharm-modal-close" onclick="pharmCloseModal()">&times;</button>
+          </div>
+          <div class="pharm-modal-body">
+            <div class="frow"><label>Pharmacy Name</label><input class="fi" id="pharm-q-name" placeholder="e.g. CVS, Walgreens, Publix"></div>
+            <div class="frow"><label>Address, City, or ZIP</label><input class="fi" id="pharm-q-addr" placeholder="e.g. Miami, FL or 33101"></div>
+            <button class="btn-p" onclick="pharmSearch()">Search Pharmacies</button>
+            <div class="pharm-results" id="pharm-results"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -624,6 +639,22 @@
       </div>
     </div>
     <div style="padding:0 20px 24px;text-align:center;font-size:12px;color:var(--t3)">Questions? Call Dermatology of Boca: <strong style="color:var(--t1)">(561) 555-0100</strong></div>
+    <div class="bot">
+      <button class="btn-p" onclick="logout()">Done</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       SCREEN - LOGGED OUT
+  ═══════════════════════════════════ -->
+  <div class="screen" id="s-logout">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:78vh;padding:24px;gap:16px">
+      <div style="width:66px;height:66px;border-radius:50%;background:var(--brand-lt);display:flex;align-items:center;justify-content:center">
+        <svg width="30" height="30" viewBox="0 0 20 20" fill="var(--brand)"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h6a1 1 0 110 2H5v12h5a1 1 0 110 2H4a1 1 0 01-1-1V3zm11.293 3.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L15.586 11H9a1 1 0 110-2h6.586l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:var(--t1)">You have been logged out</div>
+      <div style="font-size:14px;color:var(--t2);max-width:320px;line-height:1.55">Your registration is complete and your session has ended securely. You can safely close this window.</div>
+    </div>
   </div>
 </div>
 
@@ -725,6 +756,17 @@ function back() {
   }, 180);
 }
 
+// ── Logout (end of flow) ──
+function logout() {
+  var cur = document.getElementById('s7');
+  if (cur) cur.classList.remove('active');
+  var pw = document.getElementById('prog-wrap');
+  if (pw) pw.style.display = 'none';
+  var lo = document.getElementById('s-logout');
+  if (lo) lo.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
 // ── Medical history admit/deny toggle ──
 function mhToggle(btn) {
   var seg = btn.parentNode;
@@ -782,7 +824,7 @@ function allergyAdd() {
   var type = typeEl ? typeEl.value : 'Allergen';
   var row = document.createElement('div');
   row.style.cssText = 'padding:10px 12px;background:var(--red-bg);border-radius:8px;display:flex;align-items:center;justify-content:space-between';
-  row.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--red)">⚠ ' + val + ' · ' + type + '</span><span style="font-size:11.5px;color:var(--t3);cursor:pointer" onclick="allergyRemove(this)">Remove</span>';
+  row.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--red)">⚠ ' + val + ' · ' + type + '</span><button type="button" class="pharm-remove-btn" onclick="allergyRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
   document.getElementById('allergy-list').appendChild(row);
   inp.value = '';
   allergyToggle();
@@ -805,7 +847,7 @@ function medAdd() {
   if (!val) { if (typeof showToast === 'function') showToast('Enter a medication'); return; }
   var row = document.createElement('div');
   row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px';
-  row.innerHTML = '<span style="font-size:13px;color:var(--t1)">💊 ' + val + '</span><span style="font-size:11.5px;color:var(--t3);cursor:pointer" onclick="medRemove(this)">Remove</span>';
+  row.innerHTML = '<span style="font-size:13px;color:var(--t1)">💊 ' + val + '</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
   document.getElementById('med-list').appendChild(row);
   inp.value = '';
   medToggle();
@@ -822,18 +864,23 @@ var _PHARMACIES = [
   {name:'Costco Pharmacy', addr:'3805 SW 137th Ave, Miami, FL 33175', phone:'(305) 555-0199'},
   {name:'Walmart Pharmacy #1733', addr:'3200 NW 79th St, Miami, FL 33147', phone:'(305) 555-0124'}
 ];
-function pharmToggleSearch() {
-  var panel = document.getElementById('pharm-search-panel');
-  var btn = document.getElementById('pharm-toggle-btn');
-  if (!panel) return;
-  if (!panel.style.display) {
-    panel.style.display = 'none';
-    if (btn) btn.textContent = '+ Add Pharmacy';
-  } else {
-    panel.style.display = '';
-    if (btn) btn.textContent = 'Cancel';
-    pharmSearch();
-  }
+function pharmOpenModal() {
+  var m = document.getElementById('pharm-modal');
+  if (!m) return;
+  m.classList.add('show');
+  pharmSearch();
+}
+function pharmCloseModal() {
+  var m = document.getElementById('pharm-modal');
+  if (m) m.classList.remove('show');
+}
+function pharmMark(btn) {
+  var card = btn.closest('.pharm-current');
+  if (!card) return;
+  var cards = document.querySelectorAll('#pharm-list .pharm-current');
+  for (var i = 0; i < cards.length; i++) cards[i].classList.remove('is-primary');
+  card.classList.add('is-primary');
+  if (typeof showToast === 'function') showToast('Set as your pharmacy');
 }
 function pharmSearch() {
   var nq = (document.getElementById('pharm-q-name').value || '').toLowerCase().trim();
@@ -862,17 +909,13 @@ function pharmSelect(name, addr, phone) {
   if (list) {
     var card = document.createElement('div');
     card.className = 'pharm-current';
-    card.innerHTML = '<div class="pharm-card-ic"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3v6a1 1 0 11-2 0v-6H5a1 1 0 01-1-1V6a1 1 0 011-1h3V3a1 1 0 011-1z" clip-rule="evenodd"/></svg></div><div class="pharm-card-main"><div class="pharm-name">' + name + '</div><div class="pharm-addr">' + addr + '</div><div class="pharm-phone">' + phone + '</div></div><span onclick="pharmRemove(this)" style="font-size:11.5px;color:var(--t3);cursor:pointer;flex-shrink:0">Remove</span>';
+    card.innerHTML = '<div class="pharm-card-ic"><svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3v6a1 1 0 11-2 0v-6H5a1 1 0 01-1-1V6a1 1 0 011-1h3V3a1 1 0 011-1z" clip-rule="evenodd"/></svg></div><div class="pharm-card-main"><div class="pharm-name">' + name + '</div><div class="pharm-addr">' + addr + '</div><div class="pharm-phone">' + phone + '</div></div><div class="pharm-actions"><div class="pharm-mark-row"><span class="pharm-badge">✓ My Pharmacy</span><button type="button" class="pharm-mark-btn" onclick="pharmMark(this)">Mark as my pharmacy</button></div><button type="button" class="pharm-remove-btn" onclick="pharmRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>';
     list.appendChild(card);
   }
-  var panel = document.getElementById('pharm-search-panel');
-  if (panel) panel.style.display = 'none';
-  var btn = document.getElementById('pharm-toggle-btn');
-  if (btn) btn.textContent = '+ Add Pharmacy';
+  pharmCloseModal();
   var qn = document.getElementById('pharm-q-name'); if (qn) qn.value = '';
   var qa = document.getElementById('pharm-q-addr'); if (qa) qa.value = '';
   if (typeof showToast === 'function') showToast('Pharmacy added');
-  window.scrollTo(0, 0);
 }
 function pharmRemove(el) { var c = el.closest('.pharm-current'); if (c) c.remove(); }
 
