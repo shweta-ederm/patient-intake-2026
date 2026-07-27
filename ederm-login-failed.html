@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verification Failed</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* eDerm primary color (scoped) */
+:root{
+  --brand:#3972B8;--brand-dk:#2D5C96;--brand-lt:#E5EDF7;--brand-border:#B9CFEA;
+  --sh-brand:0 4px 16px rgba(57,114,184,.18);
+}
+body{background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto}
+.fail-card{background:#fff;border:1px solid var(--borderlt);border-radius:18px;box-shadow:var(--sh2);max-width:440px;width:100%;padding:38px 30px;text-align:center}
+.fail-logo{margin-bottom:24px}
+.fail-logo img{max-height:56px;max-width:210px;object-fit:contain}
+.fail-icon{width:74px;height:74px;border-radius:50%;background:var(--red-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 20px}
+.fail-title{font-size:22px;font-weight:700;color:var(--t1);margin-bottom:10px;letter-spacing:-.3px}
+.fail-msg{font-size:14.5px;color:var(--t2);line-height:1.55;margin-bottom:8px}
+.fail-hint{font-size:12.5px;color:var(--t3);line-height:1.5;margin-bottom:26px}
+.fail-actions{display:flex;flex-direction:column;gap:10px}
+</style>
+</head>
+<body>
+<div class="fail-card">
+  <div class="fail-logo"><img src="logo-top-bar-2048x640.png" alt="eDerm Systems"></div>
+  <div class="fail-icon">
+    <svg width="36" height="36" viewBox="0 0 20 20" fill="var(--red)"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+  </div>
+  <div class="fail-title">We couldn't verify your identity</div>
+  <div class="fail-msg">The last name and date of birth you entered don't match a patient record.</div>
+  <div class="fail-hint">Please double-check your details and try again. If you continue to have trouble, contact the office and we'll be glad to help.</div>
+  <div class="fail-actions">
+    <button class="btn-p" onclick="history.back()">Try Again <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path fill-rule="evenodd" d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a5 5 0 010 10h-1a1 1 0 110-2h1a3 3 0 000-6H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></button>
+    <button class="btn-s" onclick="location.href='tel:5615550100'">Call the Office · (561) 555-0100</button>
+  </div>
+</div>
+</body>
+</html>
