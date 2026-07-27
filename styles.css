@@ -805,6 +805,14 @@ body.doc-reader-open .demo-back{display:none!important}
 .pharm-result-add{flex-shrink:0;font-size:12px;font-weight:700;color:var(--brand);background:var(--brand-lt);border:1px solid var(--brand-border);padding:5px 12px;border-radius:14px;white-space:nowrap}
 .pharm-result:hover .pharm-result-add{background:#fff}
 .pharm-empty{padding:16px;text-align:center;font-size:13px;color:var(--t3)}
+/* Health-history entries (allergies + medications) share one clean card */
+.hx-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;background:#fff;border:1px solid var(--borderlt);border-radius:10px}
+.hx-main{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap}
+.hx-name{font-size:13.5px;font-weight:600;color:var(--t1)}
+.hx-sub{font-size:12px;color:var(--t3)}
+.a-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.a-tag.t-allergy{color:#B4540A;background:#FCEBD6;border:1px solid #F2C99C}
+.a-tag.t-sensitivity{color:#2563EB;background:#E8EFFC;border:1px solid #C4D6F7}
 /* Mark as my pharmacy */
 .pharm-actions{display:flex;flex-direction:row;align-items:center;gap:14px;flex-shrink:0}
 .pharm-remove-btn{width:32px;height:32px;border:none;border-radius:9px;background:transparent;color:var(--t3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;transition:all .15s}

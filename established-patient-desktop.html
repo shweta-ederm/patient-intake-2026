@@ -421,19 +421,20 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
       </div>
       <div class="sc-body">
         <div id="allergy-list" style="display:flex;flex-direction:column;gap:6px">
-          <div style="padding:10px 12px;background:var(--red-bg);border-radius:8px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:600;color:var(--red)">⚠ Penicillin · Allergen</span><button type="button" class="pharm-remove-btn" onclick="allergyRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
+          <div class="hx-item"><div class="hx-main"><span class="hx-name">Penicillin</span><span class="a-tag t-allergy">Allergy</span><span class="hx-sub">Severe reaction</span></div><button type="button" class="pharm-remove-btn" onclick="allergyRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
         </div>
         <button class="btn-s" id="allergy-toggle-btn" style="max-width:220px" onclick="allergyToggle()">+ Add Allergy</button>
         <div id="allergy-add" style="display:none;padding:14px;background:var(--surface);border:1px solid var(--borderlt);border-radius:10px">
           <div style="font-size:12px;font-weight:600;color:var(--t2);margin-bottom:6px">Type</div>
           <div class="opt-group" id="allergy-type-group" style="margin-top:0">
-            <label class="opt-btn selected" style="justify-content:center"><input type="radio" name="allergy-type" value="Allergen" checked onchange="selectOption(this,'allergy-type-group')">Allergen</label>
+            <label class="opt-btn selected" style="justify-content:center"><input type="radio" name="allergy-type" value="Allergy" checked onchange="selectOption(this,'allergy-type-group')">Allergy</label>
             <label class="opt-btn" style="justify-content:center"><input type="radio" name="allergy-type" value="Sensitivity" onchange="selectOption(this,'allergy-type-group')">Sensitivity</label>
           </div>
-          <input class="fi" id="allergy-input" placeholder="e.g. Penicillin, latex, sulfa drugs" style="margin-top:10px">
+          <input class="fi" id="allergy-input" placeholder="Allergen (e.g. Penicillin, latex)" style="margin-top:10px">
+          <input class="fi" id="allergy-reaction" placeholder="Reaction (e.g. hives, swelling)" style="margin-top:8px">
           <div style="display:flex;gap:10px;margin-top:10px">
             <button class="btn-s" style="flex:1" onclick="allergyToggle()">Cancel</button>
-            <button class="btn-p" style="flex:1" onclick="allergyAdd()">Add Allergy</button>
+            <button class="btn-p" style="flex:1" onclick="allergyAdd()">Add</button>
           </div>
         </div>
       </div>
@@ -445,8 +446,8 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
       </div>
       <div class="sc-body">
         <div id="med-list" style="display:flex;flex-direction:column;gap:6px">
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Tretinoin 0.05% topical</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px"><span style="font-size:13px;color:var(--t1)">💊 Doxycycline 100mg oral</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
+          <div class="hx-item"><span class="hx-name">💊 Tretinoin 0.05% topical</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
+          <div class="hx-item"><span class="hx-name">💊 Doxycycline 100mg oral</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button></div>
         </div>
         <button class="btn-s" id="med-toggle-btn" style="max-width:220px" onclick="medToggle()">+ Add Medication</button>
         <div id="med-add" style="display:none;padding:14px;background:var(--surface);border:1px solid var(--borderlt);border-radius:10px">
@@ -773,12 +774,15 @@ function allergyAdd() {
   var val = (inp.value || '').trim();
   if (!val) { if (typeof showToast === 'function') showToast('Enter an allergy'); return; }
   var typeEl = document.querySelector('input[name="allergy-type"]:checked');
-  var type = typeEl ? typeEl.value : 'Allergen';
+  var rx = (document.getElementById('allergy-reaction').value || '').trim();
+  var type = typeEl ? typeEl.value : 'Allergy';
+  var tagCls = type === 'Sensitivity' ? 't-sensitivity' : 't-allergy';
   var row = document.createElement('div');
-  row.style.cssText = 'padding:10px 12px;background:var(--red-bg);border-radius:8px;display:flex;align-items:center;justify-content:space-between';
-  row.innerHTML = '<span style="font-size:13px;font-weight:600;color:var(--red)">⚠ ' + val + ' · ' + type + '</span><button type="button" class="pharm-remove-btn" onclick="allergyRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
+  row.className = 'hx-item';
+  row.innerHTML = '<div class="hx-main"><span class="hx-name">' + val + '</span><span class="a-tag ' + tagCls + '">' + type + '</span>' + (rx ? '<span class="hx-sub">' + rx + '</span>' : '') + '</div><button type="button" class="pharm-remove-btn" onclick="allergyRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
   document.getElementById('allergy-list').appendChild(row);
   inp.value = '';
+  var rxEl = document.getElementById('allergy-reaction'); if (rxEl) rxEl.value = '';
   allergyToggle();
   if (typeof showToast === 'function') showToast('Allergy added');
 }
@@ -798,8 +802,8 @@ function medAdd() {
   var val = (inp.value || '').trim();
   if (!val) { if (typeof showToast === 'function') showToast('Enter a medication'); return; }
   var row = document.createElement('div');
-  row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--surface);border-radius:8px';
-  row.innerHTML = '<span style="font-size:13px;color:var(--t1)">💊 ' + val + '</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
+  row.className = 'hx-item';
+  row.innerHTML = '<span class="hx-name">💊 ' + val + '</span><button type="button" class="pharm-remove-btn" onclick="medRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
   document.getElementById('med-list').appendChild(row);
   inp.value = '';
   medToggle();
