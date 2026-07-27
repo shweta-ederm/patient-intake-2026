@@ -22,21 +22,16 @@
 .success-ring{background:rgba(57,114,184,.2)!important;border-color:rgba(57,114,184,.4)!important}
 .success-ring svg{stroke:#3972B8!important}
 .ns-ic{background:#3972B8!important}
-/* Outstanding balance highlighted with a red border + red amount */
-.pay-total{background:#fff!important;border:2px solid #FF5F5F!important;color:var(--t1)!important;padding:48px 20px!important}
 /* Pharmacy card (mobile): drop the actions onto their own full-width row */
 .pharm-current{flex-wrap:wrap}
 .pharm-actions{width:100%;justify-content:space-between;align-items:center;margin-top:4px;padding-top:10px;border-top:1px solid var(--borderlt)}
-.pay-total::before{display:none!important}
-.pay-total-label{color:var(--t2)!important}
-.pay-total-amt{color:#FF5F5F!important}
-.pay-total-sub{color:var(--t3)!important}
 /* On desktop the app renders inside a 404px phone shell; keep the document
    reader aligned to that width instead of the default 720px. Real phones
    (<=600px) still use the fullscreen reader from styles.css. */
 @media(min-width:601px){
   .doc-reader-inner{max-width:404px}
   .pharm-modal-inner{max-width:404px}
+  .pay-modal-inner{max-width:404px}
 }
 </style>
 </head>
@@ -175,48 +170,73 @@
       <div class="sc">
         <div class="sc-head">
           <div class="sc-ic n"><svg width="16" height="16" viewBox="0 0 20 20" fill="#1A1F2E"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg></div>
-          <div><div class="sc-title">Emergency Contact</div></div>
+          <div><div class="sc-title">Emergency Contacts</div></div>
         </div>
         <div class="sc-body">
-          <div class="frow-2">
-            <div class="frow"><label>Contact Type</label><select class="fi"><option selected>Emergency Contact</option><option>Guarantor</option><option>Next of Kin</option><option>Power of Attorney</option><option>Other</option></select></div>
-            <div class="frow"><label>Relation Type</label><select class="fi"><option selected>Daughter</option><option>Son</option><option>Spouse</option><option>Parent</option><option>Sibling</option><option>Friend</option><option>Other</option></select></div>
+          <div id="ec-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+            <div class="ec-card">
+              <div class="ec-card-main">
+                <div class="ec-type">Emergency Contact</div>
+                <div class="ec-name">Aunt: Sarah Smith</div>
+                <div class="ec-addr">1111 Ocean Dr, Boca Raton, FL 33431</div>
+              </div>
+              <button type="button" class="pharm-remove-btn" onclick="ecRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>
+            </div>
+            <div class="ec-card">
+              <div class="ec-card-main">
+                <div class="ec-type">Billing</div>
+                <div class="ec-name">Brother: John Doe</div>
+                <div class="ec-addr">123 Main Street 1, Beverly Hills, CA 90210</div>
+              </div>
+              <button type="button" class="pharm-remove-btn" onclick="ecRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>
+            </div>
           </div>
+          <button class="btn-s" id="ec-toggle-btn" style="padding:9px;font-size:13px" onclick="ecToggle()">+ Add Contact</button>
+          <div id="ec-add" style="display:none;margin-top:10px;padding:12px;background:var(--surface);border:1px solid var(--borderlt);border-radius:10px">
           <div class="frow-2">
+            <div class="frow"><label>Contact Type</label><select class="fi" id="ec-type-sel"><option selected>Emergency Contact</option><option>Billing</option><option>Guarantor</option><option>Next of Kin</option><option>Power of Attorney</option><option>Other</option></select></div>
+            <div class="frow"><label>Relation Type</label><select class="fi" id="ec-rel-sel"><option selected>Daughter</option><option>Son</option><option>Spouse</option><option>Parent</option><option>Sibling</option><option>Aunt</option><option>Brother</option><option>Friend</option><option>Other</option></select></div>
+          </div>
+          <div class="frow-2" style="margin-top:10px">
             <div class="frow"><label>From Date</label><input class="fi" type="date"></div>
             <div class="frow"><label>To Date</label><input class="fi" type="date"></div>
           </div>
-          <div class="frow-2">
-            <div class="frow"><label>First Name</label><input class="fi" value="Lily"></div>
-            <div class="frow"><label>Last Name</label><input class="fi" value="Cofax"></div>
+          <div class="frow-2" style="margin-top:10px">
+            <div class="frow"><label>First Name</label><input class="fi" id="ec-first" placeholder="First name"></div>
+            <div class="frow"><label>Last Name</label><input class="fi" id="ec-last" placeholder="Last name"></div>
           </div>
-          <div class="frow"><label>Middle</label><input class="fi" placeholder="Middle"></div>
-          <div class="frow-2">
+          <div class="frow" style="margin-top:10px"><label>Middle</label><input class="fi" placeholder="Middle"></div>
+          <div class="frow-2" style="margin-top:10px">
             <div class="frow"><label>Date of Birth</label><input class="fi" type="date"></div>
             <div class="frow"><label>Gender</label><select class="fi"><option value="" selected disabled>Select…</option><option>Female</option><option>Male</option><option>Other</option></select></div>
           </div>
-          <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;padding:4px 0;font-size:13px;color:var(--t1)">
+          <label style="display:flex;align-items:flex-start;gap:9px;cursor:pointer;padding:10px 0 4px;font-size:13px;color:var(--t1)">
             <input type="checkbox" id="ec-same" checked onchange="ecToggleAddr()" style="width:17px;height:17px;accent-color:var(--brand);margin-top:1px;flex-shrink:0">
             <span>Same as Patient Address</span>
           </label>
           <div id="ec-addr" style="display:none">
-            <div class="frow" style="margin-bottom:10px"><label>Street Address</label><input class="fi" placeholder="Street address"></div>
-            <div class="frow" style="margin-bottom:10px"><label>Suite/Unit</label><input class="fi" placeholder="Suite/Unit"></div>
+            <div class="frow" style="margin-bottom:10px"><label>Street Address</label><input class="fi" id="ec-street" placeholder="Street address"></div>
+            <div class="frow" style="margin-bottom:10px"><label>Suite/Unit</label><input class="fi" id="ec-suite" placeholder="Suite/Unit"></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="frow"><label>ZIP Code</label><input class="fi" placeholder="ZIP"></div>
-              <div class="frow"><label>City</label><input class="fi" placeholder="City"></div>
-              <div class="frow"><label>State</label><input class="fi" placeholder="State"></div>
+              <div class="frow"><label>ZIP Code</label><input class="fi" id="ec-zip" placeholder="ZIP"></div>
+              <div class="frow"><label>City</label><input class="fi" id="ec-city" placeholder="City"></div>
+              <div class="frow"><label>State</label><input class="fi" id="ec-state" placeholder="State"></div>
             </div>
           </div>
-          <div class="frow-2">
+          <div class="frow-2" style="margin-top:10px">
             <div class="frow"><label>Home Phone</label><input class="fi" placeholder="Home Phone"></div>
             <div class="frow"><label>Work Phone</label><input class="fi" placeholder="Work Phone"></div>
           </div>
-          <div class="frow-2">
+          <div class="frow-2" style="margin-top:10px">
             <div class="frow"><label>Cell Phone</label><input class="fi" placeholder="Cell Phone"></div>
             <div class="frow"><label>Other Phone</label><input class="fi" placeholder="Other Phone"></div>
           </div>
-          <div class="frow"><label>Email</label><input class="fi" type="email" placeholder="email"></div>
+          <div class="frow" style="margin-top:10px"><label>Email</label><input class="fi" type="email" placeholder="email"></div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn-s" style="flex:1;padding:9px;font-size:13px" onclick="ecToggle()">Cancel</button>
+            <button class="btn-p" style="flex:1;padding:9px;font-size:13px" onclick="ecAdd()">Add Contact</button>
+          </div>
+          </div>
         </div>
       </div>
       <div style="padding:10px 12px;background:var(--surface);border-radius:8px;font-size:12px;color:var(--t3);text-align:center;border:1px solid var(--borderlt)">
@@ -475,9 +495,37 @@
         <div class="pay-total-label">Balance</div>
         <div class="pay-total-amt">$380<span style="font-size:20px">.00</span></div>
       </div>
+
+      <div class="pay-modal" id="pay-modal" onclick="if(event.target===this)payCloseModal()">
+        <div class="pay-modal-inner">
+          <div class="pay-modal-head">
+            <div class="pay-modal-title">Pay Now</div>
+            <button class="pay-modal-close" onclick="payCloseModal()" aria-label="Close">&times;</button>
+          </div>
+          <div class="pay-modal-body">
+            <div class="paym-box">
+              <div class="paym-grid" style="grid-template-columns:1fr 1fr">
+                <div class="paym-field"><label>Patient Balance:</label>
+                  <div class="paym-bal"><input class="fi" value="$380.00" readonly><button type="button" class="paym-stmt" onclick="showToast('Statement opened')"><svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>Statement</button></div>
+                </div>
+                <div class="paym-field"><label>Total:</label><input class="fi" value="$380.00" readonly></div>
+                <div class="paym-field paym-card" style="grid-column:1 / -1"><label>Card Number <span class="req">*</span></label>
+                  <div style="position:relative"><input class="fi" id="pay-card" placeholder="Valid Card Number" inputmode="numeric"><span class="paym-card-ic"><svg width="17" height="17" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></span></div>
+                </div>
+                <div class="paym-field"><label>Exp Date <span class="req">*</span></label><input class="fi" placeholder="MM / YY" inputmode="numeric"></div>
+                <div class="paym-field"><label>CVV Code <span class="req">*</span></label><input class="fi" placeholder="CVV" inputmode="numeric" maxlength="4"></div>
+                <div class="paym-field" style="grid-column:1 / -1"><label>Name on Card <span class="req">*</span></label><input class="fi" value="John Doe"></div>
+                <div class="paym-field"><label>Billing Zip Code <span class="req">*</span></label><input class="fi" value="33101" inputmode="numeric"></div>
+                <div class="paym-field"><label class="soft">Amount</label><input class="fi" value="$380.00" readonly></div>
+              </div>
+              <button type="button" class="paym-pay" id="pay-submit-btn" onclick="paySubmit()">Pay Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="bot">
-      <button class="btn-p" onclick="next()">Pay Now →</button>
+      <button class="btn-p" onclick="payOpenModal()">Pay Now →</button>
     </div>
   </div>
 
@@ -757,6 +805,28 @@ function back() {
   }, 180);
 }
 
+// ── Pay Now modal ──
+function payOpenModal() {
+  var m = document.getElementById('pay-modal');
+  if (m) m.classList.add('show');
+}
+function payCloseModal() {
+  var m = document.getElementById('pay-modal');
+  if (m) m.classList.remove('show');
+}
+function paySubmit() {
+  var card = (document.getElementById('pay-card').value || '').trim();
+  if (!card) { if (typeof showToast === 'function') showToast('Enter a card number'); return; }
+  var btn = document.getElementById('pay-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Processing…'; }
+  setTimeout(function() {
+    payCloseModal();
+    if (btn) { btn.disabled = false; btn.textContent = 'Pay Now'; }
+    if (typeof showToast === 'function') showToast('Payment of $380.00 successful');
+    next();
+  }, 900);
+}
+
 // ── Logout (end of flow) ──
 function logout() {
   var cur = document.getElementById('s7');
@@ -785,6 +855,46 @@ function ecToggleAddr() {
   addr.style.display = cb.checked ? 'none' : 'block';
   if (sum) sum.style.display = cb.checked ? '' : 'none';
 }
+
+// ── Emergency contacts: add / remove ──
+function ecToggle() {
+  var p = document.getElementById('ec-add');
+  var b = document.getElementById('ec-toggle-btn');
+  if (!p) return;
+  var hidden = (!p.style.display || p.style.display === 'none');
+  p.style.display = hidden ? 'block' : 'none';
+  if (b) b.style.display = hidden ? 'none' : '';
+}
+function ecAdd() {
+  var first = (document.getElementById('ec-first').value || '').trim();
+  var last = (document.getElementById('ec-last').value || '').trim();
+  if (!first && !last) { if (typeof showToast === 'function') showToast('Enter the contact name'); return; }
+  var type = document.getElementById('ec-type-sel').value;
+  var rel = document.getElementById('ec-rel-sel').value;
+  var addr = '123 Brickell Ave, Miami, FL 33101';
+  var cb = document.getElementById('ec-same');
+  if (cb && !cb.checked) {
+    var parts = [];
+    var st = (document.getElementById('ec-street').value || '').trim();
+    var su = (document.getElementById('ec-suite').value || '').trim();
+    var ci = (document.getElementById('ec-city').value || '').trim();
+    var sta = (document.getElementById('ec-state').value || '').trim();
+    var zi = (document.getElementById('ec-zip').value || '').trim();
+    if (st) parts.push(st + (su ? ' ' + su : ''));
+    if (ci) parts.push(ci);
+    if (sta || zi) parts.push((sta + ' ' + zi).trim());
+    addr = parts.join(', ');
+  }
+  var card = document.createElement('div');
+  card.className = 'ec-card';
+  card.innerHTML = '<div class="ec-card-main"><div class="ec-type">' + type + '</div><div class="ec-name">' + rel + ': ' + (first + ' ' + last).trim() + '</div><div class="ec-addr">' + addr + '</div></div><button type="button" class="pharm-remove-btn" onclick="ecRemove(this)" aria-label="Remove"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg></button>';
+  document.getElementById('ec-list').appendChild(card);
+  var f = document.getElementById('ec-first'); if (f) f.value = '';
+  var l = document.getElementById('ec-last'); if (l) l.value = '';
+  ecToggle();
+  if (typeof showToast === 'function') showToast('Contact added');
+}
+function ecRemove(el) { var c = el.closest('.ec-card'); if (c) c.remove(); }
 
 // ── Insurance / ID uploads ──
 function markUploaded(id, label) {

@@ -823,6 +823,37 @@ body.doc-reader-open .demo-back{display:none!important}
 .pharm-mark-btn{background:none;border:none;padding:0;font-family:inherit;font-size:12px;font-weight:600;color:#0A8F5C;cursor:pointer;text-decoration:underline}
 .pharm-current.is-primary .pharm-badge{display:inline-flex}
 .pharm-current.is-primary .pharm-mark-btn{display:none}
+/* Emergency contact cards (added contacts) */
+.ec-card{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;background:#fff;border:1px solid var(--borderlt);border-radius:10px}
+.ec-card-main{flex:1;min-width:0}
+.ec-type{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--brand);margin-bottom:3px}
+.ec-name{font-size:13.5px;font-weight:600;color:var(--t1)}
+.ec-addr{font-size:12px;color:var(--t3);margin-top:2px;line-height:1.45}
+
+/* Pay Now modal */
+.pay-modal{position:fixed;inset:0;background:rgba(15,62,66,.5);display:none;align-items:center;justify-content:center;z-index:99999;padding:16px}
+.pay-modal.show{display:flex}
+.pay-modal-inner{background:#fff;width:100%;max-width:640px;max-height:92vh;display:flex;flex-direction:column;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden}
+.pay-modal-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 20px;border-bottom:1px solid var(--borderlt);flex-shrink:0}
+.pay-modal-title{font-size:17px;font-weight:700;color:var(--t1)}
+.pay-modal-close{background:#fff;border:1px solid var(--border);border-radius:9px;width:32px;height:32px;font-size:18px;line-height:1;color:var(--t2);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.pay-modal-close:hover{color:var(--t1);background:var(--surface)}
+.pay-modal-body{padding:18px 20px 20px;overflow-y:auto}
+.paym-box{border:1px solid var(--borderlt);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:13px;box-shadow:var(--sh1)}
+.paym-grid{display:grid;gap:12px}
+.paym-field label{display:block;font-size:12.5px;font-weight:700;color:var(--t1);margin-bottom:5px}
+.paym-field label .req{color:#FF5F5F}
+.paym-field label.soft{font-weight:500;color:var(--t2)}
+.paym-bal{display:flex}
+.paym-bal .fi{border-radius:9px 0 0 9px;border-right:none;min-width:0}
+.paym-stmt{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;border:none;border-radius:0 9px 9px 0;padding:0 13px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s}
+.paym-stmt:hover{background:var(--brand-dk)}
+.paym-card{position:relative}
+.paym-card .fi{padding-right:46px}
+.paym-card-ic{position:absolute;right:1.5px;top:1.5px;bottom:1.5px;width:40px;display:flex;align-items:center;justify-content:center;background:var(--surface);border-left:1px solid var(--border);border-radius:0 8px 8px 0;color:var(--t2);pointer-events:none}
+.paym-pay{width:100%;padding:13px;background:#0A8F5C;color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.paym-pay:hover:not(:disabled){background:#087A4F}
+.paym-pay:disabled{opacity:.6;cursor:wait}
 /* Add-pharmacy modal */
 .pharm-modal{position:fixed;inset:0;background:rgba(15,62,66,.5);display:none;align-items:center;justify-content:center;z-index:99999;padding:16px}
 .pharm-modal.show{display:flex}

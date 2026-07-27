@@ -22,12 +22,6 @@
 .success-ring{background:rgba(57,114,184,.2)!important;border-color:rgba(57,114,184,.4)!important}
 .success-ring svg{stroke:#3972B8!important}
 .ns-ic{background:#3972B8!important}
-/* Outstanding balance highlighted with a red border + red amount */
-.pay-total{background:#fff!important;border:2px solid #FF5F5F!important;color:var(--t1)!important;padding:48px 20px!important}
-.pay-total::before{display:none!important}
-.pay-total-label{color:var(--t2)!important}
-.pay-total-amt{color:#FF5F5F!important}
-.pay-total-sub{color:var(--t3)!important}
 /* Reset mobile shell */
 body{overflow-y:auto!important;height:auto!important;min-height:100vh}
 .app-wrap{position:static!important;overflow:visible!important;height:auto!important}
@@ -501,9 +495,37 @@ body{overflow-y:auto!important;height:auto!important;min-height:100vh}
       <div class="pay-total-label">Balance</div>
       <div class="pay-total-amt">$380<span style="font-size:22px">.00</span></div>
     </div>
+
+    <div class="pay-modal" id="pay-modal" onclick="if(event.target===this)payCloseModal()">
+      <div class="pay-modal-inner">
+        <div class="pay-modal-head">
+          <div class="pay-modal-title">Pay Now</div>
+          <button class="pay-modal-close" onclick="payCloseModal()" aria-label="Close">&times;</button>
+        </div>
+        <div class="pay-modal-body">
+          <div class="paym-box">
+            <div class="paym-grid" style="grid-template-columns:1fr 1fr">
+              <div class="paym-field"><label>Patient Balance:</label>
+                <div class="paym-bal"><input class="fi" value="$380.00" readonly><button type="button" class="paym-stmt" onclick="showToast('Statement opened')"><svg width="13" height="13" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg>Statement</button></div>
+              </div>
+              <div class="paym-field"><label>Total:</label><input class="fi" value="$380.00" readonly></div>
+              <div class="paym-field paym-card" style="grid-column:1 / -1"><label>Card Number <span class="req">*</span></label>
+                <div style="position:relative"><input class="fi" id="pay-card" placeholder="Valid Card Number" inputmode="numeric"><span class="paym-card-ic"><svg width="17" height="17" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg></span></div>
+              </div>
+              <div class="paym-field"><label>Exp Date <span class="req">*</span></label><input class="fi" placeholder="MM / YY" inputmode="numeric"></div>
+              <div class="paym-field"><label>CVV Code <span class="req">*</span></label><input class="fi" placeholder="CVV" inputmode="numeric" maxlength="4"></div>
+              <div class="paym-field" style="grid-column:1 / -1"><label>Name on Card <span class="req">*</span></label><input class="fi" value="John Doe"></div>
+              <div class="paym-field"><label>Billing Zip Code <span class="req">*</span></label><input class="fi" value="33101" inputmode="numeric"></div>
+              <div class="paym-field"><label class="soft">Amount</label><input class="fi" value="$380.00" readonly></div>
+            </div>
+            <button type="button" class="paym-pay" id="pay-submit-btn" onclick="paySubmit()">Pay Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="bot">
-    <button class="btn-p" onclick="next()">Pay Now →</button>
+    <button class="btn-p" onclick="payOpenModal()">Pay Now →</button>
   </div>
 </div>
 
@@ -647,6 +669,28 @@ function back() {
   cur = _EP_FLOW[idx - 1];
   _updateSteps(cur);
   _show(cur);
+}
+
+// ── Pay Now modal ──
+function payOpenModal() {
+  var m = document.getElementById('pay-modal');
+  if (m) m.classList.add('show');
+}
+function payCloseModal() {
+  var m = document.getElementById('pay-modal');
+  if (m) m.classList.remove('show');
+}
+function paySubmit() {
+  var card = (document.getElementById('pay-card').value || '').trim();
+  if (!card) { if (typeof showToast === 'function') showToast('Enter a card number'); return; }
+  var btn = document.getElementById('pay-submit-btn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Processing…'; }
+  setTimeout(function() {
+    payCloseModal();
+    if (btn) { btn.disabled = false; btn.textContent = 'Pay Now'; }
+    if (typeof showToast === 'function') showToast('Payment of $380.00 successful');
+    next();
+  }, 900);
 }
 
 // ── Logout (end of flow) ──
